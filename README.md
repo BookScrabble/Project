@@ -11,6 +11,7 @@ This is a desktop application that implements the classic book Scrabble game usi
 ## Table of Contents
 
 - [Overview](#overview)
+- [Overview](#overview)
 - [Architecture](#architecture)
   - [Server Side](#server-side)
   - [Client Side](#client-side)
@@ -35,11 +36,10 @@ In host mode, the game can accommodate up to four players, with at least one loc
 ### <ins>Server-Side</ins>
 
 The project utilizes a client-server architecture and makes use of design patterns, as well as generic collections and data structures for optimized runtime performance. The server-side algorithms implemented include LRU Cache, LFU Cache, and Bloom Filter to reduce redundant calculations. The project was designed according to SOLID principles, resulting in a well-structured and maintainable codebase.
-<img src="https://github.com/BookScrabble/Project/blob/main/images/ServerSide.png"/>
-
+<img src="https://github.com/BookScrabble/Project/blob/main/src/main/resources/Images/ServerSide.png"/>
 
 ### <ins>Client-Side</ins>
-<img src="https://github.com/BookScrabble/Project/blob/main/images/ClientSide.png"/>
+<img src="https://github.com/BookScrabble/Project/blob/main/src/main/resources/Images/ClientSide.png"/>
 
 
 
@@ -73,7 +73,7 @@ The game board is a 15x15 grid that features several bonus slots to help players
 - Blue squares, which triple the value of any letter placed on them.
 - Light red squares, which double the value of any word played on them.
 - Red squares, which triple the value of any word played on them.
-<img src="https://github.com/BookScrabble/Project/blob/main/images/board.png"/>
+<img src="https://github.com/BookScrabble/Project/blob/main/src/main/resources/Images/board.png"/>
 
 
 ### <ins>Tiles</ins>
@@ -81,7 +81,7 @@ The game board is a 15x15 grid that features several bonus slots to help players
 Each tile in the game has a corresponding point value, and the score of a word is calculated by adding up the point values of each tile in the word. 
 The point value of each tile is based on the letter frequency in the English language and the difficulty of using that letter in a word. Common letters like "E" and "A" have a lower point value, while less common letters like "Q" and "Z" have a higher point value.
 
-<img src="https://github.com/BookScrabble/Project/blob/main/images/Tiles.png" width="360" height="180"/>
+<img src="https://github.com/BookScrabble/Project/blob/main/src/main/resources/Images/Tiles.png" width="360" height="180"/>
 
 
 
