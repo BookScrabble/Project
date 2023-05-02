@@ -109,6 +109,8 @@ public class MainTrain {
 		testBag(); // 30 points
 		testBoard(); // 70 points
 		System.out.println("done");
+		Player player = new Player("player");
+		player.checkHand();
 	}
 
 }
