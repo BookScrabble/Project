@@ -1,8 +1,9 @@
 module view.bookscrabble {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.graphics;
 
 
-    opens View to javafx.fxml;
-    exports View;
+    opens view to javafx.fxml;
+    exports view;
 }
