@@ -11,7 +11,6 @@ This is a desktop application that implements the classic book Scrabble game usi
 ## Table of Contents
 
 - [Overview](#overview)
-- [Overview](#overview)
 - [Architecture](#architecture)
   - [Server Side](#server-side)
   - [Client Side](#client-side)
