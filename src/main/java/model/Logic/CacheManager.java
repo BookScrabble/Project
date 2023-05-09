@@ -30,6 +30,11 @@ public class CacheManager {
         return wordsCache.contains(word);
     }
 
+    /**
+     Adds the specified word to the cache. If the cache is full, the least recently used word is removed from the cache.
+     The method also updates the cache replacement policy (CRP) by adding the new word and removing the least recently used one.
+     @param word the word to be added to the cache.
+     */
     public void add (String word) {
         if (wordsCache.size() >= this.size) {
             wordsCache.remove(crp.remove());
