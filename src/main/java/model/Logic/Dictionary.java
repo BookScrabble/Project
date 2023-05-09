@@ -12,6 +12,10 @@ public class Dictionary {
     private final BloomFilter bloomFilter = new BloomFilter(256,"MD5","SHA1");
     private final ArrayList<String> fileNames = new ArrayList<>();
 
+    /**
+     Creates a new instance of the Dictionary class and adds the words from the specified files to the Bloom filter.
+     @param fileNames the names of the files to be added to the
+     */
     public Dictionary(String... fileNames) {
         for (String fileName : fileNames) {
             addWordsToBloomFilter(fileName);
@@ -19,6 +23,10 @@ public class Dictionary {
         }
     }
 
+    /**
+     Reads a file and adds all the words to the Bloom filter.
+     @param fileName the name of the file to be added to the Bloom filter.
+     */
     private void addWordsToBloomFilter(String fileName) {
         try {
             Scanner textScanner = new Scanner(new File(fileName));
@@ -33,6 +41,11 @@ public class Dictionary {
         }
     }
 
+    /**
+     Queries the dictionary to check whether it contains the specified word.
+     @param word the word to be queried.
+     @return true if the word is in the dictionary, false otherwise.
+     */
     public boolean query(String word) {
         if (LRU.query(word))
             return true;
@@ -48,6 +61,11 @@ public class Dictionary {
         }
     }
 
+    /**
+     * Checks whether the specified word is present in any of the files in the dictionary.
+     * @param word the word to be searched in the files.
+     * @return true if the word is found, false otherwise.
+     */
     public boolean challenge(String word) {
         for (String fileName : fileNames) {
             if (IOSearcher.search(word, fileName)) {
