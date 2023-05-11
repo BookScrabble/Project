@@ -82,6 +82,10 @@ The point value of each tile is based on the letter frequency in the English lan
 
 <img src="https://github.com/BookScrabble/Project/blob/main/src/main/resources/Images/Tiles.png" width="360" height="180"/>
 
+## GANTT
+
+<img src="https://github.com/BookScrabble/Project/blob/main/src/main/resources/Images/GANTT.png"  />
+
 
 
 
