@@ -44,7 +44,7 @@ To ensure that the project is completed successfully and on time, we have establ
 
 - We will use Jira to manage the project and track progress.
 - We will break the project into three milestones and plan weekly meetings to discuss progress and issues.
-- We will use unit testing to ensure that the code is functioning as intended.
+- We will use unit testing to ensure that the code is functioning as intended. 
 
 
 
