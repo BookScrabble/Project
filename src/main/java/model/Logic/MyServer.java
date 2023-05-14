@@ -58,6 +58,7 @@ public class MyServer {
             while (!stop) {
                 try {
                     Socket aClient = server.accept(); // blocking call
+                    System.out.println("A new client has connected!");
                     try {
                         clientHandler.handleClient(aClient.getInputStream(), aClient.getOutputStream());
                         aClient.getInputStream().close();

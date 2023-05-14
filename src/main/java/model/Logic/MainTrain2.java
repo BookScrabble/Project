@@ -249,6 +249,5 @@ public class MainTrain2 {
             System.out.println("you got some exception (-10)");
         }
         testDictionary();
-        System.out.println("done");
     }
 }

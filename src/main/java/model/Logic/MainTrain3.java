@@ -1,6 +1,8 @@
 package model.Logic;
 
 import java.io.*;
+import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Random;
 import java.util.Scanner;
@@ -164,12 +166,11 @@ public class MainTrain3 {
 		s.close();
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException, InterruptedException {
 		if(testServer()) {
 			testDM();
 			testBSCH();
 		}
-		System.out.println("done");
 	}
 
 }
