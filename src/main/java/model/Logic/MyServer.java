@@ -67,6 +67,7 @@ public class MyServer {
                 } catch (SocketTimeoutException ignored) {}
             }
             server.close();
-        } catch (SocketException ignored) {}
+        } catch (SocketException ignored) {
+        }
     }
 }
