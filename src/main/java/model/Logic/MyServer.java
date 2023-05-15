@@ -1,11 +1,15 @@
 package model.Logic;
 
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.util.Scanner;
 
 public class MyServer {
     private final int port;
@@ -56,21 +60,34 @@ public class MyServer {
             ServerSocket server = new ServerSocket(this.port);
             server.setSoTimeout(1000);
             while (!stop) {
-                try {
-                    Socket aClient = server.accept(); // blocking call
-                    System.out.println("A new client has connected!");
-                    if(this.getClass() == HostServer.class){
-                        hostTest();
-                        HostServer hs = (HostServer)this;
-                        hs.addClient(aClient);
+                if(this.getClass() != HostServer.class){
+                    try {
+                        Socket aClient = server.accept(); // blocking call
+                        System.out.println("A new client has connected!");
+                    } catch (SocketTimeoutException ignored) {}
+                }else{
+                    HostServer hs = (HostServer) this;
+                    while(hs.getGameIsRunning()){
+                        PrintWriter printWriter = new PrintWriter(hs.getClients().get(0).getOutputStream(),true);
+                        printWriter.println("1");
+                        Scanner scanner = new Scanner(hs.getClients().get(0).getInputStream());
+                        if(scanner.hasNextLine()){
+                            String msg = scanner.nextLine();
+                            printWriter.println(msg);
+                        }
+                        hs.stopGame();
                     }
-//                    try {
-//                        clientHandler.handleClient(aClient.getInputStream(), aClient.getOutputStream());
-//                        aClient.getInputStream().close();
-//                        aClient.getOutputStream().close();
-//                        aClient.close();
-//                    } catch (IOException ignored) {}
-                } catch (SocketTimeoutException ignored) {}
+                    try {
+                        if(hs.getClients().size() != 4){
+                            Socket aClient = server.accept(); // blocking call
+                            hs.addClient(aClient);
+                            System.out.println("A new guest has connected!");
+                        }else{
+                            System.out.println("Game is full!");
+                        }
+                    } catch (SocketTimeoutException ignored) {}
+
+                }
             }
             server.close();
         } catch (SocketException ignored) {

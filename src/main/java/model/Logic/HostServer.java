@@ -12,6 +12,7 @@ public class HostServer extends MyServer {
     private PrintWriter printWriter;
     private Scanner scanner;
     private ArrayList<Socket> clients;
+    private boolean gameIsRunning = false;
 
     /**
      * Constructor for MyServer class. Initializes the server with specified port number and client handler.
@@ -60,6 +61,7 @@ public class HostServer extends MyServer {
 
     public void addClient(Socket client){
         this.clients.add(client);
+        sendMSG(client);
     }
 
     /**
@@ -70,5 +72,34 @@ public class HostServer extends MyServer {
     	for(String q : query) {
     		printWriter.println(q);
     	}
+    }
+
+    /**
+     * Sends a message from the server to the client.
+     * @param msg
+     */
+    public void sendMSG(Socket client){
+        try {
+            PrintWriter printWriter=new PrintWriter(client.getOutputStream());
+            printWriter.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean getGameIsRunning() {
+    	return this.gameIsRunning;
+    }
+
+    public void startGame(){
+        this.gameIsRunning = true;
+    }
+
+    public void stopGame() {
+    	this.gameIsRunning = false;
+    }
+
+    public ArrayList<Socket> getClients(){
+        return this.clients;
     }
 }
