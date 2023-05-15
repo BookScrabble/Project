@@ -59,16 +59,25 @@ public class MyServer {
                 try {
                     Socket aClient = server.accept(); // blocking call
                     System.out.println("A new client has connected!");
-                    try {
-                        clientHandler.handleClient(aClient.getInputStream(), aClient.getOutputStream());
-                        aClient.getInputStream().close();
-                        aClient.getOutputStream().close();
-                        aClient.close();
-                    } catch (IOException ignored) {}
+                    if(this.getClass() == HostServer.class){
+                        hostTest();
+                        HostServer hs = (HostServer)this;
+                        hs.addClient(aClient);
+                    }
+//                    try {
+//                        clientHandler.handleClient(aClient.getInputStream(), aClient.getOutputStream());
+//                        aClient.getInputStream().close();
+//                        aClient.getOutputStream().close();
+//                        aClient.close();
+//                    } catch (IOException ignored) {}
                 } catch (SocketTimeoutException ignored) {}
             }
             server.close();
         } catch (SocketException ignored) {
         }
+    }
+
+    private void hostTest(){
+        System.out.println("Client connected to a host not just mainServer");
     }
 }

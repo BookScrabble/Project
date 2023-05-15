@@ -2,20 +2,26 @@ package model.Logic;
 
 import model.Data.Player;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Client {
-    private Socket socket;
-    private BufferedReader bufferedReader;
-    private BufferedWriter bufferedWriter;
+    private Socket server;
+    private Scanner scanner;
+    private PrintWriter printWriter;
     private Player player;
 
-
-    // Connect
-    // Enter ip and port for hostServer
-
+    public Client(String ip, int port, String clientName){
+        try {
+            this.server = new Socket(ip, port);
+            this.printWriter = new PrintWriter(this.server.getOutputStream());
+            this.scanner = new Scanner(this.server.getInputStream());
+            player = new Player(clientName);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     // Disconnect
     // Close everything
