@@ -1,17 +1,21 @@
 package model.Logic;
 
+import model.Data.*;
+
 import java.io.*;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class HostServer extends MyServer {
     private String hostname;
-    private int port;
     private Socket mainServer;
     private PrintWriter printWriter;
     private Scanner scanner;
-    private ArrayList<Socket> clients;
+    private Map<Socket, Player> clients;
     private boolean gameIsRunning = false;
 
     /**
@@ -21,10 +25,52 @@ public class HostServer extends MyServer {
      */
     public HostServer(String username ,int port, ClientHandler clientHandler) {
         super(port, clientHandler);
-        this.clients = new ArrayList<>();
+        this.clients = new HashMap<>();
         this.hostname = username;
         connect();
     }
+
+    @Override
+    protected void runServer(){
+        try {
+            ServerSocket server = new ServerSocket(this.port);
+            connectClients(server);
+            launchGame();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void connectClients(ServerSocket server){
+        while(!gameIsRunning && clients.size() < 4){
+            Socket aClient = null; // blocking call
+            try {
+                aClient = server.accept();
+                addClient(aClient, "default");
+                System.out.println("A new guest has connected!");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private void launchGame(){
+        if(gameIsRunning){
+            Socket currentClient = (Socket) clients.keySet().toArray()[0];
+            try {
+                PrintWriter pw = new PrintWriter(currentClient.getOutputStream(), true);
+                Scanner scanner = new Scanner(currentClient.getInputStream());
+                pw.println("1");
+                if(scanner.hasNextLine()){
+                    String msg = scanner.nextLine();
+                    pw.println("done");
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
 
     /**
      * Connects to the main server and creates input and output streams.
@@ -59,8 +105,8 @@ public class HostServer extends MyServer {
         }).start();
     }
 
-    public void addClient(Socket client){
-        this.clients.add(client);
+    public void addClient(Socket client, String name){
+        this.clients.put(client, new Player(name));
         sendMSG(client);
     }
 
@@ -76,7 +122,7 @@ public class HostServer extends MyServer {
 
     /**
      * Sends a message from the server to the client.
-     * @param msg
+     * @param
      */
     public void sendMSG(Socket client){
         try {
@@ -99,7 +145,7 @@ public class HostServer extends MyServer {
     	this.gameIsRunning = false;
     }
 
-    public ArrayList<Socket> getClients(){
+    public Map<Socket, Player> getClients(){
         return this.clients;
     }
 }

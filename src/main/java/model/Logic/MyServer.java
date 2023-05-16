@@ -12,7 +12,7 @@ import java.net.SocketTimeoutException;
 import java.util.Scanner;
 
 public class MyServer {
-    private final int port;
+    protected final int port;
     private final ClientHandler clientHandler;
     private volatile boolean stop;
 
@@ -55,43 +55,35 @@ public class MyServer {
      The method runs in a loop until the server is stopped.
      @throws Exception if there is an error while creating or closing the server socket
      */
-    private void runServer() throws Exception {
+    protected void runServer(){
         try {
-            ServerSocket server = new ServerSocket(this.port);
+            ServerSocket server = null;
+            try {
+                server = new ServerSocket(this.port);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             server.setSoTimeout(1000);
             while (!stop) {
-                if(this.getClass() != HostServer.class){
-                    try {
-                        Socket aClient = server.accept(); // blocking call
-                        System.out.println("A new client has connected!");
-                    } catch (SocketTimeoutException ignored) {}
-                }else{
-                    HostServer hs = (HostServer) this;
-                    while(hs.getGameIsRunning()){
-                        PrintWriter printWriter = new PrintWriter(hs.getClients().get(0).getOutputStream(),true);
-                        printWriter.println("1");
-                        Scanner scanner = new Scanner(hs.getClients().get(0).getInputStream());
-                        if(scanner.hasNextLine()){
-                            String msg = scanner.nextLine();
-                            printWriter.println(msg);
-                        }
-                        hs.stopGame();
-                    }
-                    try {
-                        if(hs.getClients().size() != 4){
-                            Socket aClient = server.accept(); // blocking call
-                            hs.addClient(aClient);
-                            System.out.println("A new guest has connected!");
-                        }else{
-                            System.out.println("Game is full!");
-                        }
-                    } catch (SocketTimeoutException ignored) {}
-
+                Socket aClient = null;
+                try {
+                    aClient = server.accept(); // blocking call
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
+                try {
+                    clientHandler.handleClient(aClient.getInputStream(), aClient.getOutputStream());
+                    aClient.getInputStream().close();
+                    aClient.getOutputStream().close();
+                    aClient.close();
+                } catch (IOException ignored) {}
             }
-            server.close();
-        } catch (SocketException ignored) {
-        }
+            try {
+                server.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SocketException ignored) {}
     }
 
     private void hostTest(){

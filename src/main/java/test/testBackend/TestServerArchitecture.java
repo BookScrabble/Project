@@ -11,10 +11,9 @@ public class TestServerArchitecture {
         firstHost.start();
 //        secondHost.start();
         Client firstClient = new Client("localhost", 12345, "Lior");
+//        Client secondClient = new Client("localhost", 12345, "Idan");
+//        Client thirdClient = new Client("localhost", 12345, "Liav");
         firstHost.startGame();
-        while(firstHost.getGameIsRunning()){
-
-        }
 //        Client secondClient = new Client("localhost", 12345, "Idan");
 //        Client thirdClient = new Client("localhost", 23456, "Burger");
 //        Client fourthClient = new Client("localhost", 23456, "Liav");
