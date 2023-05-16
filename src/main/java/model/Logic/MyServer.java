@@ -1,14 +1,18 @@
 package model.Logic;
 
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.util.Scanner;
 
 public class MyServer {
-    private final int port;
+    protected final int port;
     private final ClientHandler clientHandler;
     private volatile boolean stop;
 
@@ -51,22 +55,38 @@ public class MyServer {
      The method runs in a loop until the server is stopped.
      @throws Exception if there is an error while creating or closing the server socket
      */
-    private void runServer() throws Exception {
+    protected void runServer(){
         try {
-            ServerSocket server = new ServerSocket(this.port);
+            ServerSocket server = null;
+            try {
+                server = new ServerSocket(this.port);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             server.setSoTimeout(1000);
             while (!stop) {
+                Socket aClient = null;
                 try {
-                    Socket aClient = server.accept(); // blocking call
-                    try {
-                        clientHandler.handleClient(aClient.getInputStream(), aClient.getOutputStream());
-                        aClient.getInputStream().close();
-                        aClient.getOutputStream().close();
-                        aClient.close();
-                    } catch (IOException ignored) {}
-                } catch (SocketTimeoutException ignored) {}
+                    aClient = server.accept(); // blocking call
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    clientHandler.handleClient(aClient.getInputStream(), aClient.getOutputStream());
+                    aClient.getInputStream().close();
+                    aClient.getOutputStream().close();
+                    aClient.close();
+                } catch (IOException ignored) {}
             }
-            server.close();
+            try {
+                server.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         } catch (SocketException ignored) {}
+    }
+
+    private void hostTest(){
+        System.out.println("Client connected to a host not just mainServer");
     }
 }

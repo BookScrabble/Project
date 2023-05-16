@@ -393,7 +393,7 @@ public class Board {
 
     /**
      * Checks if the word is legal in the dictionary
-     *
+     * TODO - Finish implementation of dictionaryLegal
      * @param word word
      * @return true / false
      */
