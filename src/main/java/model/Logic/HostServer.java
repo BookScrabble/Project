@@ -29,16 +29,16 @@ public class HostServer extends MyServer {
         connect();
     }
 
-    @Override
-    protected void runServer(){
-        try {
-            ServerSocket server = new ServerSocket(this.port);
-            connectClients(server);
-            launchGame();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    @Override
+//    protected void runServer(){
+//        try {
+//            ServerSocket server = new ServerSocket(this.port);
+//            connectClients(server);
+//            launchGame();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     private void connectClients(ServerSocket server){
         while(!gameIsRunning && clients.size() < 4){

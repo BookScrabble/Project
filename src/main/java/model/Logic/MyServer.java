@@ -55,34 +55,22 @@ public class MyServer {
      The method runs in a loop until the server is stopped.
      @throws Exception if there is an error while creating or closing the server socket
      */
-    protected void runServer(){
+    private void runServer() throws Exception {
         try {
-            ServerSocket server = null;
-            try {
-                server = new ServerSocket(this.port);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            ServerSocket server = new ServerSocket(this.port);
             server.setSoTimeout(1000);
             while (!stop) {
-                Socket aClient = null;
                 try {
-                    aClient = server.accept(); // blocking call
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
-                    clientHandler.handleClient(aClient.getInputStream(), aClient.getOutputStream());
-                    aClient.getInputStream().close();
-                    aClient.getOutputStream().close();
-                    aClient.close();
-                } catch (IOException ignored) {}
+                    Socket aClient = server.accept(); // blocking call
+                    try {
+                        clientHandler.handleClient(aClient.getInputStream(), aClient.getOutputStream());
+                        aClient.getInputStream().close();
+                        aClient.getOutputStream().close();
+                        aClient.close();
+                    } catch (IOException ignored) {}
+                } catch (SocketTimeoutException ignored) {}
             }
-            try {
-                server.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            server.close();
         } catch (SocketException ignored) {}
     }
 
