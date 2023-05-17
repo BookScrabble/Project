@@ -14,6 +14,13 @@ public class Client{
 
     private String username;
 
+    /**
+     * Client constructor which both initialize the client parameters but also
+     * opens a thread for this client to listen on.
+     * @param ip - Ip of the Host server.
+     * @param port - Port 0f the Host server.
+     * @param clientName - Client name for the game.
+     */
     public Client(String ip, int port, String clientName){
         try {
             this.server = new Socket(ip, port);

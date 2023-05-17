@@ -40,7 +40,7 @@ public class Player {
     }
 
     /**
-     *
+     * TODO - change this method location, Player is only data class and should have no functionality!
      * @details  Make sure the player always has 7 tiles
      */
     public void checkHand(){

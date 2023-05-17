@@ -5,14 +5,13 @@ import model.Data.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class HostServer extends MyServer {
     private String hostname;
-    private Socket mainServer;
+    private Socket calculationServer;
     private PrintWriter printWriter;
     private Scanner scanner;
     private Map<Socket, Player> clients;
@@ -43,9 +42,9 @@ public class HostServer extends MyServer {
 
     private void connectClients(ServerSocket server){
         while(!gameIsRunning && clients.size() < 4){
-            Socket aClient = null; // blocking call
+            Socket aClient = null;
             try {
-                aClient = server.accept();
+                aClient = server.accept(); // blocking call
                 addClient(aClient, "default");
                 System.out.println("A new guest has connected!");
             } catch (IOException e) {
@@ -79,9 +78,9 @@ public class HostServer extends MyServer {
      */
     public void connect() {
         try {
-            mainServer = new Socket("localhost", 25565);
-            printWriter=new PrintWriter(mainServer.getOutputStream());
-            scanner=new Scanner(mainServer.getInputStream());
+            calculationServer = new Socket("localhost", 25565);
+            printWriter=new PrintWriter(calculationServer.getOutputStream());
+            scanner=new Scanner(calculationServer.getInputStream());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -97,7 +96,7 @@ public class HostServer extends MyServer {
             @Override
             public void run() {
                 String msgFromGroupChat;
-                while(mainServer.isConnected()) {
+                while(calculationServer.isConnected()) {
                     msgFromGroupChat=scanner.nextLine();
                     System.out.println(msgFromGroupChat);
                 }
