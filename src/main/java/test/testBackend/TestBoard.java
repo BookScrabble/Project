@@ -1,8 +1,8 @@
 package test.testBackend;
 
-import model.Data.Board;
-import model.Data.Tile;
-import model.Data.Word;
+import model.logic.host.data.Board;
+import model.logic.host.data.Tile;
+import model.logic.host.data.Word;
 
 public class TestBoard {
 

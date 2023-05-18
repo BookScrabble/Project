@@ -1,7 +1,7 @@
 package test.testBackend;
 
 
-import model.Logic.Dictionary;
+import model.logic.server.dictionary.Dictionary;
 
 public class TestDictionary {
 

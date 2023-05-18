@@ -1,7 +1,7 @@
 package test.testBackend;
 
 
-import model.Data.Tile;
+import model.logic.host.data.Tile;
 
 public class TestBag {
     public static void run() {
