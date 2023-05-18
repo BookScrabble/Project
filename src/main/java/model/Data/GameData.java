@@ -58,10 +58,14 @@ public class GameData {
     }
 
     /**
-     * @return Returns the dictionaries of the game.
+     * @return Returns the dictionary of the game in string format.(dictionary1,dictionary2,...)
      */
-    public ArrayList<String> getDictionaries() {
-        return dictionaries;
+    public String getDictionaries() {
+        StringBuilder query = new StringBuilder();
+        for (String dictionary : dictionaries) {
+            query.append(dictionary).append(",");
+        }
+        return query.toString();
     }
 
     /**
@@ -80,14 +84,4 @@ public class GameData {
         }
     }
 
-    /**
-     * @return Returns the dictionary of the game in string format.(dictionary1,dictionary2,...)
-     */
-    public String dictionaryToQuery() {
-        StringBuilder query = new StringBuilder();
-        for (String dictionary : dictionaries) {
-            query.append(dictionary).append(",");
-        }
-        return query.toString();
-    }
 }
