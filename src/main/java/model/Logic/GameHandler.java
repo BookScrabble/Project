@@ -7,9 +7,10 @@ import java.net.Socket;
 public interface GameHandler {
 
     void addPlayer();
-    void submit(Word word);
-    void challenge ();
-    void swapTiles(Socket player, int[] tilesToSwap);
+    void submit(String word);
+    void challenge (String word);
+    void swapTiles();
     void resign();
     void skipTurn();
+    void sort();
 }

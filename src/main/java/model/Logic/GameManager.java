@@ -37,23 +37,20 @@ public class GameManager implements GameHandler {
      *
      * @param word The word to be submitted.
      */
-    public void submit(Word word) {
+    public void submit(String word) {
         //Gamedata.getBoard.tryPlaceWord();
     }
 
     /**
      * @Details Challenges the last submitted word.
      */
-    public void challenge() {
+    public void challenge(String word) {
     }
 
     /**
      * @Details Swaps tiles for a player.
-     *
-     * @param player      The player socket.
-     * @param tilesToSwap The indices of the tiles to be swapped.
      */
-    public void swapTiles(Socket player, int[] tilesToSwap) {
+    public void swapTiles() {
     }
 
     /**
@@ -66,5 +63,12 @@ public class GameManager implements GameHandler {
      * @Details Skips the turn of the current player.
      */
     public void skipTurn() {
+    }
+
+    public void sort() {
+    }
+
+    public GameData getGameData() {
+        return this.gameData;
     }
 }
