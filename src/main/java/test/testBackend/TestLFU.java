@@ -1,8 +1,8 @@
 package test.testBackend;
 
 
-import model.Logic.CacheReplacementPolicy;
-import model.Logic.LFU;
+import model.logic.server.dictionary.CacheReplacementPolicy;
+import model.logic.server.dictionary.LFU;
 
 public class TestLFU {
 

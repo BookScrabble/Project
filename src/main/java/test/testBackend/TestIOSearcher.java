@@ -1,7 +1,7 @@
 package test.testBackend;
 
 
-import model.Logic.IOSearcher;
+import model.logic.server.dictionary.IOSearcher;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;

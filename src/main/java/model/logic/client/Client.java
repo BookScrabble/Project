@@ -1,6 +1,4 @@
-package model.Logic;
-
-import model.Data.Player;
+package model.logic.client;
 
 import java.io.*;
 import java.net.Socket;

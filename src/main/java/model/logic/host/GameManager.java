@@ -1,7 +1,7 @@
-package model.Logic;
+package model.logic.host;
 
-import model.Data.Word;
-import model.Data.GameData;
+import model.logic.server.MyServer;
+import model.logic.host.data.GameData;
 
 import java.net.Socket;
 

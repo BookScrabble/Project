@@ -1,8 +1,11 @@
-package model.Logic;
+package model.logic.host;
+
+import model.logic.client.ClientHandler;
+import model.logic.host.GameManager;
 
 import java.io.*;
 
-public class GuestHandler implements ClientHandler{
+public class GuestHandler implements ClientHandler {
     @Override
     public void handleClient(InputStream inFromClient, OutputStream outToClient) {
         GameManager gm = GameManager.get();
@@ -12,7 +15,7 @@ public class GuestHandler implements ClientHandler{
             String line = br.readLine(); /*TODO - If blocking call is needed change to scanner*/
             String[] clientRequest = line.split(",");
             switch (clientRequest[0]) {
-                case "sumbit" ->
+                case "submit" ->
                     //"submit,word,row,col,vertical"
                     //"submit,HELLO,3,5,true"
                         gm.submit(clientRequest[1] + "," + clientRequest[2] + "," + clientRequest[3] + "," + clientRequest[4]);

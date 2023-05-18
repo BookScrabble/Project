@@ -1,8 +1,8 @@
-package model.Data;
+package model.logic.host.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.Data.Tile.Bag;
+import model.logic.host.data.Tile.Bag;
 
 public class Player {
     String name;

@@ -1,8 +1,4 @@
-package model.Logic;
-
-import model.Data.Word;
-
-import java.net.Socket;
+package model.logic.host;
 
 public interface GameHandler {
 

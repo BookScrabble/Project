@@ -1,4 +1,4 @@
-package model.Data;
+package model.logic.host.data;
 
 import java.net.Socket;
 import java.util.ArrayList;

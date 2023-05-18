@@ -1,7 +1,7 @@
 package test.testBackend;
 
 
-import model.Logic.BloomFilter;
+import model.logic.server.dictionary.BloomFilter;
 
 public class TestBloomFilter {
 

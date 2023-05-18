@@ -1,8 +1,8 @@
 package test.testBackend;
 
 
-import model.Logic.CacheManager;
-import model.Logic.LRU;
+import model.logic.server.dictionary.CacheManager;
+import model.logic.server.dictionary.LRU;
 
 public class TestCacheManager {
 
