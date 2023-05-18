@@ -18,13 +18,13 @@ public class GuestHandler implements ClientHandler{
                         gm.submit(clientRequest[1] + "," + clientRequest[2] + "," + clientRequest[3] + "," + clientRequest[4]);
                 case "swap" ->
                     //"swap,
-                        gm.swap();
+                        gm.swapTiles();
                 case "resign" -> gm.resign();
                 case "challenge" ->
                     //"challenge,word"
                     //"challenge,HELLO"
                         gm.challenge("C," + gm.getGameData().getDictionaries() + "," + clientRequest[1]);
-                case "skip" -> gm.skip();
+                case "skip" -> gm.skipTurn();
                 case "sort" -> gm.sort();
             }
         } catch (IOException e) {
