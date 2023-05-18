@@ -5,19 +5,31 @@ import java.io.*;
 public class GuestHandler implements ClientHandler{
     @Override
     public void handleClient(InputStream inFromClient, OutputStream outToClient) {
-        /*
-        Expectation of handleClient for guests:
-        Host will call this method for every guest when he wants to give this guest his turn.
-        1)Send client a message that runs a method in client class which opens
-            the communication between the client and the host(Not necessary a thread)
-        2)open a thread in a helper method inside GuestHandler which listens for an update from the host.
-            Message will indicate the guest is out of time or the player has finished his turn successfully,
-            Meaning he placed a word.
-        3)Send a message to the client which stops his turn thread, Either putting it in wait/sleep
-            or completely closes it.
-         */
-        BufferedReader br = new BufferedReader(new InputStreamReader(inFromClient));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(outToClient));
+        GameManager gm = GameManager.get();
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(inFromClient));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(outToClient));
+            String line = br.readLine(); /*TODO - If blocking call is needed change to scanner*/
+            String[] clientRequest = line.split(",");
+            switch (clientRequest[0]) {
+                case "sumbit" ->
+                    //"submit,word,row,col,vertical"
+                    //"submit,HELLO,3,5,true"
+                        gm.submit(clientRequest[1] + "," + clientRequest[2] + "," + clientRequest[3] + "," + clientRequest[4]);
+                case "swap" ->
+                    //"swap,
+                        gm.swap();
+                case "resign" -> gm.resign();
+                case "challenge" ->
+                    //"challenge,word"
+                    //"challenge,HELLO"
+                        gm.challenge("C," + gm.getGameData().getDictionaries() + "," + clientRequest[1]);
+                case "skip" -> gm.skip();
+                case "sort" -> gm.sort();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         System.out.println("Client connected successfully to Host!");
     }
 
