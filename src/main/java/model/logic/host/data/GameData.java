@@ -1,8 +1,9 @@
 package model.logic.host.data;
 
-import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class GameData {
     Board board;
@@ -14,9 +15,9 @@ public class GameData {
      * @details  Constructor for GameData class. Initializes the game data with specified board, bag, player data and dictionaries.
      * @params board, bag, dictionaries
      */
-    public GameData(Board board, Tile.Bag bag, ArrayList<String> dictionaries) {
-        this.board = board;
-        this.bag = bag;
+    public GameData(ArrayList<String> dictionaries) {
+        this.board = Board.getBoard();
+        this.bag = Tile.Bag.getBag();
         this.dictionaries = dictionaries;
     }
 
@@ -71,8 +72,9 @@ public class GameData {
     /**
      * @details set the dictionaries of the game.
      */
-    public void setDictionaries(ArrayList<String> dictionaries) {
-        this.dictionaries = dictionaries;
+    public void setDictionaries(String... args) {
+        this.dictionaries = Arrays.stream(args).
+                collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**

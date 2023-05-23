@@ -17,7 +17,6 @@ public class GameManager implements GameHandler {
     MyServer host;
     GameData gameData;
     int currentPlayerID;
-
     String calculationServerIp;
     int calculationServerPort;
 
@@ -51,9 +50,9 @@ public class GameManager implements GameHandler {
     /**
      * @Details Adds a player to the game.
      */
-    public void addPlayer() {
+    public void addPlayer(String clientName) {
         if(gameData.getAllPlayers().size()<4){
-            //TODO - We need to know which player is it.
+            gameData.addPlayer(gameData.getAllPlayers().size() + 1, new Player(clientName));
         }
     }
 
@@ -62,7 +61,7 @@ public class GameManager implements GameHandler {
      *
      * @params word The word to be submitted.
      */
-    public void submit(String wordPosition) {
+    public String submit(String wordPosition) {
         if(wordPosition.length() != 0){
             String[] wordData = wordPosition.split(",");
 
@@ -76,17 +75,28 @@ public class GameManager implements GameHandler {
             Word newWord = buildWord(currentPlayer, word, row, col, vertical);
             int score = gameData.getBoard().tryPlaceWord(newWord);
             if (score == 0) {
-                //return the tiles to the currentPlayer, DictionaryLegal, Player can do challenge
+                return "0";
             }
             else if(score == -1){
-                // BoardLegal
+                return "-1";
             }else{
                 int oldScore = currentPlayer.getScore();
                 currentPlayer.setScore(oldScore + score);
-                // add new tiles to the player
-                // update everyone new gameState
+                fillHand();
+                updateGuests();
+                return "1";
             }
         }
+        return "-2";
+    }
+
+    /**
+     * @Details Updates all connected guests if change was made in game state.
+     */
+    public void updateGuests(){
+        /*
+        TODO - Implement when supporting multiple clients.
+         */
     }
 
     /**
