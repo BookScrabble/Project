@@ -402,10 +402,7 @@ public class Board {
     public boolean dictionaryLegal(Word word) {
         GameManager gameManager = GameManager.get();
         String result = gameManager.query(word);
-        if(result.equals("true")){
-            return true;
-        }
-        return false;
+        return result.equals("true");
     }
 
     /**
