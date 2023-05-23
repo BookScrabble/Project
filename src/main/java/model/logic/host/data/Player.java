@@ -43,17 +43,12 @@ public class Player {
         return null;
     }
 
+    public List<Tile> getAllTiles() {
+        return tiles;
+    }
+
     public void setTiles(List<Tile> tiles) {
         this.tiles = tiles;
     }
 
-    /**
-     * TODO - change this method location, Player is only data class and should have no functionality!
-     * @details  Make sure the player always has 7 tiles
-     */
-    public void checkHand() {
-        while(tiles.size() < 7){
-            tiles.add(Bag.getBag().getRand());
-        }
-    }
 }

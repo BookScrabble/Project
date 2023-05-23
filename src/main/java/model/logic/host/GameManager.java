@@ -40,6 +40,15 @@ public class GameManager implements GameHandler {
     }
 
     /**
+     * @details  Make sure the player always has 7 tiles
+     */
+    private void fillHand() {
+        while(gameData.getPlayer(currentPlayerID).getAllTiles().size() < 7){
+            gameData.getPlayer(currentPlayerID).getAllTiles().add(Tile.Bag.getBag().getRand());
+        }
+    }
+
+    /**
      * @Details Adds a player to the game.
      */
     public void addPlayer() {
