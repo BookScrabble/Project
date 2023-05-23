@@ -84,7 +84,7 @@ public class GameManager implements GameHandler {
      * @Details Builds a word from the given data.
      * @return The word.
      */
-    public Word buildWord(Player player, String word, int row, int col,boolean vertical){
+    private Word buildWord(Player player, String word, int row, int col,boolean vertical){
         Tile[] tiles = new Tile[word.length()];
         for(int i=0; i<word.length(); i++){
             tiles[i] = player.getTile(word.charAt(i));
@@ -119,7 +119,7 @@ public class GameManager implements GameHandler {
      * @Details Connect and Sends a message to the calculation server.
      * @return The result of the calculation server.
      */
-    public String sendToCalculationServer(String w){
+    private String sendToCalculationServer(String w){
         try {
             Socket socket = new Socket(calculationServerIp, calculationServerPort);
             Scanner scanner = new Scanner(socket.getInputStream());
