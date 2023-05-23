@@ -4,6 +4,7 @@ import model.logic.host.data.Tile;
 import model.logic.host.data.Word;
 import model.logic.server.MyServer;
 import model.logic.host.data.GameData;
+import model.logic.host.data.Player;
 
 import java.net.Socket;
 
@@ -12,6 +13,8 @@ public class GameManager implements GameHandler {
     MyServer host;
     Socket calculationsServer;
     GameData gameData;
+
+    int currentPlayer;
 
     private GameManager() {
     }
@@ -51,8 +54,9 @@ public class GameManager implements GameHandler {
             boolean vertical = Boolean.parseBoolean(wordData[3]);
             Tile[] tiles = new Tile[word.length()];
 
+            Player player = gameData.getPlayer(currentPlayer);
             for(int i=0; i<word.length(); i++){
-                tiles[i] = gameData.getBag().getTile(word.charAt(i));
+                tiles[i] = player.getTile(word.charAt(i));
             }
             gameData.getBoard().tryPlaceWord(new Word(tiles, row, col, vertical));
         }

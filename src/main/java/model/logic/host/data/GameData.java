@@ -7,7 +7,7 @@ import java.util.Map;
 public class GameData {
     Board board;
     Tile.Bag bag;
-    Map<Socket, Player> playerData;
+    Map<Integer, Player> playerData;
     ArrayList<String> dictionaries;
 
     /**
@@ -37,23 +37,23 @@ public class GameData {
     /**
      * @return Returns the all players data of the game.
      */
-    public Map<Socket, Player> getAllPlayers() {
+    public Map<Integer, Player> getAllPlayers() {
         return playerData;
     }
 
     /**
      * @return Returns the player data of the game.
      */
-    public Player getPlayer(Socket socket) {
-        return playerData.get(socket);
+    public Player getPlayer(int playerId) {
+        return playerData.get(playerId);
     }
 
     /**
      * @details set the player data of the game.
      */
-    public void addPlayer(Socket socket, Player playerData) {
-        if(!this.playerData.containsKey(socket)){
-            this.playerData.put(socket, playerData);
+    public void addPlayer(int playerId, Player playerData) {
+        if(!this.playerData.containsKey(playerId)){
+            this.playerData.put(playerId, playerData);
         }
     }
 
