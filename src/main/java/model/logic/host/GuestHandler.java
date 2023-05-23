@@ -23,9 +23,9 @@ public class GuestHandler implements ClientHandler {
                         gm.swapTiles();
                 case "resign" -> gm.resign();
                 case "challenge" ->
-                    //"challenge,word"
-                    //"challenge,HELLO"
-                        gm.challenge("C," + gm.getGameData().getDictionaries() + "," + clientRequest[1]);
+                    //"challenge,word,row,col,vertical"
+                    //"challenge,HELLO,3,5,true"
+                        gm.challenge(clientRequest[1]);
                 case "skip" -> gm.skipTurn();
                 case "sort" -> gm.sort();
             }
