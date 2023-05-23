@@ -1,7 +1,6 @@
 package model.logic.host;
 
 import model.logic.client.ClientHandler;
-import model.logic.host.GameManager;
 
 import java.io.*;
 

@@ -14,7 +14,7 @@ public class GameManager implements GameHandler {
     Socket calculationsServer;
     GameData gameData;
 
-    int currentPlayer;
+    int currentPlayerID;
 
     private GameManager() {
     }
@@ -54,11 +54,20 @@ public class GameManager implements GameHandler {
             boolean vertical = Boolean.parseBoolean(wordData[3]);
             Tile[] tiles = new Tile[word.length()];
 
-            Player player = gameData.getPlayer(currentPlayer);
+            Player currentPlayer = gameData.getPlayer(currentPlayerID);
             for(int i=0; i<word.length(); i++){
-                tiles[i] = player.getTile(word.charAt(i));
+                tiles[i] = currentPlayer.getTile(word.charAt(i));
             }
-            gameData.getBoard().tryPlaceWord(new Word(tiles, row, col, vertical));
+            int score = gameData.getBoard().tryPlaceWord(new Word(tiles, row, col, vertical));
+            if (score == 0) {
+                //return the tiles to the currentPlayer
+            }
+            else {
+                int oldScore = currentPlayer.getScore();
+                currentPlayer.setScore(oldScore + score);
+                // add new tiles to the player
+                // update everyone new gameState
+            }
         }
     }
 
