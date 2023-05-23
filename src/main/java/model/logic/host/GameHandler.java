@@ -4,8 +4,8 @@ import model.logic.host.data.Word;
 
 public interface GameHandler {
 
-    void addPlayer();
-    void submit(String word);
+    void addPlayer(String clientName);
+    String submit(String word);
     String challenge (String word);
     String query(Word word);
     void swapTiles();

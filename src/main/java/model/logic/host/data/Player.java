@@ -7,7 +7,6 @@ import model.logic.host.data.Tile.Bag;
 public class Player {
     String name;
     int score;
-
     List<Tile> tiles;
 
     public Player(String name){

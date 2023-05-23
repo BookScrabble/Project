@@ -10,8 +10,6 @@ public class Client {
     private Scanner scanner;
     private PrintWriter printWriter;
 
-    private String username;
-
     /**
      * Client constructor which both initialize the client parameters but also
      * opens a thread for this client to listen on.
@@ -22,12 +20,9 @@ public class Client {
     public Client(String ip, int port, String clientName){
         try {
             this.server = new Socket(ip, port);
-            this.printWriter = new PrintWriter(this.server.getOutputStream());
+            this.printWriter = new PrintWriter(this.server.getOutputStream(), true);
             this.scanner = new Scanner(this.server.getInputStream());
-            username = clientName;
-            /*
-            TODO - Send host server the username
-             */
+            printWriter.println("connect," + clientName);
             run();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -40,15 +35,10 @@ public class Client {
             while(server.isConnected()) {
                 if(scanner.hasNextLine()) {
                     msgFromGroupChat = scanner.nextLine();
-                    if(Objects.equals(msgFromGroupChat, "1")) {
-                        System.out.println("1" + " from Client(run) " + username);
-                        turn();
-                    }
-                    else if(Objects.equals(msgFromGroupChat, "2")) {
-                        System.out.println("2" + "server received your message " + username);
-                    }
-                    else{
-                        System.out.println(msgFromGroupChat + " HI " + username);
+                    switch(msgFromGroupChat){
+                        case "startTurn" -> turn();
+                        case "submitFailedBoard" -> System.out.println("Temp message - FAILED BOARD");
+                        case "submitFailedDictionary" -> System.out.println("Temp message - FAILED DICTIONARY");
                     }
                     msgFromGroupChat = "";
                 }
@@ -75,17 +65,5 @@ public class Client {
 
     // Disconnect
     // Close everything
-
-
-    // TryPlaceWord
-
-
-    // Skip turn
-
-
-    // Challenge
-
-
-    //
 
 }
