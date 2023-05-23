@@ -401,7 +401,11 @@ public class Board {
      */
     public boolean dictionaryLegal(Word word) {
         GameManager gameManager = GameManager.get();
-        return gameManager.query(word);
+        String result = gameManager.query(word);
+        if(result.equals("true")){
+            return true;
+        }
+        return false;
     }
 
     /**
