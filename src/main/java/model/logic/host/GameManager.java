@@ -6,17 +6,26 @@ import model.logic.server.MyServer;
 import model.logic.host.data.GameData;
 import model.logic.host.data.Player;
 
+
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class GameManager implements GameHandler {
     private static GameManager single_instance = null;
     MyServer host;
-    Socket calculationsServer;
     GameData gameData;
+    int currentPlayerID;
 
-    int currentPlayer;
+    String calculationServerIp;
+    int calculationServerPort;
 
-    private GameManager() {
+    private GameManager(int port) {
+        host = new MyServer(port, new GuestHandler());
+        calculationServerPort = 10000;
+        calculationServerIp = "localhost";
+        host.start();
     }
 
     /**
@@ -26,7 +35,7 @@ public class GameManager implements GameHandler {
      */
     public static GameManager get() {
         if (single_instance == null)
-            single_instance = new GameManager();
+            single_instance = new GameManager(20000);
         return single_instance;
     }
 
@@ -54,20 +63,74 @@ public class GameManager implements GameHandler {
             boolean vertical = Boolean.parseBoolean(wordData[3]);
             Tile[] tiles = new Tile[word.length()];
 
-            Player player = gameData.getPlayer(currentPlayer);
-            for(int i=0; i<word.length(); i++){
-                tiles[i] = player.getTile(word.charAt(i));
+            Player currentPlayer = gameData.getPlayer(currentPlayerID);
+            Word newWord = buildWord(currentPlayer, word, row, col, vertical);
+            int score = gameData.getBoard().tryPlaceWord(newWord);
+            if (score == 0) {
+                //return the tiles to the currentPlayer, DictionaryLegal, Player can do challenge
             }
-            gameData.getBoard().tryPlaceWord(new Word(tiles, row, col, vertical));
+            else if(score == -1){
+                // BoardLegal
+            }else{
+                int oldScore = currentPlayer.getScore();
+                currentPlayer.setScore(oldScore + score);
+                // add new tiles to the player
+                // update everyone new gameState
+            }
         }
+    }
+
+    /**
+     * @Details Builds a word from the given data.
+     * @return The word.
+     */
+    public Word buildWord(Player player, String word, int row, int col,boolean vertical){
+        Tile[] tiles = new Tile[word.length()];
+        for(int i=0; i<word.length(); i++){
+            tiles[i] = player.getTile(word.charAt(i));
+        }
+        return new Word(tiles, row, col, vertical);
     }
 
     /**
      * @Details Challenges the last submitted word.
      */
-    public void challenge(String word) {
-        if( word.length() != 0){
-            //TODO - Challenge word
+    public String challenge(String word) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("C,").append(gameData.getDictionaries()).append(",").append(word);
+        return sendToCalculationServer(sb.toString());
+    }
+
+    /**
+     * @Details Query the last submitted word.
+     */
+    public String query(Word word) {
+        StringBuilder sb = new StringBuilder();
+        StringBuilder wordString = new StringBuilder();
+        for(Tile tile : word.getTiles()){
+            wordString.append(tile.letter);
+        }
+        sb.append("Q,").append(gameData.getDictionaries()).append(",").append(wordString);
+        return sendToCalculationServer(sb.toString());
+    }
+
+    /**
+     * @params String | The message to be sent.
+     * @Details Connect and Sends a message to the calculation server.
+     * @return The result of the calculation server.
+     */
+    public String sendToCalculationServer(String w){
+        try {
+            Socket socket = new Socket(calculationServerIp, calculationServerPort);
+            Scanner scanner = new Scanner(socket.getInputStream());
+            PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
+            printWriter.println(w);
+            String result = scanner.nextLine();
+            printWriter.close();
+            scanner.close();
+            return result;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

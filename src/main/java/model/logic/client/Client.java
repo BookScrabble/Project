@@ -5,7 +5,7 @@ import java.net.Socket;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class Client{
+public class Client {
     private Socket server;
     private Scanner scanner;
     private PrintWriter printWriter;
