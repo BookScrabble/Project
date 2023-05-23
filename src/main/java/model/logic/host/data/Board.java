@@ -1,6 +1,8 @@
 package model.logic.host.data;
 
 
+import model.logic.host.GameManager;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -398,7 +400,8 @@ public class Board {
      * @return true / false
      */
     public boolean dictionaryLegal(Word word) {
-        return true;
+        GameManager gameManager = GameManager.get();
+        return gameManager.query(word);
     }
 
     /**
@@ -607,7 +610,7 @@ public class Board {
      */
     public int tryPlaceWord(Word newWord) {
         if (!boardLegal(newWord))
-            return 0;
+            return -1;
 
         ArrayList<Word> createdWords = getWords(newWord);
 

@@ -1,12 +1,13 @@
 package model.logic.host.data;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 import model.logic.host.data.Tile.Bag;
 
 public class Player {
     String name;
     int score;
+
     List<Tile> tiles;
 
     public Player(String name){
@@ -31,8 +32,15 @@ public class Player {
         this.score = score;
     }
 
-    public List<Tile> getTiles() {
-        return tiles;
+    public Tile getTile(char letter){
+        ArrayList<Tile> copyTiles = new ArrayList<>(tiles);
+        for (Tile tile : copyTiles) {
+            if (tile.letter == letter) {
+                tiles.remove(tile);
+                return tile;
+            }
+        }
+        return null;
     }
 
     public void setTiles(List<Tile> tiles) {
