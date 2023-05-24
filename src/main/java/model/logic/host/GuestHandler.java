@@ -4,10 +4,12 @@ import model.logic.client.ClientHandler;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GuestHandler implements ClientHandler {
-    private static final List<GuestHandler> guestHandlerList = new ArrayList<>();
+    private static final Map<GuestHandler, List<Closeable>> guestHandlerList = new HashMap<>();
     @Override
     public void handleClient(InputStream inFromClient, OutputStream outToClient) {
         GameManager gm = GameManager.get();
@@ -51,7 +53,11 @@ public class GuestHandler implements ClientHandler {
                 }
                 case "connect" -> {
                     gm.addPlayer(clientRequest[1]);
-                    guestHandlerList.add(this);
+                    if(!guestHandlerList.containsKey(this)){
+                        guestHandlerList.put(this, new ArrayList<>());
+                    }
+                    guestHandlerList.get(this).add(inFromClient);
+                    guestHandlerList.get(this).add(outToClient);
                     System.out.println("Client connected successfully");
                 }
             }
@@ -66,7 +72,7 @@ public class GuestHandler implements ClientHandler {
 
     }
 
-    public static List<GuestHandler> getGuestHandlers(){
+    public static Map<GuestHandler, List<Closeable>> getGuestHandlers(){
         return guestHandlerList;
     }
 }
