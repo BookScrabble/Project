@@ -71,8 +71,4 @@ public class MyServer {
             server.close();
         } catch (SocketException ignored) {}
     }
-
-    private void hostTest(){
-        System.out.println("Client connected to a host not just mainServer");
-    }
 }
