@@ -30,6 +30,7 @@ public class HostServer extends MyServer {
             while (!stop) {
                 // Connect clients
                 server.setSoTimeout(1000);
+                //  testing for a client connection (only for now).
                 if(sockets.size() < 1){
                     try {
                         Socket aClient = server.accept(); // blocking call
