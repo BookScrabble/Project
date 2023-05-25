@@ -35,6 +35,7 @@ public class Client {
             while(server.isConnected()) {
                 if(scanner.hasNextLine()) {
                     msgFromGroupChat = scanner.nextLine();
+                    System.out.println(msgFromGroupChat);
                     switch(msgFromGroupChat){
                         case "startTurn" -> turn();
                         case "submitFailedBoard" -> System.out.println("Temp message - FAILED BOARD");
@@ -48,7 +49,7 @@ public class Client {
 
     public void turn(){
         new Thread(()->{
-            if(server.isConnected()){
+            while(server.isConnected()){
                 BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
                 String msgFromGroupChat;
                 try {

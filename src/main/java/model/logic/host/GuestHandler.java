@@ -57,6 +57,8 @@ public class GuestHandler implements ClientHandler {
 
                 case "test" -> {
                     System.out.println("Received input from client");
+                    bw.write("submitFailedBoard");
+                    bw.flush();
                 }
 
                 // THINGS TO IMPLEMENT IN THE FUTURE

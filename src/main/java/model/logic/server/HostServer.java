@@ -9,37 +9,45 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class HostServer extends MyServer {
 
     private final List<Socket> sockets;
+    private int currentPlayerTurn;
 
     public HostServer(int port, ClientHandler clientHandler) {
         super(port, clientHandler);
         this.sockets = new ArrayList<>();
+        currentPlayerTurn =0;
     }
 
     @Override
     protected void runServer() throws Exception {
         try {
             ServerSocket server = new ServerSocket(this.port);
-            server.setSoTimeout(1000);
             while (!stop) {
                 // Connect clients
-                while (clientsStillConnecting) {
+                server.setSoTimeout(1000);
+                if(sockets.size() < 2){
                     try {
                         Socket aClient = server.accept(); // blocking call
                         sockets.add(aClient);
                     } catch (SocketTimeoutException ignored) {}
+                }else{
+                    //Handle clients
+                    if(currentPlayerTurn == sockets.size()){
+                        currentPlayerTurn = 0;
+                    }
+                    new Thread(()-> {
+                        try {
+                            clientHandler.handleClient(sockets.get(currentPlayerTurn).getInputStream(), sockets.get(currentPlayerTurn).getOutputStream());
+                        } catch (IOException ignored) {}
+                    }).start();
+                    currentPlayerTurn = (currentPlayerTurn+1) % sockets.size();
                 }
-
-                //Handle clients
-                try {
-                    clientHandler.handleClient(aClient.getInputStream(), aClient.getOutputStream());
-                } catch (IOException ignored) {}
             }
-
             server.close();
         } catch (SocketException ignored) {}
     }
