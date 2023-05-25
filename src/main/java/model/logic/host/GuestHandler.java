@@ -13,11 +13,11 @@ public class GuestHandler implements ClientHandler {
     private static final Map<GuestHandler, List<Closeable>> guestHandlerList = new HashMap<>();
 
     @Override
-    public void handleClient(InputStream inFromClient, OutputStream outToClient) {
+    public void handleClient(InputStream inFromClient, OutputStream out) {
         GameManager gm = GameManager.get();
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(inFromClient));
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(outToClient));
+            PrintWriter outToClient = new PrintWriter(new OutputStreamWriter(out), true);
             String line = br.readLine(); /*TODO - If blocking call is needed change to scanner*/
             String[] clientRequest = line.split(",");
             switch (clientRequest[0]) {
@@ -26,9 +26,9 @@ public class GuestHandler implements ClientHandler {
                     //"submit,HELLO,3,5,true"
                     String result = gm.submit(clientRequest[1] + "," + clientRequest[2] + "," + clientRequest[3] + "," + clientRequest[4]);
                     switch(result){
-                        case "-2" -> bw.write("You didn't place any tiles on board");
-                        case "-1" -> bw.write("Word cannot be placed in board");
-                        case "0" -> bw.write("Word not found in dictionary, Challenge or try again");
+                        case "-2" -> outToClient.println("You didn't place any tiles on board");
+                        case "-1" -> outToClient.println("Word cannot be placed in board");
+                        case "0" -> outToClient.println("Word not found in dictionary, Challenge or try again");
                     }
                 }
 
@@ -37,8 +37,8 @@ public class GuestHandler implements ClientHandler {
                     //"challenge,HELLO,3,5,true"
                     String result = gm.challenge(clientRequest[1]);
                     switch(result){
-                        case "true" -> bw.write("Challenge accepted.");
-                        case "false" -> bw.write("Challenge failed.");
+                        case "true" -> outToClient.println("Challenge accepted.");
+                        case "false" -> outToClient.println("Challenge failed.");
                     }
                     //Update all if succeeded(View)
                     //Update client for score gained(View)
@@ -51,14 +51,13 @@ public class GuestHandler implements ClientHandler {
                         guestHandlerList.put(this, new ArrayList<>());
                     }
                     guestHandlerList.get(this).add(inFromClient);
-                    guestHandlerList.get(this).add(outToClient);
+                    guestHandlerList.get(this).add(out);
                     System.out.println("Client connected successfully");
                 }
 
                 case "test" -> {
                     System.out.println("Received input from client");
-                    bw.write("submitFailedBoard");
-                    bw.flush();
+                    outToClient.println("submitFailedBoard");
                 }
 
                 // THINGS TO IMPLEMENT IN THE FUTURE

@@ -2,7 +2,6 @@ package model.logic.client;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Client {
@@ -32,17 +31,14 @@ public class Client {
     public void run() {
         new Thread( () -> {
             String msgFromGroupChat;
-            while(server.isConnected()) {
-                if(scanner.hasNextLine()) {
-                    msgFromGroupChat = scanner.nextLine();
-                    System.out.println(msgFromGroupChat);
-                    switch(msgFromGroupChat){
-                        case "startTurn" -> turn();
-                        case "submitFailedBoard" -> System.out.println("Temp message - FAILED BOARD");
-                        case "submitFailedDictionary" -> System.out.println("Temp message - FAILED DICTIONARY");
-                    }
-                    msgFromGroupChat = "";
+            while(server.isConnected() && scanner.hasNext()) {
+                msgFromGroupChat = scanner.next();
+                switch(msgFromGroupChat){
+                    case "startTurn" -> turn();
+                    case "submitFailedBoard" -> System.out.println("Temp message - FAILED BOARD");
+                    case "submitFailedDictionary" -> System.out.println("Temp message - FAILED DICTIONARY");
                 }
+                msgFromGroupChat = "";
             }
         }).start();
     }
@@ -53,9 +49,7 @@ public class Client {
                 BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
                 String msgFromGroupChat;
                 try {
-                    System.out.println("before readLine");
                     msgFromGroupChat= bf.readLine();
-                    System.out.println(msgFromGroupChat + "@@@@@@");
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -67,5 +61,4 @@ public class Client {
 
     // Disconnect
     // Close everything
-
 }
