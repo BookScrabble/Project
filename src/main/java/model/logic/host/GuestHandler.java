@@ -75,4 +75,16 @@ public class GuestHandler implements ClientHandler {
     public static Map<GuestHandler, List<Closeable>> getGuestHandlers(){
         return guestHandlerList;
     }
+
+    /**
+     * @Details - Temp function to test communication between host and client.
+     */
+    public static void testCommunicationWithClient(){
+        Map<GuestHandler, List<Closeable>> guests = GuestHandler.getGuestHandlers();
+        for(List<Closeable> test : guests.values()){
+            OutputStream currentClient = (OutputStream) test.get(1);
+            PrintWriter printWriter = new PrintWriter(currentClient, true);
+            printWriter.println("startTurn");
+        }
+    }
 }

@@ -187,18 +187,4 @@ public class GameManager implements GameHandler {
     public GameData getGameData() {
         return this.gameData;
     }
-
-    /**
-     * @Details - Temp function to test communication between host and client.
-     * TODO - Fix communication test with client!
-     * Maybe change location of this method to GuestHandler
-     */
-    public void testCommunicationWithClient(){
-        Map<GuestHandler, List<Closeable>> guests = GuestHandler.getGuestHandlers();
-        for(List<Closeable> test : guests.values()){
-            OutputStream currentClient = (OutputStream) test.get(1);
-            PrintWriter printWriter = new PrintWriter(currentClient, true);
-            printWriter.println("startTurn");
-        }
-    }
 }

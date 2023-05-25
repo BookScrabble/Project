@@ -13,6 +13,6 @@ public class TestServerArchitecture {
         GameManager gameManager = GameManager.get(); //Launch host server in the background.
         gameManager.getGameData().setDictionaries("alice_in_wonderland.txt", "Harry Potter.txt");
         Client firstPlayer = new Client("localhost", 20000, "Lior");
-        gameManager.testCommunicationWithClient();
+        GuestHandler.testCommunicationWithClient();
     }
 }
