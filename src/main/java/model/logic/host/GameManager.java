@@ -2,15 +2,13 @@ package model.logic.host;
 
 import model.logic.host.data.Tile;
 import model.logic.host.data.Word;
+import model.logic.server.HostServer;
 import model.logic.server.MyServer;
 import model.logic.host.data.GameData;
 import model.logic.host.data.Player;
 
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +17,14 @@ import java.util.Scanner;
 
 public class GameManager implements GameHandler {
     private static GameManager single_instance = null;
-    MyServer host;
+    HostServer host;
     GameData gameData;
     int currentPlayerID;
     String calculationServerIp;
     int calculationServerPort;
 
     private GameManager(int port) {
-        host = new MyServer(port, new GuestHandler());
+        host = new HostServer(port, new GuestHandler());
         calculationServerPort = 10000;
         calculationServerIp = "localhost";
         gameData = new GameData();

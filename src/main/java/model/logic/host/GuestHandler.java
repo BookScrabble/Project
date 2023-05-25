@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 public class GuestHandler implements ClientHandler {
+
     private static final Map<GuestHandler, List<Closeable>> guestHandlerList = new HashMap<>();
+
     @Override
     public void handleClient(InputStream inFromClient, OutputStream outToClient) {
         GameManager gm = GameManager.get();
@@ -30,11 +32,7 @@ public class GuestHandler implements ClientHandler {
                     }
                 }
 
-                case "swap" ->
-                    //"swap,
-                        gm.swapTiles();
-                case "resign" -> gm.resign();
-                case "challenge" ->{
+                case "challenge" -> {
                     //"challenge,word,row,col,vertical"
                     //"challenge,HELLO,3,5,true"
                     String result = gm.challenge(clientRequest[1]);
@@ -46,11 +44,7 @@ public class GuestHandler implements ClientHandler {
                     //Update client for score gained(View)
                     //Update all if failed
                 }
-                case "skip" -> gm.skipTurn();
-                case "sort" -> {
-                    gm.sort();
-                    //View Update for specific client
-                }
+
                 case "connect" -> {
                     gm.addPlayer(clientRequest[1]);
                     if(!guestHandlerList.containsKey(this)){
@@ -60,31 +54,38 @@ public class GuestHandler implements ClientHandler {
                     guestHandlerList.get(this).add(outToClient);
                     System.out.println("Client connected successfully");
                 }
+
+                case "test" -> {
+                    System.out.println("Received input from client");
+                }
+
+                // THINGS TO IMPLEMENT IN THE FUTURE
+                case "swap" ->
+                    //"swap,
+                        gm.swapTiles();
+                case "resign" -> gm.resign();
+                case "skip" -> gm.skipTurn();
+                case "sort" -> {
+                    gm.sort();
+                    //View Update for specific client
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Client connected successfully to Host!");
     }
+
+
+
 
     @Override
     public void close() {
-
+        guestHandlerList.forEach((guestHandler, closeables) -> {
+            try {
+                closeables.get(0).close();
+                closeables.get(1).close();
+            } catch (IOException ignored) {}
+        });
     }
 
-    public static Map<GuestHandler, List<Closeable>> getGuestHandlers(){
-        return guestHandlerList;
-    }
-
-    /**
-     * @Details - Temp function to test communication between host and client.
-     */
-    public static void testCommunicationWithClient(){
-        Map<GuestHandler, List<Closeable>> guests = GuestHandler.getGuestHandlers();
-        for(List<Closeable> test : guests.values()){
-            OutputStream currentClient = (OutputStream) test.get(1);
-            PrintWriter printWriter = new PrintWriter(currentClient, true);
-            printWriter.println("startTurn");
-        }
-    }
 }

@@ -54,6 +54,7 @@ public class Client {
                 try {
                     System.out.println("before readLine");
                     msgFromGroupChat= bf.readLine();
+                    System.out.println(msgFromGroupChat + "@@@@@@");
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

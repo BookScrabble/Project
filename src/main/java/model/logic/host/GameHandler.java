@@ -2,6 +2,8 @@ package model.logic.host;
 
 import model.logic.host.data.Word;
 
+import java.io.InputStream;
+
 public interface GameHandler {
 
     void addPlayer(String clientName);

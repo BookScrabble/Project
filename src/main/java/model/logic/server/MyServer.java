@@ -11,8 +11,8 @@ import java.net.SocketTimeoutException;
 
 public class MyServer {
     protected final int port;
-    private final ClientHandler clientHandler;
-    private volatile boolean stop;
+    protected final ClientHandler clientHandler;
+    protected volatile boolean stop;
 
     /**
      Constructor for MyServer class. Initializes the server with specified port number and client handler.
@@ -53,7 +53,7 @@ public class MyServer {
      The method runs in a loop until the server is stopped.
      @throws Exception if there is an error while creating or closing the server socket
      */
-    private void runServer() throws Exception {
+    protected void runServer() throws Exception {
         try {
             ServerSocket server = new ServerSocket(this.port);
             server.setSoTimeout(1000);
