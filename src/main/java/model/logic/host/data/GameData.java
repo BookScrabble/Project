@@ -2,6 +2,7 @@ package model.logic.host.data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -15,10 +16,11 @@ public class GameData {
      * @details  Constructor for GameData class. Initializes the game data with specified board, bag, player data and dictionaries.
      * @params board, bag, dictionaries
      */
-    public GameData(ArrayList<String> dictionaries) {
+    public GameData() {
         this.board = Board.getBoard();
         this.bag = Tile.Bag.getBag();
-        this.dictionaries = dictionaries;
+        this.playerData = new HashMap<>();
+        this.dictionaries = new ArrayList<>();
     }
 
     /**
