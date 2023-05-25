@@ -26,17 +26,24 @@ public class HostServer extends MyServer {
             ServerSocket server = new ServerSocket(this.port);
             server.setSoTimeout(1000);
             while (!stop) {
-                try {
-                    Socket aClient = server.accept(); // blocking call
+                // Connect clients
+                while (clientsStillConnecting) {
                     try {
+                        Socket aClient = server.accept(); // blocking call
                         sockets.add(aClient);
-                        clientHandler.handleClient(aClient.getInputStream(), aClient.getOutputStream());
-                    } catch (IOException ignored) {}
-                } catch (SocketTimeoutException ignored) {}
+                    } catch (SocketTimeoutException ignored) {}
+                }
+
+                //Handle clients
+                try {
+                    clientHandler.handleClient(aClient.getInputStream(), aClient.getOutputStream());
+                } catch (IOException ignored) {}
             }
+
             server.close();
         } catch (SocketException ignored) {}
     }
+
 
     @Override
     public void close() {
