@@ -68,6 +68,7 @@ public class GameData {
         for (String dictionary : dictionaries) {
             query.append(dictionary).append(",");
         }
+        query.deleteCharAt(query.length()-1);
         return query.toString();
     }
 

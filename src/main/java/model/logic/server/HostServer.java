@@ -1,6 +1,7 @@
 package model.logic.server;
 
 import model.logic.client.ClientHandler;
+import model.logic.host.GameManager;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -9,7 +10,6 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class HostServer extends MyServer {
@@ -20,7 +20,7 @@ public class HostServer extends MyServer {
     public HostServer(int port, ClientHandler clientHandler) {
         super(port, clientHandler);
         this.sockets = new ArrayList<>();
-        currentPlayerTurn =0;
+        currentPlayerTurn = 1;
     }
 
     @Override
@@ -40,13 +40,18 @@ public class HostServer extends MyServer {
                     //Handle clients
                     if(currentPlayerTurn == sockets.size()){
                         currentPlayerTurn = 0;
+                        GameManager.get().setCurrentPlayerID(currentPlayerTurn+1);
                     }
-                    new Thread(()-> {
-                        try {
+                    try {
                             clientHandler.handleClient(sockets.get(currentPlayerTurn).getInputStream(), sockets.get(currentPlayerTurn).getOutputStream());
-                        } catch (IOException ignored) {}
-                    }).start();
+                    } catch (IOException ignored) {}
+//                    new Thread(()-> {
+//                        try {
+//                            clientHandler.handleClient(sockets.get(currentPlayerTurn).getInputStream(), sockets.get(currentPlayerTurn).getOutputStream());
+//                        } catch (IOException ignored) {}
+//                    }).start();
                     currentPlayerTurn = (currentPlayerTurn+1) % sockets.size();
+                    //GameManager.get().setCurrentPlayerID(currentPlayerTurn);
                 }
             }
             server.close();
@@ -63,5 +68,9 @@ public class HostServer extends MyServer {
                 aClient.close();
             } catch (IOException ignored) {}
         }
+    }
+
+    public int getCurrentPlayerTurn() {
+        return currentPlayerTurn;
     }
 }
