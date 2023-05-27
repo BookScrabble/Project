@@ -42,6 +42,18 @@ public class GameManager implements GameHandler {
         return single_instance;
     }
 
+    public boolean isGameRunning() {
+        return host.isGameRunning();
+    }
+
+    public void startGame() {
+        this.host.startGame();
+    }
+
+    public void stopGame() {
+        this.host.stopGame();
+    }
+
     /**
      * @details  Make sure the player always has 7 tiles
      */

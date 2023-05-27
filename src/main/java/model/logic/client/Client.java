@@ -37,7 +37,7 @@ public class Client {
                     case "playTurn" -> playTurn();
                     case "wordNotFoundInDictionary" -> wordNotFoundInDictionary();
                     case "boardPlacementIllegal" -> boardPlacementIllegal();
-                    case "refreshGameState" -> refreshGameState();
+                    case "updateGameState" -> updateGameState();
                     case "disconnect" -> closeEverything();
                 }
             }
@@ -55,7 +55,7 @@ public class Client {
     private void boardPlacementIllegal() {
     }
 
-    private void refreshGameState() {
+    private void updateGameState() {
         System.out.println("Refreshing view...");
     }
 
