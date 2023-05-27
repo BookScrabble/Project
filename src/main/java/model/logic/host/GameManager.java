@@ -29,6 +29,7 @@ public class GameManager implements GameHandler {
         calculationServerIp = "localhost";
         gameData = new GameData();
         host.start();
+        currentPlayerID = 1;
     }
 
     /**

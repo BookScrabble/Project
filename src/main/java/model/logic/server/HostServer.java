@@ -1,14 +1,17 @@
 package model.logic.server;
 
 import model.logic.client.ClientHandler;
+import model.logic.host.GameManager;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 
 public class HostServer extends MyServer {
@@ -37,8 +40,12 @@ public class HostServer extends MyServer {
         while (!gameIsRunning && clients.size() < 4) {
             try {
                 Socket aClient = server.accept();
+                Scanner inFromClient = new Scanner(aClient.getInputStream());
+                String playerName = inFromClient.next();
                 clients.put(clients.size() + 1, aClient);
-            } catch (IOException e) {
+                GameManager.get().addPlayer(playerName);
+            }catch (SocketTimeoutException ignored) {}
+            catch (IOException e) {
                 e.printStackTrace();
             }
         }
