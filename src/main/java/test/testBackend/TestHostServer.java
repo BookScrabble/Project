@@ -29,6 +29,12 @@ public class TestHostServer {
         System.out.println("Expecting 1 player connected, Result: " +
                 (gameManager.getGameData().getAllPlayers().size() == 1));
         gameManager.startGame(); //Player("Lior") should get his turn.
-
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        gameManager.getGameData().getBoard().printBoard();
+        gameManager.stopGame();
     }
 }
