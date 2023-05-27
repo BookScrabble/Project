@@ -2,15 +2,13 @@ package model.logic.host;
 
 import model.logic.host.data.Tile;
 import model.logic.host.data.Word;
+import model.logic.server.HostServer;
 import model.logic.server.MyServer;
 import model.logic.host.data.GameData;
 import model.logic.host.data.Player;
 
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +17,14 @@ import java.util.Scanner;
 
 public class GameManager implements GameHandler {
     private static GameManager single_instance = null;
-    MyServer host;
+    HostServer host;
     GameData gameData;
     int currentPlayerID;
     String calculationServerIp;
     int calculationServerPort;
 
     private GameManager(int port) {
-        host = new MyServer(port, new GuestHandler());
+        host = new HostServer(port, new GuestHandler());
         calculationServerPort = 10000;
         calculationServerIp = "localhost";
         gameData = new GameData();
@@ -67,14 +65,14 @@ public class GameManager implements GameHandler {
      *
      * @params word The word to be submitted.
      */
-    public String submit(String wordPosition) {
-        if(wordPosition.length() != 0){
-            String[] wordData = wordPosition.split(",");
+    public String submit(String wordData) {
+        if(wordData.length() != 0){
+            String[] splitData = wordData.split(",");
 
-            String word = wordData[0];
-            int row = Integer.parseInt(wordData[1]);
-            int col = Integer.parseInt(wordData[2]);
-            boolean vertical = Boolean.parseBoolean(wordData[3]);
+            String word = splitData[0];
+            int row = Integer.parseInt(splitData[1]);
+            int col = Integer.parseInt(splitData[2]);
+            boolean vertical = Boolean.parseBoolean(splitData[3]);
             Tile[] tiles = new Tile[word.length()];
 
             Player currentPlayer = gameData.getPlayer(currentPlayerID);
@@ -150,9 +148,10 @@ public class GameManager implements GameHandler {
             Scanner scanner = new Scanner(socket.getInputStream());
             PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
             printWriter.println(w);
-            String result = scanner.nextLine();
+            String result = scanner.nextLine(); //Blocking call waiting for answer.
             printWriter.close();
             scanner.close();
+            socket.close();
             return result;
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -188,17 +187,7 @@ public class GameManager implements GameHandler {
         return this.gameData;
     }
 
-    /**
-     * @Details - Temp function to test communication between host and client.
-     * TODO - Fix communication test with client!
-     * Maybe change location of this method to GuestHandler
-     */
-    public void testCommunicationWithClient(){
-        Map<GuestHandler, List<Closeable>> guests = GuestHandler.getGuestHandlers();
-        for(List<Closeable> test : guests.values()){
-            OutputStream currentClient = (OutputStream) test.get(1);
-            PrintWriter printWriter = new PrintWriter(currentClient, true);
-            printWriter.println("startTurn");
-        }
+    public void setCurrentPlayerID(int currentPlayerID) {
+        this.currentPlayerID = currentPlayerID;
     }
 }

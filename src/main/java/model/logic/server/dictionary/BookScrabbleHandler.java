@@ -24,16 +24,19 @@ public class BookScrabbleHandler implements ClientHandler {
             BufferedReader br = new BufferedReader(new InputStreamReader(inFromClient));
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(outToClient));
             String line = br.readLine();
-            String filesAndQuery = line.substring(2);
-            String[] clientWords = filesAndQuery.split(",");
+            String filesAndWord = line.substring(2);
+            String[] dictionariesAndWord = filesAndWord.split(",");
+            for(int i = 0; i < dictionariesAndWord.length-1; i++){
+                dictionariesAndWord[i] = "src/main/resources/Dictionaries/" + dictionariesAndWord[i];
+            }
             if (line.charAt(0) == 'Q') {
-                if (dictionaryManager.query(clientWords))
+                if (dictionaryManager.query(dictionariesAndWord))
                     bw.write("true\n");
                 else
                     bw.write("false\n");
             }
             if (line.charAt(0) == 'C') {
-                if (dictionaryManager.challenge(clientWords))
+                if (dictionaryManager.challenge(dictionariesAndWord))
                     bw.write("true\n");
                 else
                     bw.write("false\n");
