@@ -8,6 +8,10 @@ import model.logic.host.data.Word;
 import model.logic.server.MyServer;
 import model.logic.server.dictionary.BookScrabbleHandler;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class TestGameManager {
 
     public static void main(String[] args) {
@@ -19,7 +23,7 @@ public class TestGameManager {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        String submitResult = gameManager.submit("BELIEVE,7,7,vertical"); //DEBUG FROM HERE!!
+        String submitResult = gameManager.submit("BELIEVE,7,7,vertical");
         System.out.println("Result of submit method: " + submitResult);
         System.out.println("Checking if addPlayer method worked Current player expected[Lior], " +
                 "Found in players array: " + gameManager.getGameData().getPlayer(1).getName());
@@ -53,8 +57,6 @@ public class TestGameManager {
         String challengeResult5 = gameManager.challenge("Adjourn,");
         String challengeResult6 = gameManager.challenge("remedies"); //Not found
         String challengeResult7 = gameManager.challenge("remedies--'"); //Found
-        String challengeResult8 = gameManager.challenge("fuckYOU"); //Found
-        String challengeResult9 = gameManager.challenge("fuckyou"); //Found
         System.out.println("Result of challenge method: " + challengeResult);
         System.out.println("Result of challenge method: " + challengeResult2);
         System.out.println("Result of challenge method: " + challengeResult3);
@@ -62,9 +64,23 @@ public class TestGameManager {
         System.out.println("Result of challenge method: " + challengeResult5);
         System.out.println("Result of challenge method: " + challengeResult6);
         System.out.println("Result of challenge method: " + challengeResult7);
-        System.out.println("Result of challenge method: " + challengeResult8);
-        System.out.println("Result of challenge method: " + challengeResult9);
 
+        //Check submit for player with tiles:
+        List<Tile> tilesForPlayer = new ArrayList<>();
+        tilesForPlayer.add(Tile.Bag.getBag().getTile('B'));
+        tilesForPlayer.add(Tile.Bag.getBag().getTile('E'));
+        tilesForPlayer.add(Tile.Bag.getBag().getTile('L'));
+        tilesForPlayer.add(Tile.Bag.getBag().getTile('I'));
+        tilesForPlayer.add(Tile.Bag.getBag().getTile('E'));
+        tilesForPlayer.add(Tile.Bag.getBag().getTile('V'));
+        tilesForPlayer.add(Tile.Bag.getBag().getTile('E'));
+        gameManager.getGameData().getPlayer(1).setTiles(tilesForPlayer);
+        String submitWithTiles = gameManager.submit("BELIEVE,7,7,vertical");
+        System.out.println("Result of submit method with tiles in player: " + submitWithTiles);
+
+        //Checking fillHand method after player placed his word.
+        System.out.println("Checking tiles in player after he placed his word should be 7, Result: "
+                + gameManager.getGameData().getPlayer(1).getAllTiles().size());
 
         //gameManager.updateGuests(); TODO - Test this method when working with Multi client(thread pool).
     }
