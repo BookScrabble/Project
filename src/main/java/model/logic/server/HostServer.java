@@ -7,50 +7,39 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class HostServer extends MyServer {
 
-    private final List<Socket> sockets;
-    private int currentPlayerTurn;
+    private final Map<Integer, Socket> clients;
 
     public HostServer(int port, ClientHandler clientHandler) {
         super(port, clientHandler);
-        this.sockets = new ArrayList<>();
-        currentPlayerTurn =0;
+        this.clients = new HashMap<>();
     }
 
     @Override
     protected void runServer() throws Exception {
         try {
             ServerSocket server = new ServerSocket(this.port);
+            server.setSoTimeout(1000);
             while (!stop) {
-                // Connect clients
-                server.setSoTimeout(1000);
-                //  testing for a client connection (only for now).
-                if(sockets.size() < 1){
+                try {
+                    Socket aClient = server.accept(); // blocking call
+                    clients.put(clients.size()+1, aClient);
                     try {
-                        Socket aClient = server.accept(); // blocking call
-                        sockets.add(aClient);
-                    } catch (SocketTimeoutException ignored) {}
-                }else{
-                    //Handle clients
-                    if(currentPlayerTurn == sockets.size()){
-                        currentPlayerTurn = 0;
-                    }
-                    new Thread(()-> {
-                        try {
-                            clientHandler.handleClient(sockets.get(currentPlayerTurn).getInputStream(), sockets.get(currentPlayerTurn).getOutputStream());
-                        } catch (IOException ignored) {}
-                    }).start();
-                    currentPlayerTurn = (currentPlayerTurn+1) % sockets.size();
-                }
+                        clientHandler.handleClient(aClient.getInputStream(), aClient.getOutputStream());
+                    } catch (IOException ignored) {}
+                } catch (SocketTimeoutException ignored) {}
             }
             server.close();
         } catch (SocketException ignored) {}
+    }
+
+    public void connectClients() {
+
     }
 
 
@@ -58,7 +47,7 @@ public class HostServer extends MyServer {
     public void close() {
         this.stop = true;
         this.clientHandler.close();
-        for(Socket aClient : sockets) {
+        for(Socket aClient : clients.values()) {
             try {
                 aClient.close();
             } catch (IOException ignored) {}

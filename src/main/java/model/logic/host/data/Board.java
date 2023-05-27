@@ -400,9 +400,10 @@ public class Board {
      * @return true / false
      */
     public boolean dictionaryLegal(Word word) {
-        GameManager gameManager = GameManager.get();
-        String result = gameManager.query(word);
-        return result.equals("true");
+//        GameManager gameManager = GameManager.get();
+//        String result = gameManager.query(word);
+//        return result.equals("true");
+        return true;
     }
 
     /**
