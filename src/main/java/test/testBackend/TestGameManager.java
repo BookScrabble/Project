@@ -13,9 +13,9 @@ public class TestGameManager {
     public static void main(String[] args) {
         GameManager gameManager = GameManager.get(); //Launches host server in the background.
         gameManager.getGameData().setDictionaries("alice_in_wonderland.txt","Frank Herbert - Dune.txt");
-        Client lior = new Client("localhost", 20000, "Lior");
-        String submitResult = gameManager.submit("BELIEVE,5,3,vertical");
-        System.out.println("Result of submit method: " + submitResult); //Expected -1, Word was sent without tiles because player has none.
+        Client lior = new Client("localhost", 20000, "Lior"); //TODO - Find out why client takes time to connect/how to delay main test.
+        String submitResult = gameManager.submit("BELIEVE,5,3,vertical"); //DEBUG FROM HERE!!
+        System.out.println("Result of submit method: " + submitResult);
         System.out.println("Checking if addPlayer method worked Current player expected[Lior], " +
                 "Found in players array: " + gameManager.getGameData().getPlayer(1).getName());
         //gameManager.resign(); TODO - Test this method when implemented.
@@ -41,8 +41,22 @@ public class TestGameManager {
         System.out.println("Result of query method: " + queryResult);
 
         //Check challenge method:
-        String challengeResult = gameManager.challenge("BELIEVE");
+        String challengeResult = gameManager.challenge("believe");
+        String challengeResult2 = gameManager.challenge("adjourn");
+        String challengeResult3 = gameManager.challenge("adjourn,");
+        String challengeResult4 = gameManager.challenge("Adjourn");
+        String challengeResult5 = gameManager.challenge("Adjourn,");
+        String challengeResult6 = gameManager.challenge("remedies"); //Not found
+        String challengeResult7 = gameManager.challenge("remedies--"); //Not found
         System.out.println("Result of challenge method: " + challengeResult);
+        System.out.println("Result of challenge method: " + challengeResult2);
+        System.out.println("Result of challenge method: " + challengeResult3);
+        System.out.println("Result of challenge method: " + challengeResult4);
+        System.out.println("Result of challenge method: " + challengeResult5);
+        System.out.println("Result of challenge method: " + challengeResult6);
+        System.out.println("Result of challenge method: " + challengeResult7);
+
+
         //gameManager.updateGuests(); TODO - Test this method when working with Multi client(thread pool).
     }
 }
