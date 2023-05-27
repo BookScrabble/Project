@@ -66,6 +66,7 @@ public class GuestHandler implements ClientHandler {
                 throw new RuntimeException(e);
             }
         }
+        //gm.setCurrentPlayerID((gm.currentPlayerID%4)+1);
         try {
             inFromClient.close();
             outToClient.close();

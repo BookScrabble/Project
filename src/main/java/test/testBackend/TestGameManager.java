@@ -13,8 +13,13 @@ public class TestGameManager {
     public static void main(String[] args) {
         GameManager gameManager = GameManager.get(); //Launches host server in the background.
         gameManager.getGameData().setDictionaries("alice_in_wonderland.txt","Frank Herbert - Dune.txt");
-        Client lior = new Client("localhost", 20000, "Lior"); //TODO - Find out why client takes time to connect/how to delay main test.
-        String submitResult = gameManager.submit("BELIEVE,5,3,vertical"); //DEBUG FROM HERE!!
+        Client lior = new Client("localhost", 20000, "Lior");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        String submitResult = gameManager.submit("BELIEVE,7,7,vertical"); //DEBUG FROM HERE!!
         System.out.println("Result of submit method: " + submitResult);
         System.out.println("Checking if addPlayer method worked Current player expected[Lior], " +
                 "Found in players array: " + gameManager.getGameData().getPlayer(1).getName());

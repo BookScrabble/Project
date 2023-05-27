@@ -21,7 +21,7 @@ public class Client {
             this.server = new Socket(ip, port);
             this.outToServer = new PrintWriter(this.server.getOutputStream(), true);
             this.inFromServer = new Scanner(this.server.getInputStream());
-            outToServer.println("connect," + clientName);
+            outToServer.println(clientName);
             listenForServerUpdates();
         } catch (IOException e) {
             e.printStackTrace();
@@ -32,20 +32,28 @@ public class Client {
         new Thread(() -> {
             String msgFromServer;
             while (server.isConnected()) {
-                msgFromServer = inFromServer.nextLine();
-                switch (msgFromServer) {
-                    case "playTurn" -> playTurn();
-                    case "wordNotFoundInDictionary" -> wordNotFoundInDictionary();
-                    case "boardPlacementIllegal" -> boardPlacementIllegal();
-                    case "updateGameState" -> updateGameState();
-                    case "disconnect" -> closeEverything();
+                if(inFromServer.hasNextLine()){
+                    msgFromServer = inFromServer.nextLine();
+                    switch (msgFromServer) {
+                        case "playTurn" -> playTurn();
+                        case "wordNotFoundInDictionary" -> wordNotFoundInDictionary();
+                        case "boardPlacementIllegal" -> boardPlacementIllegal();
+                        case "updateGameState" -> updateGameState();
+                        case "disconnect" -> closeEverything();
+                        default -> System.out.println(msgFromServer); //TODO - Implemented for testing.
+                    }
                 }
             }
         }).start();
     }
 
+
+    /**
+     * TODO - for now test implementation.
+     */
     private void playTurn() {
         System.out.println("Turn started");
+        outToServer.println("submit,BELIEVE,7,7,vertical");
     }
 
     private void wordNotFoundInDictionary() {
