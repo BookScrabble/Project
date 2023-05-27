@@ -47,7 +47,9 @@ public class TestGameManager {
         String challengeResult4 = gameManager.challenge("Adjourn");
         String challengeResult5 = gameManager.challenge("Adjourn,");
         String challengeResult6 = gameManager.challenge("remedies"); //Not found
-        String challengeResult7 = gameManager.challenge("remedies--"); //Not found
+        String challengeResult7 = gameManager.challenge("remedies--'"); //Found
+        String challengeResult8 = gameManager.challenge("fuckYOU"); //Found
+        String challengeResult9 = gameManager.challenge("fuckyou"); //Found
         System.out.println("Result of challenge method: " + challengeResult);
         System.out.println("Result of challenge method: " + challengeResult2);
         System.out.println("Result of challenge method: " + challengeResult3);
@@ -55,6 +57,8 @@ public class TestGameManager {
         System.out.println("Result of challenge method: " + challengeResult5);
         System.out.println("Result of challenge method: " + challengeResult6);
         System.out.println("Result of challenge method: " + challengeResult7);
+        System.out.println("Result of challenge method: " + challengeResult8);
+        System.out.println("Result of challenge method: " + challengeResult9);
 
 
         //gameManager.updateGuests(); TODO - Test this method when working with Multi client(thread pool).

@@ -20,7 +20,7 @@ public class IOSearcher {
                 Scanner textScanner = new Scanner(new File(fileName));
                 while (textScanner.hasNextLine()) {
                     String line = textScanner.nextLine();
-                    for(String w : line.split("[\\s,?!.]+")) {
+                    for(String w : line.split("[\"\\s,?!.-]+")) {
                         if (w.equals(word))
                             return true;
                     }

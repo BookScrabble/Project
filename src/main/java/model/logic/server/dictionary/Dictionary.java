@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Dictionary {
     private final CacheManager LRU = new CacheManager(400, new LRU());
     private final CacheManager LFU = new CacheManager(100, new LFU());
-    private final BloomFilter bloomFilter = new BloomFilter(256,"MD5","SHA1");
+    private final BloomFilter bloomFilter = new BloomFilter(8192,"MD5","SHA1","MD2","SHA256","SHA512");
     private final ArrayList<String> fileNames = new ArrayList<>();
 
     /**
