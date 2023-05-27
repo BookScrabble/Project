@@ -83,5 +83,8 @@ public class TestGameManager {
                 + gameManager.getGameData().getPlayer(1).getAllTiles().size());
 
         //gameManager.updateGuests(); TODO - Test this method when working with Multi client(thread pool).
+
+        calculationServer.close();
+        gameManager.stopGame();
     }
 }
