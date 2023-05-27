@@ -1,4 +1,4 @@
-package test.testBackend;
+package test;
 
 import model.logic.client.Client;
 import model.logic.host.GameManager;
@@ -16,6 +16,6 @@ public class TestServerArchitecture {
         mainServer.start();
         GameManager gameManager = GameManager.get(); // Launch host server in the background.
         Client firstPlayer = new Client("localhost", 20000, "Lior");
-        firstPlayer.turn();
+//        firstPlayer.turn();
     }
 }

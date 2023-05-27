@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 public class Client {
     private Socket server;
-    private Scanner scanner;
-    private PrintWriter printWriter;
+    private Scanner inFromServer;
+    private PrintWriter outToServer;
 
     /**
      * Client constructor which both initialize the client parameters but also
@@ -19,46 +19,54 @@ public class Client {
     public Client(String ip, int port, String clientName){
         try {
             this.server = new Socket(ip, port);
-            this.printWriter = new PrintWriter(this.server.getOutputStream(), true);
-            this.scanner = new Scanner(this.server.getInputStream());
-            printWriter.println("connect," + clientName);
-            run();
+            this.outToServer = new PrintWriter(this.server.getOutputStream(), true);
+            this.inFromServer = new Scanner(this.server.getInputStream());
+            outToServer.println("connect," + clientName);
+            listenForServerUpdates();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
-    public void run() {
-        new Thread( () -> {
-            String msgFromGroupChat;
-            while(server.isConnected() && scanner.hasNext()) {
-                msgFromGroupChat = scanner.next();
-                switch(msgFromGroupChat){
-                    case "startTurn" -> turn();
-                    case "submitFailedBoard" -> System.out.println("Temp message - FAILED BOARD");
-                    case "submitFailedDictionary" -> System.out.println("Temp message - FAILED DICTIONARY");
+    public void listenForServerUpdates() {
+        new Thread(() -> {
+            String msgFromServer;
+            while (server.isConnected()) {
+                msgFromServer = inFromServer.nextLine();
+                switch (msgFromServer) {
+                    case "playTurn" -> playTurn();
+                    case "wordNotFoundInDictionary" -> wordNotFoundInDictionary();
+                    case "boardPlacementIllegal" -> boardPlacementIllegal();
+                    case "updateGameState" -> updateGameState();
+                    case "disconnect" -> closeEverything();
                 }
-                msgFromGroupChat = "";
             }
         }).start();
     }
 
-    public void turn(){
-        new Thread(()->{
-            while(server.isConnected()){
-                BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-                String msgFromGroupChat;
-                try {
-                    msgFromGroupChat= bf.readLine();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                printWriter.println(msgFromGroupChat);
-                printWriter.flush();
-            }
-        }).start();
+    private void playTurn() {
+        System.out.println("Turn started");
     }
 
-    // Disconnect
-    // Close everything
+    private void wordNotFoundInDictionary() {
+        System.out.println("Place a different word or challenge");
+    }
+
+    private void boardPlacementIllegal() {
+    }
+
+    private void updateGameState() {
+        System.out.println("Refreshing view...");
+    }
+
+    private void closeEverything() {
+        try {
+            this.inFromServer.close();
+            this.outToServer.close();
+            this.server.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
