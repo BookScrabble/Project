@@ -65,14 +65,14 @@ public class GameManager implements GameHandler {
      *
      * @params word The word to be submitted.
      */
-    public String submit(String wordPosition) {
-        if(wordPosition.length() != 0){
-            String[] wordData = wordPosition.split(",");
+    public String submit(String wordData) {
+        if(wordData.length() != 0){
+            String[] splitData = wordData.split(",");
 
-            String word = wordData[0];
-            int row = Integer.parseInt(wordData[1]);
-            int col = Integer.parseInt(wordData[2]);
-            boolean vertical = Boolean.parseBoolean(wordData[3]);
+            String word = splitData[0];
+            int row = Integer.parseInt(splitData[1]);
+            int col = Integer.parseInt(splitData[2]);
+            boolean vertical = Boolean.parseBoolean(splitData[3]);
             Tile[] tiles = new Tile[word.length()];
 
             Player currentPlayer = gameData.getPlayer(currentPlayerID);
@@ -148,9 +148,10 @@ public class GameManager implements GameHandler {
             Scanner scanner = new Scanner(socket.getInputStream());
             PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
             printWriter.println(w);
-            String result = scanner.nextLine();
+            String result = scanner.nextLine(); //Blocking call waiting for answer.
             printWriter.close();
             scanner.close();
+            socket.close();
             return result;
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -184,5 +185,9 @@ public class GameManager implements GameHandler {
 
     public GameData getGameData() {
         return this.gameData;
+    }
+
+    public void setCurrentPlayerID(int currentPlayerID) {
+        this.currentPlayerID = currentPlayerID;
     }
 }

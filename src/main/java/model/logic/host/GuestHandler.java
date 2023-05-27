@@ -52,7 +52,7 @@ public class GuestHandler implements ClientHandler {
                     }
                     guestHandlerList.get(this).add(inFromClient);
                     guestHandlerList.get(this).add(out);
-                    System.out.println("Client connected successfully");
+                    System.out.println("Client connected successfully!");
                 }
 
                 case "test" -> {
