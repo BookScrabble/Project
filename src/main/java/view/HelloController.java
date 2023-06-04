@@ -36,6 +36,7 @@ public class HelloController {
         Parent root = FXMLLoader.load(getClass().getResource("Tutorial.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("Tutorial.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
@@ -45,6 +46,7 @@ public class HelloController {
         Parent root = FXMLLoader.load(getClass().getResource("StartGame.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("StartGame.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
@@ -55,6 +57,7 @@ public class HelloController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        scene.getStylesheets().add(getClass().getResource("HostPage.css").toExternalForm());
         stage.show();
     }
 
@@ -64,6 +67,7 @@ public class HelloController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        scene.getStylesheets().add(getClass().getResource("GuestPage.css").toExternalForm());
         stage.show();
     }
 

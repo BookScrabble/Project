@@ -1,4 +1,4 @@
-Button{
+Button {
     -fx-background-color: transparent;
     -fx-text-fill: black;
     -fx-font-size: 20px;
@@ -8,8 +8,7 @@ Button{
     -fx-border-width: 2px;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
-    -fx-padding: 10px;
-    -fx-pref-width: 200px;
+    -fx-pref-width: 100px;
     -fx-pref-height: 50px;
     -fx-alignment: center;
 }
