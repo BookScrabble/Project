@@ -22,8 +22,8 @@
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Label>
-      <Button layoutX="206.0" layoutY="296.0" mnemonicParsing="false" onAction="#StartBoard" text="Start" />
-      <TextField layoutX="335.0" layoutY="64.0">
+      <Button layoutX="206.0" layoutY="296.0" mnemonicParsing="false" onAction="#StartAsGuest" text="Start" />
+      <TextField fx:id="nameField" layoutX="335.0" layoutY="64.0">
          <effect>
             <BoxBlur height="0.3" iterations="0" width="2.0">
                <input>
@@ -32,7 +32,7 @@
             </BoxBlur>
          </effect>
       </TextField>
-      <TextField layoutX="335.0" layoutY="131.0">
+      <TextField fx:id="portField" layoutX="335.0" layoutY="131.0">
          <effect>
             <BoxBlur height="0.3" iterations="0" width="2.0">
                <input>
@@ -41,7 +41,7 @@
             </BoxBlur>
          </effect>
       </TextField>
-      <TextField layoutX="335.0" layoutY="207.0">
+      <TextField fx:id="ipField" layoutX="335.0" layoutY="207.0">
          <effect>
             <BoxBlur height="0.3" iterations="0" width="2.0">
                <input>
@@ -50,5 +50,8 @@
             </BoxBlur>
          </effect>
       </TextField>
+      <Label fx:id="nameLabelError" layoutX="317.0" layoutY="40.0" text="Name can only contain alphabetic" textFill="RED" visible="false" />
+      <Label fx:id="portLabelError" layoutX="303.0" layoutY="108.0" text="Port can only be between 10000-20000" textFill="RED" visible="false" />
+      <Label fx:id="ipLabelError" layoutX="311.0" layoutY="183.0" text="IP format should be xxx.yyy.zzz.www" textFill="RED" visible="false" />
    </children>
 </AnchorPane>
