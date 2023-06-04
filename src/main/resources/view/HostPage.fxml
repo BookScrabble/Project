@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.HelloController">
+   <children>
+      <TextField fx:id="nameField" layoutX="282.0" layoutY="130.0" />
+      <TextField fx:id="portField" layoutX="282.0" layoutY="188.0" />
+      <Label fx:id="nameLabel" layoutX="184.0" layoutY="134.0" text="Enter your name" />
+      <Label fx:id="portLabel" layoutX="178.0" layoutY="192.0" text="Enter server Port" />
+      <Button layoutX="266.0" layoutY="272.0" mnemonicParsing="false" onAction="#setNameLabel" text="Save Fields" />
+      <Button layoutX="357.0" layoutY="272.0" mnemonicParsing="false" onAction="#StartBoard" text="Start" />
+   </children>
+</AnchorPane>
