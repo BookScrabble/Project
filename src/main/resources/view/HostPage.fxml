@@ -18,16 +18,15 @@
                </input>
             </BoxBlur>
          </effect></TextField>
-      <Label fx:id="nameLabel" layoutX="132.0" layoutY="100.0" text="Enter your name">
+      <Label layoutX="132.0" layoutY="100.0" text="Enter your name">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Label>
-      <Label fx:id="portLabel" layoutX="131.0" layoutY="175.0" text="Enter server Port">
+      <Label layoutX="131.0" layoutY="175.0" text="Enter server Port">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Label>
-      <Button layoutX="103.0" layoutY="272.0" mnemonicParsing="false" onAction="#setNameLabel" text="Save Fields" />
-      <Button layoutX="381.0" layoutY="272.0" mnemonicParsing="false" onAction="#StartBoard" prefHeight="25.0" prefWidth="62.0" text="Start" />
+      <Button layoutX="381.0" layoutY="272.0" mnemonicParsing="false" onAction="#StartAsHost" prefHeight="25.0" prefWidth="62.0" text="Start" />
       <TextField fx:id="portField" layoutX="263.0" layoutY="172.0">
          <effect>
             <BoxBlur height="0.3" iterations="0" width="2.0">
@@ -37,5 +36,7 @@
             </BoxBlur>
          </effect>
       </TextField>
+      <Label fx:id="nameLabelError" layoutX="247.0" layoutY="74.0" text="Name can only contain Alphabetic" textFill="RED" visible="false" />
+      <Label fx:id="portLabelError" layoutX="234.0" layoutY="149.0" text="Port can only be between 10000-20000" textFill="RED" visible="false" />
    </children>
 </AnchorPane>
