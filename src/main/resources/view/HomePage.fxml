@@ -7,6 +7,6 @@
    <children>
       <Button layoutX="201.0" layoutY="130.0" mnemonicParsing="false" onAction="#StartGame" text="Start" />
       <Button layoutX="264.0" layoutY="188.0" mnemonicParsing="false" onAction="#StartTutorial" text="Tutorial" />
-      <Button layoutX="363.0" layoutY="252.0" mnemonicParsing="false" text="Exit" />
+      <Button layoutX="363.0" layoutY="252.0" mnemonicParsing="false" onAction="#Exit" text="Exit" />
    </children>
 </AnchorPane>
