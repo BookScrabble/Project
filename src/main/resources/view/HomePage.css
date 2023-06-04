@@ -1,10 +1,17 @@
+.root {
+    -fx-background-image: url("../images/homePage.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 1000 550;
+    -fx-background-position: center center;
+}
+
 Button{
     -fx-background-color: transparent;
-    -fx-text-fill: black;
+    -fx-text-fill: white;
     -fx-font-size: 20px;
     -fx-font-family: "Arial";
     -fx-font-weight: bold;
-    -fx-border-color: black;
+    -fx-border-color: white;
     -fx-border-width: 2px;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
@@ -12,8 +19,4 @@ Button{
     -fx-pref-width: 200px;
     -fx-pref-height: 50px;
     -fx-alignment: center;
-}
-
-Button:hover{
-    -fx-background-color: #ccc;
 }
