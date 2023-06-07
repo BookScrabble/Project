@@ -50,4 +50,8 @@ public class Player {
         this.tiles = tiles;
     }
 
+    public void addTile(Tile tile){
+        this.tiles.add(tile);
+    }
+
 }

@@ -199,10 +199,7 @@ public class Board {
 
         // If the board isn't empty, the word must be in bounds and have an adjacent or overlapping tile.
         // We must also check that there is no need to change any tiles.
-        if (wordIsInBounds(word) && wordHasAdjacentOrOverlappingTile(word) && noChangeOfTilesNeeded(word))
-            return true;
-
-        return false;
+        return wordIsInBounds(word) && wordHasAdjacentOrOverlappingTile(word) && noChangeOfTilesNeeded(word);
     }
 
     /**
