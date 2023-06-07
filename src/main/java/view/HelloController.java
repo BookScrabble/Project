@@ -10,6 +10,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -113,7 +116,12 @@ public class HelloController {
     public void loadScene(ActionEvent event, String sceneName) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(sceneName + ".fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
+        Scene scene = null;
+        if(Objects.equals(sceneName, "BoardPage")){
+            scene = new Scene(root,1400,1000);
+        } else{
+            scene = new Scene(root);
+        }
         try {
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(sceneName + ".css")).toExternalForm());
         } catch (NullPointerException ignored){}
