@@ -5,7 +5,6 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -562,7 +561,7 @@
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Label>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="1020.0" layoutY="724.0" mnemonicParsing="false" styleClass="Button" text="Resign">
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="1020.0" layoutY="724.0" mnemonicParsing="false" onAction="#Resign" styleClass="Button" text="Resign">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
@@ -570,7 +569,7 @@
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Button>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="873.0" layoutY="724.0" mnemonicParsing="false" styleClass="Button" text="Skip Turn">
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="873.0" layoutY="724.0" mnemonicParsing="false" onAction="#SkipTurn" styleClass="Button" text="Skip Turn">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
@@ -578,7 +577,7 @@
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Button>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="733.0" layoutY="724.0" mnemonicParsing="false" styleClass="Button" text="Sort Tiles">
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="733.0" layoutY="724.0" mnemonicParsing="false" onAction="#SortTiles" styleClass="Button" text="Sort Tiles">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
@@ -586,7 +585,7 @@
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Button>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="300.0" layoutY="724.0" mnemonicParsing="false" styleClass="Button" text="Submit">
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="300.0" layoutY="724.0" mnemonicParsing="false" onAction="#Submit" styleClass="Button" text="Submit">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
@@ -594,7 +593,7 @@
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Button>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="424.0" layoutY="724.0" mnemonicParsing="false" styleClass="Button" text="Challenge">
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="424.0" layoutY="724.0" mnemonicParsing="false" onAction="#Challenge" styleClass="Button" text="Challenge">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
@@ -602,7 +601,7 @@
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Button>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="578.0" layoutY="724.0" mnemonicParsing="false" styleClass="Button" text="Swap Tiles">
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="578.0" layoutY="724.0" mnemonicParsing="false" onAction="#SwapTiles" styleClass="Button" text="Swap Tiles">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>

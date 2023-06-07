@@ -32,11 +32,30 @@ public class HelloController {
     private TextField ipField;
 
     @FXML
-    private void handleCellClick(MouseEvent event) {
-        TextField textField = (TextField) event.getSource();
-        textField.setEditable(true);
-        textField.requestFocus();
+    public void Submit(ActionEvent event) throws IOException{
+        System.out.println("Submit");
     }
+    @FXML
+    public void Challenge(ActionEvent event) throws IOException{
+        System.out.println("Challenge");
+    }
+    @FXML
+    public void SwapTiles(ActionEvent event) throws IOException{
+        System.out.println("SwapTiles");
+    }
+    @FXML
+    public void SortTiles(ActionEvent event) throws IOException{
+        System.out.println("Sort");
+    }
+    @FXML
+    public void SkipTurn(ActionEvent event) throws IOException{
+        System.out.println("SkipTurn");
+    }
+    @FXML
+    public void Resign(ActionEvent event) throws IOException{
+        System.out.println("Resign");
+    }
+
 
     @FXML
     public void StartTutorial(ActionEvent event) throws IOException{
