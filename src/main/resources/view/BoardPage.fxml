@@ -4,6 +4,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
@@ -508,5 +510,33 @@
             </children>
          </StackPane>
       </GridPane>
+      <HBox layoutX="14.0" layoutY="106.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
+         <children>
+            <Label styleClass="PlayerCardText" text="Player 1: Test" />
+            <Region HBox.hgrow="SOMETIMES" />
+            <Label styleClass="PlayerCardText" text="Score: 0" />
+         </children>
+      </HBox>
+      <HBox layoutX="14.0" layoutY="141.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
+         <children>
+            <Label styleClass="PlayerCardText" text="Player 2: Test" />
+            <Region HBox.hgrow="SOMETIMES" />
+            <Label styleClass="PlayerCardText" text="Score: 0" />
+         </children>
+      </HBox>
+      <HBox layoutX="14.0" layoutY="176.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
+         <children>
+            <Label styleClass="PlayerCardText" text="Player 3: Test" />
+            <Region HBox.hgrow="SOMETIMES" />
+            <Label styleClass="PlayerCardText" text="Score: 0" />
+         </children>
+      </HBox>
+      <HBox layoutX="14.0" layoutY="211.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
+         <children>
+            <Label styleClass="PlayerCardText" text="Player 4: Test" />
+            <Region HBox.hgrow="SOMETIMES" />
+            <Label styleClass="PlayerCardText" text="Score: 0" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

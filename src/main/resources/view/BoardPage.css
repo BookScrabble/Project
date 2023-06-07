@@ -27,3 +27,9 @@
     -fx-font-size: 16px;
     -fx-text-fill: white;
 }
+
+.PlayerCard{
+    -fx-font-size: 16px;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
