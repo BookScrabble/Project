@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -8,13 +12,14 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="1000.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.HelloController">
    <children>
       <Label layoutX="635.0" layoutY="14.0" text="Board Page">
          <font>
-            <Font name="System Bold" size="24.0" />
+            <Font name="System Bold Italic" size="24.0" />
          </font>
       </Label>
       <GridPane gridLinesVisible="true" layoutX="279.0" layoutY="62.0" prefHeight="624.0" prefWidth="843.0" scaleShape="false">
@@ -510,33 +515,186 @@
             </children>
          </StackPane>
       </GridPane>
-      <HBox layoutX="14.0" layoutY="106.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
+      <HBox layoutX="14.0" layoutY="104.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
          <children>
             <Label styleClass="PlayerCardText" text="Player 1: Test" />
             <Region HBox.hgrow="SOMETIMES" />
             <Label styleClass="PlayerCardText" text="Score: 0" />
          </children>
+         <padding>
+            <Insets left="5.0" right="5.0" />
+         </padding>
       </HBox>
-      <HBox layoutX="14.0" layoutY="141.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
+      <HBox layoutX="14.0" layoutY="148.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
          <children>
             <Label styleClass="PlayerCardText" text="Player 2: Test" />
             <Region HBox.hgrow="SOMETIMES" />
             <Label styleClass="PlayerCardText" text="Score: 0" />
          </children>
+         <padding>
+            <Insets left="5.0" right="5.0" />
+         </padding>
       </HBox>
-      <HBox layoutX="14.0" layoutY="176.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
+      <HBox layoutX="14.0" layoutY="191.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
          <children>
             <Label styleClass="PlayerCardText" text="Player 3: Test" />
             <Region HBox.hgrow="SOMETIMES" />
             <Label styleClass="PlayerCardText" text="Score: 0" />
          </children>
+         <padding>
+            <Insets left="5.0" right="5.0" />
+         </padding>
       </HBox>
-      <HBox layoutX="14.0" layoutY="211.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
+      <HBox layoutX="14.0" layoutY="234.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
          <children>
             <Label styleClass="PlayerCardText" text="Player 4: Test" />
             <Region HBox.hgrow="SOMETIMES" />
             <Label styleClass="PlayerCardText" text="Score: 0" />
          </children>
+         <padding>
+            <Insets left="5.0" right="5.0" />
+         </padding>
       </HBox>
+      <Label layoutX="96.0" layoutY="54.0" text="Players">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+      </Label>
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="1020.0" layoutY="724.0" mnemonicParsing="false" styleClass="Button" text="Resign">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </Button>
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="873.0" layoutY="724.0" mnemonicParsing="false" styleClass="Button" text="Skip Turn">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </Button>
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="733.0" layoutY="724.0" mnemonicParsing="false" styleClass="Button" text="Sort Tiles">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </Button>
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="300.0" layoutY="724.0" mnemonicParsing="false" styleClass="Button" text="Submit">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </Button>
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="424.0" layoutY="724.0" mnemonicParsing="false" styleClass="Button" text="Challenge">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </Button>
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="578.0" layoutY="724.0" mnemonicParsing="false" styleClass="Button" text="Swap Tiles">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </Button>
+      <VBox layoutX="292.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
+         <children>
+            <Label styleClass="TileText" text="Tile">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <Label styleClass="TileScore" text="Score" textAlignment="RIGHT">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="427.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
+         <children>
+            <Label styleClass="TileText" text="Tile">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <Label styleClass="TileScore" text="Score" textAlignment="RIGHT">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="578.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
+         <children>
+            <Label styleClass="TileText" text="Tile">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <Label styleClass="TileScore" text="Score" textAlignment="RIGHT">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="733.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
+         <children>
+            <Label styleClass="TileText" text="Tile">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <Label styleClass="TileScore" text="Score" textAlignment="RIGHT">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="874.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
+         <children>
+            <Label styleClass="TileText" text="Tile">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <Label styleClass="TileScore" text="Score" textAlignment="RIGHT">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="1011.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
+         <children>
+            <Label styleClass="TileText" text="Tile">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <Label styleClass="TileScore" text="Score">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <Button layoutX="1170.0" layoutY="56.0" mnemonicParsing="false" onAction="#Exit" prefWidth="131.0" styleClass="ExitButton" text="Exit" />
    </children>
+   <stylesheets>
+      <URL value="@BoardPage.css" />
+   </stylesheets>
 </AnchorPane>

@@ -1,7 +1,6 @@
 package view;
 
 import javafx.application.Platform;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,9 +9,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -98,6 +94,11 @@ public class HelloController {
     }
 
     @FXML
+    public void loadHomePage(ActionEvent event) throws IOException{
+        loadScene(event, "HomePage");
+    }
+
+    @FXML
     public void loadGuestForm(ActionEvent event) throws IOException{
         loadScene(event, "GuestPage");
     }
@@ -110,6 +111,16 @@ public class HelloController {
     @FXML
     public void Exit(ActionEvent event) throws IOException{
         Platform.exit();
+    }
+
+    @FXML
+    public void Back(ActionEvent event) throws IOException{
+        StartGame(event);
+    }
+
+    @FXML
+    public void BackToHomePage(ActionEvent event) throws IOException{
+        loadHomePage(event);
     }
 
     @FXML
