@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class TurnManager {
-
     private int currentPlayerTurn;
     private List<Integer> playersTurn;
 
@@ -23,6 +22,16 @@ public class TurnManager {
         currentPlayerTurn = 0;
     }
 
+    public void nextTurn(){
+        this.currentPlayerTurn = (this.currentPlayerTurn+1)%4;
+    }
 
+    public int getCurrentPlayerTurn(){
+        return this.currentPlayerTurn;
+    }
+
+    public List<Integer> getPlayersTurn(){
+        return this.playersTurn;
+    }
 
 }

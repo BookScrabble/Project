@@ -31,7 +31,7 @@ public class GameManager implements GameHandler {
         gameData = new GameData();
         host.start();
         currentPlayerID = 1;
-        initializeTurnManager();
+        turnManager = null;
     }
 
     /**
@@ -48,7 +48,7 @@ public class GameManager implements GameHandler {
     /**
      * @details Randomize 1 tile for each connected players and initialize turnManager Class to manage turns.
      */
-    private void initializeTurnManager(){
+    public void initializeTurnManager(){
         for(Player player : gameData.getAllPlayers().values()) addTile(player);
         turnManager = new TurnManager(gameData.getAllPlayers());
     }
@@ -58,6 +58,9 @@ public class GameManager implements GameHandler {
     }
 
     public void startGame() {
+        if(turnManager == null){
+            initializeTurnManager();
+        }
         this.host.startGame();
     }
 
@@ -220,5 +223,9 @@ public class GameManager implements GameHandler {
 
     public void setCurrentPlayerID(int currentPlayerID) {
         this.currentPlayerID = currentPlayerID;
+    }
+
+    public TurnManager getTurnManager(){
+        return this.turnManager;
     }
 }
