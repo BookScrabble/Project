@@ -16,4 +16,5 @@ Button{
 
 Button:hover{
     -fx-background-color: #ccc;
+    -fx-cursor: hand;
 }

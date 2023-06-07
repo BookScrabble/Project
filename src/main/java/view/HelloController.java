@@ -1,6 +1,8 @@
 package view;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -28,6 +31,30 @@ public class HelloController {
     @FXML
     private TextField ipField;
 
+    @FXML
+    public void Submit(ActionEvent event) throws IOException{
+        System.out.println("Submit");
+    }
+    @FXML
+    public void Challenge(ActionEvent event) throws IOException{
+        System.out.println("Challenge");
+    }
+    @FXML
+    public void SwapTiles(ActionEvent event) throws IOException{
+        System.out.println("SwapTiles");
+    }
+    @FXML
+    public void SortTiles(ActionEvent event) throws IOException{
+        System.out.println("Sort");
+    }
+    @FXML
+    public void SkipTurn(ActionEvent event) throws IOException{
+        System.out.println("SkipTurn");
+    }
+    @FXML
+    public void Resign(ActionEvent event) throws IOException{
+        System.out.println("Resign");
+    }
 
 
     @FXML
@@ -94,6 +121,11 @@ public class HelloController {
     }
 
     @FXML
+    public void loadHomePage(ActionEvent event) throws IOException{
+        loadScene(event, "HomePage");
+    }
+
+    @FXML
     public void loadGuestForm(ActionEvent event) throws IOException{
         loadScene(event, "GuestPage");
     }
@@ -109,10 +141,25 @@ public class HelloController {
     }
 
     @FXML
+    public void Back(ActionEvent event) throws IOException{
+        StartGame(event);
+    }
+
+    @FXML
+    public void BackToHomePage(ActionEvent event) throws IOException{
+        loadHomePage(event);
+    }
+
+    @FXML
     public void loadScene(ActionEvent event, String sceneName) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(sceneName + ".fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
+        Scene scene = null;
+        if(Objects.equals(sceneName, "BoardPage")){
+            scene = new Scene(root,1400,1000);
+        } else{
+            scene = new Scene(root);
+        }
         try {
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(sceneName + ".css")).toExternalForm());
         } catch (NullPointerException ignored){}
