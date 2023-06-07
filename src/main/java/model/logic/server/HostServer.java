@@ -4,7 +4,6 @@ import model.logic.client.ClientHandler;
 import model.logic.host.GameManager;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -37,13 +36,14 @@ public class HostServer extends MyServer {
     }
 
     public void connectClients() {
-        while (!gameIsRunning && clients.size() < 4) {
+        while (!gameIsRunning) {
             try {
                 Socket aClient = server.accept();
                 Scanner inFromClient = new Scanner(aClient.getInputStream());
                 String playerName = inFromClient.next();
                 clients.put(clients.size() + 1, aClient);
                 GameManager.get().addPlayer(playerName);
+                System.out.println("Player " + playerName + " Connected Successfully!");
             }catch (SocketTimeoutException ignored) {}
             catch (IOException e) {
                 e.printStackTrace();
@@ -69,26 +69,6 @@ public class HostServer extends MyServer {
                 }
             }).start();
         }
-//        while (!stop){
-//            for (Socket aClient: clients.values()) {
-//                try{
-//                    Thread.sleep(45000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                long startTime = System.currentTimeMillis();
-//            }
-//        }
-        //45sec -> Set False
-        //Socket -> 45sec (playTurn)
-        //Set True
-        //new Thread -> clientHandler.handleClient(Socket.getIn(),Socket.getOut());
-        //Set False
-        //"Submit"
-        //"0"
-        //"Challenge"
-        //Loop
-        //Handle clients..
     }
 
     //TODO - Implement method

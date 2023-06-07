@@ -10,6 +10,7 @@ public class GuestHandler implements ClientHandler {
 
     @Override
     public void handleClient(InputStream in, OutputStream out) {
+        //Int current = 0
         GameManager gm = GameManager.get();
         BufferedReader inFromClient = new BufferedReader(new InputStreamReader(in));
         PrintWriter outToClient = new PrintWriter(new OutputStreamWriter(out), true);

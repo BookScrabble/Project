@@ -22,6 +22,7 @@ public class GameManager implements GameHandler {
     int currentPlayerID;
     String calculationServerIp;
     int calculationServerPort;
+    private TurnManager turnManager;
 
     private GameManager(int port) {
         host = new HostServer(port, new GuestHandler());
@@ -30,6 +31,7 @@ public class GameManager implements GameHandler {
         gameData = new GameData();
         host.start();
         currentPlayerID = 1;
+        turnManager = null;
     }
 
     /**
@@ -43,11 +45,22 @@ public class GameManager implements GameHandler {
         return single_instance;
     }
 
+    /**
+     * @details Randomize 1 tile for each connected players and initialize turnManager Class to manage turns.
+     */
+    public void initializeTurnManager(){
+        for(Player player : gameData.getAllPlayers().values()) addTile(player);
+        turnManager = new TurnManager(gameData.getAllPlayers());
+    }
+
     public boolean isGameRunning() {
         return host.isGameRunning();
     }
 
     public void startGame() {
+        if(turnManager == null){
+            initializeTurnManager();
+        }
         this.host.startGame();
     }
 
@@ -62,6 +75,14 @@ public class GameManager implements GameHandler {
         while(gameData.getPlayer(currentPlayerID).getAllTiles().size() < 7){
             gameData.getPlayer(currentPlayerID).getAllTiles().add(Tile.Bag.getBag().getRand());
         }
+    }
+
+    /**
+     * @details Adds random tile to player.
+     * @param player - given player to add tile to.
+     */
+    private void addTile(Player player){
+        if(player.getAllTiles().size() < 7) player.addTile(gameData.getBag().getRand());
     }
 
     /**
@@ -202,5 +223,9 @@ public class GameManager implements GameHandler {
 
     public void setCurrentPlayerID(int currentPlayerID) {
         this.currentPlayerID = currentPlayerID;
+    }
+
+    public TurnManager getTurnManager(){
+        return this.turnManager;
     }
 }
