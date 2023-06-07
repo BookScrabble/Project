@@ -1,15 +1,7 @@
-/*.root {*/
-/*    -fx-background-image: url("../images/board.png");*/
-/*    -fx-background-repeat: no-repeat;*/
-/*    -fx-background-size: 900 600;*/
-/*    -fx-background-position: center center;*/
-/*}*/
-
 .center-cell {
-    -fx-background-color: yellow; /* Replace with your desired background color */
-    -fx-font-size: 16px; /* Customize the font size */
-    -fx-text-fill: white; /* Customize the text color */
-    /* Add any additional styles for the center cell */
+    -fx-background-color: yellow;
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
 }
 
 .TripleWord-cell{
