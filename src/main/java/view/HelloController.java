@@ -1,8 +1,6 @@
 package view;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +9,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
+
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -30,10 +30,26 @@ public class HelloController {
     private Label ipLabelError;
     @FXML
     private TextField ipField;
+    @FXML
+    private GridPane boardGridPane;
+
+
+    public void squareClickHandler(){
+        // run all over the boardGridPane and add a click handler to each square
+        for(int i = 0; i < boardGridPane.getChildren().size(); i++){
+            for(int j = 0; j < boardGridPane.getChildren().size(); j++){
+                boardGridPane.getChildren().get(i).setOnMouseClicked(event -> {
+                    ((Label)((StackPane)event.getSource()).getChildren().get(0)).setText("x");
+                });
+            }
+        }
+
+    }
 
     @FXML
     public void Submit(ActionEvent event) throws IOException{
         System.out.println("Submit");
+        squareClickHandler();
     }
     @FXML
     public void Challenge(ActionEvent event) throws IOException{

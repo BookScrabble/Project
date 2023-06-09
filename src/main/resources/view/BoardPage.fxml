@@ -22,7 +22,185 @@
             <Font name="System Bold Italic" size="24.0" />
          </font>
       </Label>
-      <GridPane gridLinesVisible="true" layoutX="279.0" layoutY="62.0" prefHeight="624.0" prefWidth="843.0" scaleShape="false">
+      <HBox layoutX="14.0" layoutY="104.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
+         <children>
+            <Label styleClass="PlayerCardText" text="Player 1: Test" />
+            <Region HBox.hgrow="SOMETIMES" />
+            <Label styleClass="PlayerCardText" text="Score: 0" />
+         </children>
+         <padding>
+            <Insets left="5.0" right="5.0" />
+         </padding>
+      </HBox>
+      <HBox layoutX="14.0" layoutY="148.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
+         <children>
+            <Label styleClass="PlayerCardText" text="Player 2: Test" />
+            <Region HBox.hgrow="SOMETIMES" />
+            <Label styleClass="PlayerCardText" text="Score: 0" />
+         </children>
+         <padding>
+            <Insets left="5.0" right="5.0" />
+         </padding>
+      </HBox>
+      <HBox layoutX="14.0" layoutY="191.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
+         <children>
+            <Label styleClass="PlayerCardText" text="Player 3: Test" />
+            <Region HBox.hgrow="SOMETIMES" />
+            <Label styleClass="PlayerCardText" text="Score: 0" />
+         </children>
+         <padding>
+            <Insets left="5.0" right="5.0" />
+         </padding>
+      </HBox>
+      <HBox layoutX="14.0" layoutY="234.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
+         <children>
+            <Label styleClass="PlayerCardText" text="Player 4: Test" />
+            <Region HBox.hgrow="SOMETIMES" />
+            <Label styleClass="PlayerCardText" text="Score: 0" />
+         </children>
+         <padding>
+            <Insets left="5.0" right="5.0" />
+         </padding>
+      </HBox>
+      <Label layoutX="96.0" layoutY="54.0" text="Players">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+      </Label>
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="1020.0" layoutY="724.0" mnemonicParsing="false" onAction="#Resign" styleClass="Button" text="Resign">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </Button>
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="873.0" layoutY="724.0" mnemonicParsing="false" onAction="#SkipTurn" styleClass="Button" text="Skip Turn">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </Button>
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="733.0" layoutY="724.0" mnemonicParsing="false" onAction="#SortTiles" styleClass="Button" text="Sort Tiles">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </Button>
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="300.0" layoutY="724.0" mnemonicParsing="false" onAction="#Submit" styleClass="Button" text="Submit">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </Button>
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="424.0" layoutY="724.0" mnemonicParsing="false" onAction="#Challenge" styleClass="Button" text="Challenge">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </Button>
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="578.0" layoutY="724.0" mnemonicParsing="false" onAction="#SwapTiles" styleClass="Button" text="Swap Tiles">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </Button>
+      <VBox layoutX="292.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
+         <children>
+            <Label styleClass="TileText" text="Tile">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <Label styleClass="TileScore" text="Score" textAlignment="RIGHT">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="427.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
+         <children>
+            <Label styleClass="TileText" text="Tile">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <Label styleClass="TileScore" text="Score" textAlignment="RIGHT">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="578.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
+         <children>
+            <Label styleClass="TileText" text="Tile">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <Label styleClass="TileScore" text="Score" textAlignment="RIGHT">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="733.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
+         <children>
+            <Label styleClass="TileText" text="Tile">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <Label styleClass="TileScore" text="Score" textAlignment="RIGHT">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="874.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
+         <children>
+            <Label styleClass="TileText" text="Tile">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <Label styleClass="TileScore" text="Score" textAlignment="RIGHT">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="1011.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
+         <children>
+            <Label styleClass="TileText" text="Tile">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <Label styleClass="TileScore" text="Score">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <Button layoutX="1170.0" layoutY="56.0" mnemonicParsing="false" onAction="#Exit" prefWidth="131.0" styleClass="ExitButton" text="Exit" />
+      <GridPane fx:id="boardGridPane" gridLinesVisible="true" layoutX="279.0" layoutY="81.0" onMouseClicked="#squareClickHandler" prefHeight="624.0" prefWidth="843.0" scaleShape="false">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="5.0" prefWidth="5.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="5.0" prefWidth="5.0" />
@@ -40,7 +218,7 @@
             <ColumnConstraints hgrow="SOMETIMES" minWidth="5.0" prefWidth="5.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="5.0" prefWidth="5.0" />
 
-         </columnConstraints>
+               </columnConstraints>
          <rowConstraints>
             <RowConstraints minHeight="5.0" prefHeight="5.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="5.0" prefHeight="5.0" vgrow="SOMETIMES" />
@@ -515,185 +693,1592 @@
                </Label>
             </children>
          </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="1" GridPane.rowIndex="0">
+            <children>
+               <Label styleClass="Normal-cell-text" textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="2" GridPane.rowIndex="0">
+            <children>
+               <Label styleClass="Normal-cell-text" textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="4" GridPane.rowIndex="0">
+            <children>
+               <Label styleClass="Normal-cell-text" textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="5" GridPane.rowIndex="0">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="6" GridPane.rowIndex="0">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="8" GridPane.rowIndex="0">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="9" GridPane.rowIndex="0">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="10" GridPane.rowIndex="0">
+            <children>
+               <Label styleClass="Normal-cell-text" textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="12" GridPane.rowIndex="0">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="13" GridPane.rowIndex="0">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="0" GridPane.rowIndex="1">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="4" GridPane.rowIndex="1">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="5" GridPane.rowIndex="1">
+            <children>
+               <Label styleClass="Normal-cell-text" textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="6" GridPane.rowIndex="1">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="7" GridPane.rowIndex="1">
+            <children>
+               <Label styleClass="Normal-cell-text" textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="8" GridPane.rowIndex="1">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="9" GridPane.rowIndex="1">
+            <children>
+               <Label styleClass="Normal-cell-text" textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="10" GridPane.rowIndex="1">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="11" GridPane.rowIndex="1">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="12" GridPane.rowIndex="1">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="14" GridPane.rowIndex="1">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="0" GridPane.rowIndex="2">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="3" GridPane.rowIndex="2">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="4" GridPane.rowIndex="2">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="5" GridPane.rowIndex="2">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="6" GridPane.rowIndex="2">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="7" GridPane.rowIndex="2">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="8" GridPane.rowIndex="2">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="9" GridPane.rowIndex="2">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="10" GridPane.rowIndex="2">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="11" GridPane.rowIndex="2">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="13" GridPane.rowIndex="2">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="14" GridPane.rowIndex="2">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="4" GridPane.rowIndex="3">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="5" GridPane.rowIndex="3">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="6" GridPane.rowIndex="3">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="7" GridPane.rowIndex="3">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="8" GridPane.rowIndex="3">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="9" GridPane.rowIndex="3">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="10" GridPane.rowIndex="3">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="12" GridPane.rowIndex="3">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="13" GridPane.rowIndex="3">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="0" GridPane.rowIndex="4">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="3" GridPane.rowIndex="4">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="5" GridPane.rowIndex="4">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="6" GridPane.rowIndex="4">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="7" GridPane.rowIndex="4">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="8" GridPane.rowIndex="4">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="9" GridPane.rowIndex="4">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="11" GridPane.rowIndex="4">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="12" GridPane.rowIndex="4">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="13" GridPane.rowIndex="4">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="14" GridPane.rowIndex="4">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="0" GridPane.rowIndex="5">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="2" GridPane.rowIndex="5">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="3" GridPane.rowIndex="5">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="4" GridPane.rowIndex="5">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="5" GridPane.rowIndex="5">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="6" GridPane.rowIndex="5">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="7" GridPane.rowIndex="5">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="8" GridPane.rowIndex="5">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="9" GridPane.rowIndex="5">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="10" GridPane.rowIndex="5">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="11" GridPane.rowIndex="5">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="12" GridPane.rowIndex="5">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="14" GridPane.rowIndex="5">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="0" GridPane.rowIndex="6">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="3" GridPane.rowIndex="6">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="4" GridPane.rowIndex="6">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="5" GridPane.rowIndex="6">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="7" GridPane.rowIndex="6">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="9" GridPane.rowIndex="6">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="10" GridPane.rowIndex="6">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="11" GridPane.rowIndex="6">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="13" GridPane.rowIndex="6">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="14" GridPane.rowIndex="6">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="2" GridPane.rowIndex="7">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="4" GridPane.rowIndex="7">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="5" GridPane.rowIndex="7">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="6" GridPane.rowIndex="7">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="8" GridPane.rowIndex="7">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="9" GridPane.rowIndex="7">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="10" GridPane.rowIndex="7">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="12" GridPane.rowIndex="7">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="13" GridPane.rowIndex="7">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="0" GridPane.rowIndex="8">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="1" GridPane.rowIndex="8">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="3" GridPane.rowIndex="8">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="4" GridPane.rowIndex="8">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="5" GridPane.rowIndex="8">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="7" GridPane.rowIndex="8">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="9" GridPane.rowIndex="8">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="10" GridPane.rowIndex="8">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="11" GridPane.rowIndex="8">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="13" GridPane.rowIndex="8">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="14" GridPane.rowIndex="8">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="0" GridPane.rowIndex="9">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="2" GridPane.rowIndex="9">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="3" GridPane.rowIndex="9">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="4" GridPane.rowIndex="9">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="6" GridPane.rowIndex="9">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="7" GridPane.rowIndex="9">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="8" GridPane.rowIndex="9">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="10" GridPane.rowIndex="9">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="11" GridPane.rowIndex="9">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="12" GridPane.rowIndex="9">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="14" GridPane.rowIndex="9">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="0" GridPane.rowIndex="10">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="1" GridPane.rowIndex="10">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="2" GridPane.rowIndex="10">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="3" GridPane.rowIndex="10">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="5" GridPane.rowIndex="10">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="6" GridPane.rowIndex="10">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="7" GridPane.rowIndex="10">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="8" GridPane.rowIndex="10">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="9" GridPane.rowIndex="10">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="11" GridPane.rowIndex="10">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="12" GridPane.rowIndex="10">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="13" GridPane.rowIndex="10">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="14" GridPane.rowIndex="10">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="1" GridPane.rowIndex="11">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="2" GridPane.rowIndex="11">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="4" GridPane.rowIndex="11">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="5" GridPane.rowIndex="11">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="6" GridPane.rowIndex="11">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="7" GridPane.rowIndex="11">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="8" GridPane.rowIndex="11">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="9" GridPane.rowIndex="11">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="10" GridPane.rowIndex="11">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="12" GridPane.rowIndex="11">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="13" GridPane.rowIndex="11">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="0" GridPane.rowIndex="12">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="1" GridPane.rowIndex="12">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="3" GridPane.rowIndex="12">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="4" GridPane.rowIndex="12">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="5" GridPane.rowIndex="12">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="6" GridPane.rowIndex="12">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="7" GridPane.rowIndex="12">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="8" GridPane.rowIndex="12">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="9" GridPane.rowIndex="12">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="10" GridPane.rowIndex="12">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="11" GridPane.rowIndex="12">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="13" GridPane.rowIndex="12">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="14" GridPane.rowIndex="12">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="0" GridPane.rowIndex="13">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="2" GridPane.rowIndex="13">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="3" GridPane.rowIndex="13">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="4" GridPane.rowIndex="13">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="5" GridPane.rowIndex="13">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="6" GridPane.rowIndex="13">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="7" GridPane.rowIndex="13">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="8" GridPane.rowIndex="13">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="9" GridPane.rowIndex="13">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="10" GridPane.rowIndex="13">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="11" GridPane.rowIndex="13">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="12" GridPane.rowIndex="13">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="14" GridPane.rowIndex="13">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="1" GridPane.rowIndex="14">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="2" GridPane.rowIndex="14">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="4" GridPane.rowIndex="14">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="5" GridPane.rowIndex="14">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="6" GridPane.rowIndex="14">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="8" GridPane.rowIndex="14">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="9" GridPane.rowIndex="14">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="10" GridPane.rowIndex="14">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="12" GridPane.rowIndex="14">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="13" GridPane.rowIndex="14">
+            <children>
+               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
       </GridPane>
-      <HBox layoutX="14.0" layoutY="104.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
-         <children>
-            <Label styleClass="PlayerCardText" text="Player 1: Test" />
-            <Region HBox.hgrow="SOMETIMES" />
-            <Label styleClass="PlayerCardText" text="Score: 0" />
-         </children>
-         <padding>
-            <Insets left="5.0" right="5.0" />
-         </padding>
-      </HBox>
-      <HBox layoutX="14.0" layoutY="148.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
-         <children>
-            <Label styleClass="PlayerCardText" text="Player 2: Test" />
-            <Region HBox.hgrow="SOMETIMES" />
-            <Label styleClass="PlayerCardText" text="Score: 0" />
-         </children>
-         <padding>
-            <Insets left="5.0" right="5.0" />
-         </padding>
-      </HBox>
-      <HBox layoutX="14.0" layoutY="191.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
-         <children>
-            <Label styleClass="PlayerCardText" text="Player 3: Test" />
-            <Region HBox.hgrow="SOMETIMES" />
-            <Label styleClass="PlayerCardText" text="Score: 0" />
-         </children>
-         <padding>
-            <Insets left="5.0" right="5.0" />
-         </padding>
-      </HBox>
-      <HBox layoutX="14.0" layoutY="234.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
-         <children>
-            <Label styleClass="PlayerCardText" text="Player 4: Test" />
-            <Region HBox.hgrow="SOMETIMES" />
-            <Label styleClass="PlayerCardText" text="Score: 0" />
-         </children>
-         <padding>
-            <Insets left="5.0" right="5.0" />
-         </padding>
-      </HBox>
-      <Label layoutX="96.0" layoutY="54.0" text="Players">
-         <font>
-            <Font name="System Bold Italic" size="18.0" />
-         </font>
-      </Label>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="1020.0" layoutY="724.0" mnemonicParsing="false" onAction="#Resign" styleClass="Button" text="Resign">
-         <font>
-            <Font name="System Bold Italic" size="18.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="CLOSED_HAND" />
-         </cursor>
-      </Button>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="873.0" layoutY="724.0" mnemonicParsing="false" onAction="#SkipTurn" styleClass="Button" text="Skip Turn">
-         <font>
-            <Font name="System Bold Italic" size="18.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="CLOSED_HAND" />
-         </cursor>
-      </Button>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="733.0" layoutY="724.0" mnemonicParsing="false" onAction="#SortTiles" styleClass="Button" text="Sort Tiles">
-         <font>
-            <Font name="System Bold Italic" size="18.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="CLOSED_HAND" />
-         </cursor>
-      </Button>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="300.0" layoutY="724.0" mnemonicParsing="false" onAction="#Submit" styleClass="Button" text="Submit">
-         <font>
-            <Font name="System Bold Italic" size="18.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="CLOSED_HAND" />
-         </cursor>
-      </Button>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="424.0" layoutY="724.0" mnemonicParsing="false" onAction="#Challenge" styleClass="Button" text="Challenge">
-         <font>
-            <Font name="System Bold Italic" size="18.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="CLOSED_HAND" />
-         </cursor>
-      </Button>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="578.0" layoutY="724.0" mnemonicParsing="false" onAction="#SwapTiles" styleClass="Button" text="Swap Tiles">
-         <font>
-            <Font name="System Bold Italic" size="18.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="CLOSED_HAND" />
-         </cursor>
-      </Button>
-      <VBox layoutX="292.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
-         <children>
-            <Label styleClass="TileText" text="Tile">
-               <font>
-                  <Font name="System Bold Italic" size="24.0" />
-               </font>
-            </Label>
-            <Label styleClass="TileScore" text="Score" textAlignment="RIGHT">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font>
-            </Label>
-         </children>
-      </VBox>
-      <VBox layoutX="427.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
-         <children>
-            <Label styleClass="TileText" text="Tile">
-               <font>
-                  <Font name="System Bold Italic" size="24.0" />
-               </font>
-            </Label>
-            <Label styleClass="TileScore" text="Score" textAlignment="RIGHT">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font>
-            </Label>
-         </children>
-      </VBox>
-      <VBox layoutX="578.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
-         <children>
-            <Label styleClass="TileText" text="Tile">
-               <font>
-                  <Font name="System Bold Italic" size="24.0" />
-               </font>
-            </Label>
-            <Label styleClass="TileScore" text="Score" textAlignment="RIGHT">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font>
-            </Label>
-         </children>
-      </VBox>
-      <VBox layoutX="733.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
-         <children>
-            <Label styleClass="TileText" text="Tile">
-               <font>
-                  <Font name="System Bold Italic" size="24.0" />
-               </font>
-            </Label>
-            <Label styleClass="TileScore" text="Score" textAlignment="RIGHT">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font>
-            </Label>
-         </children>
-      </VBox>
-      <VBox layoutX="874.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
-         <children>
-            <Label styleClass="TileText" text="Tile">
-               <font>
-                  <Font name="System Bold Italic" size="24.0" />
-               </font>
-            </Label>
-            <Label styleClass="TileScore" text="Score" textAlignment="RIGHT">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font>
-            </Label>
-         </children>
-      </VBox>
-      <VBox layoutX="1011.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
-         <children>
-            <Label styleClass="TileText" text="Tile">
-               <font>
-                  <Font name="System Bold Italic" size="24.0" />
-               </font>
-            </Label>
-            <Label styleClass="TileScore" text="Score">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font>
-            </Label>
-         </children>
-      </VBox>
-      <Button layoutX="1170.0" layoutY="56.0" mnemonicParsing="false" onAction="#Exit" prefWidth="131.0" styleClass="ExitButton" text="Exit" />
+
    </children>
    <stylesheets>
       <URL value="@BoardPage.css" />
