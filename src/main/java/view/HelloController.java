@@ -39,8 +39,7 @@ public class HelloController {
         for(int i = 0; i < boardGridPane.getChildren().size(); i++){
             for(int j = 0; j < boardGridPane.getChildren().size(); j++){
                 boardGridPane.getChildren().get(i).setOnMouseClicked(event -> {
-                    String text = ((Label)((StackPane)event.getSource()).getChildren().get(0)).getText();
-                    System.out.println(text);
+                    ((Label)((StackPane)event.getSource()).getChildren().get(0)).setText("x");
                 });
             }
         }
