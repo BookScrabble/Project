@@ -1,5 +1,6 @@
 package model.logic.host;
 
+import model.logic.client.Client;
 import model.logic.host.data.Tile;
 import model.logic.host.data.Word;
 import model.logic.server.HostServer;
@@ -19,10 +20,11 @@ public class GameManager implements GameHandler {
     private static GameManager single_instance = null;
     HostServer host;
     GameData gameData;
-    int currentPlayerID;
     String calculationServerIp;
     int calculationServerPort;
     private TurnManager turnManager;
+
+    private BufferedReader bf;
 
     private GameManager(int port) {
         host = new HostServer(port, new GuestHandler());
@@ -30,8 +32,12 @@ public class GameManager implements GameHandler {
         calculationServerIp = "localhost";
         gameData = new GameData();
         host.start();
-        currentPlayerID = 1;
         turnManager = null;
+    }
+
+    public BufferedReader setAndGetBufferedReader(InputStream in){
+        bf = new BufferedReader(new InputStreamReader(in));
+        return bf;
     }
 
     /**
@@ -64,16 +70,12 @@ public class GameManager implements GameHandler {
         this.host.startGame();
     }
 
-    public void stopGame() {
-        this.host.stopGame();
-    }
-
     /**
      * @details  Make sure the player always has 7 tiles
      */
     private void fillHand() {
-        while(gameData.getPlayer(currentPlayerID).getAllTiles().size() < 7){
-            gameData.getPlayer(currentPlayerID).getAllTiles().add(Tile.Bag.getBag().getRand());
+        while(gameData.getPlayer(turnManager.getCurrentPlayerTurn()).getAllTiles().size() < 7){
+            gameData.getPlayer(turnManager.getCurrentPlayerTurn()).getAllTiles().add(Tile.Bag.getBag().getRand());
         }
     }
 
@@ -109,7 +111,7 @@ public class GameManager implements GameHandler {
             boolean vertical = Boolean.parseBoolean(splitData[3]);
             Tile[] tiles = new Tile[word.length()];
 
-            Player currentPlayer = gameData.getPlayer(currentPlayerID);
+            Player currentPlayer = gameData.getPlayer(turnManager.getCurrentPlayerTurn());
             Word newWord = buildWord(currentPlayer, word, row, col, vertical);
             int score = gameData.getBoard().tryPlaceWord(newWord);
             if (score == 0) {
@@ -210,7 +212,7 @@ public class GameManager implements GameHandler {
      * @Details Skips the turn of the current player.
      */
     public void skipTurn() {
-        //TODO - We need to know which player is it.
+        turnManager.nextTurn();
     }
 
     public void sort() {
@@ -221,11 +223,16 @@ public class GameManager implements GameHandler {
         return this.gameData;
     }
 
-    public void setCurrentPlayerID(int currentPlayerID) {
-        this.currentPlayerID = currentPlayerID;
+    public int getCurrentPlayerID() {
+        return turnManager.getCurrentPlayerTurn();
     }
 
     public TurnManager getTurnManager(){
         return this.turnManager;
+    }
+
+    public void stopGame(){
+        this.turnManager.nextTurn();
+        this.host.stopGame();
     }
 }

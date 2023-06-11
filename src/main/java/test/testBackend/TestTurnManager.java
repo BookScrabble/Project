@@ -51,14 +51,25 @@ public class TestTurnManager {
         }
 
         //Start game (GameManager) and initialize turnManager:
-        //gameManager.startGame();
+        gameManager.startGame();
 
         //Check turnManager shuffle turns:
-        gameManager.initializeTurnManager();
+        //gameManager.initializeTurnManager();
         for(Player player : gameManager.getGameData().getAllPlayers().values()){
             System.out.println("Player " + player.getName() + " Got tiles: " + player.getAllTiles().get(0).score);
         }
+
         System.out.println(gameManager.getTurnManager().getPlayersTurn());
+
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        gameManager.stopGame();
+        calculationServer.close();
+
         System.out.println("Main is dead!");
     }
 }
