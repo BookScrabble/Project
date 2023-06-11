@@ -24,8 +24,6 @@ public class GameManager implements GameHandler {
     int calculationServerPort;
     private TurnManager turnManager;
 
-    private BufferedReader bf;
-
     private GameManager(int port) {
         host = new HostServer(port, new GuestHandler());
         calculationServerPort = 10000;
@@ -33,11 +31,6 @@ public class GameManager implements GameHandler {
         gameData = new GameData();
         host.start();
         turnManager = null;
-    }
-
-    public BufferedReader setAndGetBufferedReader(InputStream in){
-        bf = new BufferedReader(new InputStreamReader(in));
-        return bf;
     }
 
     /**
@@ -59,10 +52,17 @@ public class GameManager implements GameHandler {
         turnManager = new TurnManager(gameData.getAllPlayers());
     }
 
+    /**
+     * @return the game status.
+     * TODO - Remove if no use, otherwise delete TODO.
+     */
     public boolean isGameRunning() {
         return host.isGameRunning();
     }
 
+    /**
+     * @details Used to initiate the game. Initialize turnManager if needed and uses HostServer startGame method.
+     */
     public void startGame() {
         if(turnManager == null){
             initializeTurnManager();
@@ -71,7 +71,7 @@ public class GameManager implements GameHandler {
     }
 
     /**
-     * @details  Make sure the player always has 7 tiles
+     * @details Helper method for game manager to fill hand of player(maximum 7 tiles).
      */
     private void fillHand() {
         while(gameData.getPlayer(turnManager.getCurrentPlayerTurn()).getAllTiles().size() < 7){
@@ -98,7 +98,6 @@ public class GameManager implements GameHandler {
 
     /**
      * @Details Submits a word to the game.
-     *
      * @params word The word to be submitted.
      */
     public String submit(String wordData) {
@@ -135,13 +134,13 @@ public class GameManager implements GameHandler {
      */
     public void updateGuests(){
         /*
-        TODO - Implement when supporting multiple clients.
+        TODO - Implementation required
          */
     }
 
     /**
      * @Details Builds a word from the given data.
-     * @return The word.
+     * @return new word.
      */
     private Word buildWord(Player player, String word, int row, int col,boolean vertical){
         Tile[] tiles = new Tile[word.length()];
@@ -152,16 +151,15 @@ public class GameManager implements GameHandler {
     }
 
     /**
-     * @Details Challenges the last submitted word.
+     * @param word that the user believe is found within dictionary and would like to challenge for IO Search.
+     * @Details Uses helper method to communicate with Calculation server which runs the Challenge query on given word.
      */
     public String challenge(String word) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("C,").append(gameData.getDictionaries()).append(",").append(word);
-        return sendToCalculationServer(sb.toString());
+        return sendToCalculationServer("C," + gameData.getDictionaries() + "," + word);
     }
 
     /**
-     * @Details Query the last submitted word.
+     * @Details Query last player submitted word.
      */
     public String query(Word word) {
         StringBuilder sb = new StringBuilder();
@@ -198,14 +196,14 @@ public class GameManager implements GameHandler {
      * @Details Swaps tiles for a player.
      */
     public void swapTiles() {
-        //TODO - We need to know which player is it.
+        //TODO - Implementation required
     }
 
     /**
      * @Details Resigns from the game.
      */
     public void resign() {
-        //TODO - We need to know which player is it.
+        //TODO - Implementation required
     }
 
     /**
@@ -216,21 +214,31 @@ public class GameManager implements GameHandler {
     }
 
     public void sort() {
-        //TODO - We need to know which player is it.
+        //TODO - Implementation required
     }
 
     public GameData getGameData() {
         return this.gameData;
     }
 
+    /**
+     * @details Returns the ID of current players turn.
+     */
     public int getCurrentPlayerID() {
         return turnManager.getCurrentPlayerTurn();
     }
 
+    /**
+     * @details Returns the turnManager class.
+     */
     public TurnManager getTurnManager(){
         return this.turnManager;
     }
 
+    /**
+     * @details Stops current game, Skips current player turn to stop current
+     * action and calls HostServer stopGame method.
+     */
     public void stopGame(){
         this.turnManager.nextTurn();
         this.host.stopGame();
