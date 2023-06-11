@@ -23,6 +23,8 @@ public class TestGameManager {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        gameManager.initializeTurnManager();
+        gameManager.getTurnManager().setCurrentPlayerTurn(0);
         String submitResult = gameManager.submit("BELIEVE,7,7,vertical");
         System.out.println("Result of submit method: " + submitResult);
         System.out.println("Checking if addPlayer method worked Current player expected[Lior], " +
@@ -35,6 +37,12 @@ public class TestGameManager {
         //Tests between GameManager and CalculationServer:
         MyServer calculationServer = new MyServer(10000, new BookScrabbleHandler());
         calculationServer.start();
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         //Check query method:
         Tile[] tiles = new Tile[7];
@@ -74,17 +82,28 @@ public class TestGameManager {
         tilesForPlayer.add(Tile.Bag.getBag().getTile('E'));
         tilesForPlayer.add(Tile.Bag.getBag().getTile('V'));
         tilesForPlayer.add(Tile.Bag.getBag().getTile('E'));
+
         gameManager.getGameData().getPlayer(1).setTiles(tilesForPlayer);
         String submitWithTiles = gameManager.submit("BELIEVE,7,7,vertical");
         System.out.println("Result of submit method with tiles in player: " + submitWithTiles);
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         //Checking fillHand method after player placed his word.
         System.out.println("Checking tiles in player after he placed his word should be 7, Result: "
                 + gameManager.getGameData().getPlayer(1).getAllTiles().size());
 
+        gameManager.getGameData().getBoard().printBoard();
+
         //gameManager.updateGuests(); TODO - Test this method when working with Multi client(thread pool).
 
-        calculationServer.close();
         gameManager.stopGame();
+        calculationServer.close();
+
+        System.out.println("Main is dead!");
     }
 }

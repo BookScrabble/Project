@@ -9,6 +9,8 @@ public class Client {
     private Scanner inFromServer;
     private PrintWriter outToServer;
 
+    public static volatile boolean serverIsRunning = true;
+
     /**
      * Client constructor which both initialize the client parameters but also
      * opens a thread for this client to listen on.
@@ -31,7 +33,7 @@ public class Client {
     public void listenForServerUpdates() {
         new Thread(() -> {
             String msgFromServer;
-            while (server.isConnected()) {
+            while (!server.isClosed() && serverIsRunning) {
                 if(inFromServer.hasNextLine()){
                     msgFromServer = inFromServer.nextLine();
                     switch (msgFromServer) {
@@ -39,11 +41,11 @@ public class Client {
                         case "wordNotFoundInDictionary" -> wordNotFoundInDictionary();
                         case "boardPlacementIllegal" -> boardPlacementIllegal();
                         case "updateGameState" -> updateGameState();
-                        case "disconnect" -> closeEverything();
                         default -> System.out.println(msgFromServer); //TODO - Implemented for testing.
                     }
                 }
             }
+            closeEverything();
         }).start();
     }
 
@@ -69,8 +71,7 @@ public class Client {
 
     private void closeEverything() {
         try {
-            this.inFromServer.close();
-            this.outToServer.close();
+            System.out.println("Closing Client");
             this.server.close();
         }
         catch (IOException e) {

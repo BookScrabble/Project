@@ -1,16 +1,17 @@
 package model.logic.server;
 
+import model.logic.client.Client;
 import model.logic.client.ClientHandler;
 import model.logic.host.GameManager;
+import model.logic.host.GuestHandler;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class HostServer extends MyServer {
@@ -18,11 +19,28 @@ public class HostServer extends MyServer {
     private final Map<Integer, Socket> clients;
     ServerSocket server;
     private boolean gameIsRunning;
+    private Timer turnTimer;
 
     public HostServer(int port, ClientHandler clientHandler) {
         super(port, clientHandler);
         this.clients = new HashMap<>();
         this.server = null;
+    }
+
+    public class ManageTurnTask extends TimerTask{
+        @Override
+        public void run() {
+            new Thread(() -> {
+                GameManager.get().getTurnManager().nextTurn();
+                System.out.println("Current player -> " + GameManager.get().getCurrentPlayerID());
+                Socket currentPlayer = clients.get(GameManager.get().getCurrentPlayerID());
+                try {
+                    clientHandler.handleClient(currentPlayer.getInputStream(), currentPlayer.getOutputStream());
+                    this.cancel();
+                    turnTimer.scheduleAtFixedRate(new ManageTurnTask(), 1000, 5000);
+                } catch (IOException ignored) {}
+            }).start();
+        }
     }
 
     @Override
@@ -58,33 +76,32 @@ public class HostServer extends MyServer {
         if(!gameIsRunning){
             startGame();
         }
-        for (Socket aClient: clients.values()) {
-            new Thread(() -> {
-                try {
-                    clientHandler.handleClient(aClient.getInputStream(), aClient.getOutputStream());
-                    broadcastUpdate();
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }).start();
+        if(gameIsRunning){
+            turnTimer = new Timer();
+            turnTimer.scheduleAtFixedRate(new ManageTurnTask(), 1000, 5000); //TODO - Update delay and period here and in ManageTurnTask!
         }
     }
 
     //TODO - Implement method
-    private void broadcastUpdate() {
-
+    private void broadcastUpdate(String messageForPlayers) {
+        for(Socket aClient : clients.values()) {
+            try {
+                PrintWriter outToClient = new PrintWriter(aClient.getOutputStream(), true);
+                outToClient.println(messageForPlayers);
+            } catch (IOException ignored) {}
+        }
     }
 
     @Override
     public void close() {
-        this.stop = true;
-        this.clientHandler.close();
+        Client.serverIsRunning = false;
         for(Socket aClient : clients.values()) {
             try {
                 aClient.close();
             } catch (IOException ignored) {}
         }
+        clients.clear();
+        super.close();
     }
 
     public boolean isGameRunning() {
@@ -97,5 +114,8 @@ public class HostServer extends MyServer {
 
     public void stopGame() {
         this.gameIsRunning = false;
+        if(turnTimer != null) turnTimer.cancel();
+        GameManager.get().skipTurn();
+        this.close();
     }
 }

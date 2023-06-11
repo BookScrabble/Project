@@ -19,7 +19,7 @@ public class TurnManager {
                 .sorted((firstPlayerID, secondPlayerID) -> players.get(secondPlayerID)
                         .getAllTiles().get(0).score - players.get(firstPlayerID).getAllTiles().get(0).score)
                 .collect(Collectors.toCollection(ArrayList::new));
-        currentPlayerTurn = 0;
+        currentPlayerTurn = -1; //Initiated to -1 until game is starting.
     }
 
     public void nextTurn(){
@@ -27,11 +27,16 @@ public class TurnManager {
     }
 
     public int getCurrentPlayerTurn(){
-        return this.currentPlayerTurn;
+        return playersTurn.get(currentPlayerTurn);
     }
 
     public List<Integer> getPlayersTurn(){
         return this.playersTurn;
     }
+
+    public void setCurrentPlayerTurn(int newTurn){
+        this.currentPlayerTurn = newTurn;
+    }
+
 
 }
