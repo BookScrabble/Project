@@ -34,5 +34,9 @@ public class TurnManager {
         return this.playersTurn;
     }
 
+    public void setCurrentPlayerTurn(int newTurn){
+        this.currentPlayerTurn = newTurn;
+    }
+
 
 }

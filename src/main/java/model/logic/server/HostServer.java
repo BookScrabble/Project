@@ -114,7 +114,7 @@ public class HostServer extends MyServer {
 
     public void stopGame() {
         this.gameIsRunning = false;
-        turnTimer.cancel();
+        if(turnTimer != null) turnTimer.cancel();
         GameManager.get().skipTurn();
         this.close();
     }
