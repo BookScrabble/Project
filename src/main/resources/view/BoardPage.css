@@ -77,6 +77,9 @@
     -fx-background-color: #ccc;
 }
 
-.TextTest{
-
+.cell-background {
+    -fx-background-image: url("../Images/Tiles/A.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 60 50;
+    -fx-background-position: center center;
 }

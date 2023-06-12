@@ -34,17 +34,55 @@ public class HelloController {
     private GridPane boardGridPane;
 
 
-    public void squareClickHandler(){
-        // run all over the boardGridPane and add a click handler to each square
-        for(int i = 0; i < boardGridPane.getChildren().size(); i++){
-            for(int j = 0; j < boardGridPane.getChildren().size(); j++){
-                boardGridPane.getChildren().get(i).setOnMouseClicked(event -> {
-                    ((Label)((StackPane)event.getSource()).getChildren().get(0)).setText("x");
-                });
-            }
-        }
+//    public void squareClickHandler(){
+//        // run all over the boardGridPane and add a click handler to each square
+//        for(int i = 0; i < boardGridPane.getChildren().size(); i++){
+//            for(int j = 0; j < boardGridPane.getChildren().size(); j++){
+//                boardGridPane.getChildren().get(i).setOnMouseClicked(event -> {
+//                    ((Label)((StackPane)event.getSource()).getChildren().get(0)).setText("x");
+//                });
+//            }
+//        }
+//    }
 
+public void squareClickHandler() {
+    // Run through all the children of boardGridPane
+    for (Node node : boardGridPane.getChildren()) {
+        if (node instanceof StackPane) {
+            StackPane cell = (StackPane) node;
+            Label label = (Label) cell.getChildren().get(0);
+            TextField textField = new TextField();
+
+            // Add click and key event handler to each cell
+            cell.setOnMouseClicked(event -> {
+                // Show the text field to capture input
+                cell.getChildren().add(textField);
+                textField.requestFocus();
+            });
+
+            textField.setOnKeyTyped(event -> {
+                // Retrieve the typed character
+                String typedCharacter = event.getCharacter();
+
+                // Generate the image path based on the typed character
+                String imagePath = "./resources/Images/Tiles/" + typedCharacter + ".png";
+
+                // Set the background image and remove the background color
+                cell.setId("cell"); // Set an ID for the StackPane
+                cell.setStyle("-fx-background-color: transparent;"); // Remove the background color
+
+                // Update the label text
+                label.setText(typedCharacter);
+                label.setVisible(false);
+                // Remove the text field from the cell
+                cell.getChildren().remove(textField);
+
+                // Set the background image using CSS
+                cell.getStyleClass().add("cell-background");
+            });
+        }
     }
+}
 
     @FXML
     public void Submit(ActionEvent event) throws IOException{
