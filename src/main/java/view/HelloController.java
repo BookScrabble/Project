@@ -10,12 +10,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Objects;
+
+import static java.lang.Thread.sleep;
 
 public class HelloController {
     @FXML
@@ -78,7 +80,11 @@ public void squareClickHandler() {
                 cell.getChildren().remove(textField);
 
                 // Set the background image using CSS
-                cell.getStyleClass().add("cell-background");
+//                cell.getStyleClass().add("cell-background");
+
+                // Set the background image using JavaFX
+                 cell.setBackground(new Background(new BackgroundImage(new Image("C:\\Users\\אופיר\\Desktop\\Idan studies - לימודים עידן\\שנה ב\\סמסטר ב שנה ב\\פתמ 2\\Project\\src\\main\\resources\\Images\\Tiles\\"+ typedCharacter.toUpperCase()+ ".png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
             });
         }
     }
