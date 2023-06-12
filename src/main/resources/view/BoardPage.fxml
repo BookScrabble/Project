@@ -630,15 +630,6 @@
                </Label>
             </children>
          </StackPane>
-         <StackPane styleClass="TripleLetter-cell" GridPane.columnIndex="5" GridPane.rowIndex="5">
-            <children>
-               <Label styleClass="TripleLetter-cell-text" text="TL" textAlignment="CENTER">
-                  <font>
-                     <Font name="System Bold" size="11.0" />
-                  </font>
-               </Label>
-            </children>
-         </StackPane>
          <StackPane styleClass="TripleLetter-cell" GridPane.columnIndex="9" GridPane.rowIndex="5">
             <children>
                <Label styleClass="TripleLetter-cell-text" text="TL" textAlignment="CENTER">
@@ -1269,9 +1260,9 @@
                </Label>
             </children>
          </StackPane>
-         <StackPane styleClass="Normal-cell" GridPane.columnIndex="5" GridPane.rowIndex="5">
+         <StackPane styleClass="TripleLetter-cell" GridPane.columnIndex="5" GridPane.rowIndex="5">
             <children>
-               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
+               <Label styleClass="TripleLetter-cell-text" text="TL" textAlignment="CENTER">
                   <font>
                      <Font name="System Bold" size="11.0" />
                   </font>
@@ -1297,15 +1288,6 @@
             </children>
          </StackPane>
          <StackPane styleClass="Normal-cell" GridPane.columnIndex="8" GridPane.rowIndex="5">
-            <children>
-               <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
-                  <font>
-                     <Font name="System Bold" size="11.0" />
-                  </font>
-               </Label>
-            </children>
-         </StackPane>
-         <StackPane styleClass="Normal-cell" GridPane.columnIndex="9" GridPane.rowIndex="5">
             <children>
                <Label styleClass="Normal-cell-text"  textAlignment="CENTER">
                   <font>
