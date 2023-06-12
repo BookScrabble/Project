@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -65,6 +66,11 @@ public void squareClickHandler() {
             textField.setOnKeyTyped(event -> {
                 // Retrieve the typed character
                 String typedCharacter = event.getCharacter();
+                if(!typedCharacter.matches("[a-zA-Z]")){
+                    textField.setText("");
+                    new Alert(Alert.AlertType.ERROR, "Only letters are allowed").showAndWait();
+                    return;
+                }
 
                 // Generate the image path based on the typed character
                 String imagePath = "./resources/Images/Tiles/" + typedCharacter + ".png";
