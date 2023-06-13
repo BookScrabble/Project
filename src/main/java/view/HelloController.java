@@ -98,9 +98,8 @@ public void squareClickHandler() {
                     String fullPath = HelloController.class.getResource(imagePath).toExternalForm();
                     imageView.setImage(new Image(fullPath));
                     imageView.setPreserveRatio(true);
-                    double a = cell.getWidth() + 20;
-                    imageView.setFitWidth(a);
-                    imageView.setFitHeight(cell.getHeight());
+                    imageView.setFitWidth(cell.getWidth());
+                    imageView.setFitHeight(cell.getHeight()+ 3);
                     cell.getChildren().add(imageView);
 
                     // Save the word, its orientation, and the index
