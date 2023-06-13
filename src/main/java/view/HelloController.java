@@ -7,11 +7,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -34,16 +35,63 @@ public class HelloController {
     private GridPane boardGridPane;
 
 
-    public void squareClickHandler(){
-        // run all over the boardGridPane and add a click handler to each square
-        for(int i = 0; i < boardGridPane.getChildren().size(); i++){
-            for(int j = 0; j < boardGridPane.getChildren().size(); j++){
-                boardGridPane.getChildren().get(i).setOnMouseClicked(event -> {
-                    ((Label)((StackPane)event.getSource()).getChildren().get(0)).setText("x");
+//    public void squareClickHandler(){
+//        // run all over the boardGridPane and add a click handler to each square
+//        for(int i = 0; i < boardGridPane.getChildren().size(); i++){
+//            for(int j = 0; j < boardGridPane.getChildren().size(); j++){
+//                boardGridPane.getChildren().get(i).setOnMouseClicked(event -> {
+//                    ((Label)((StackPane)event.getSource()).getChildren().get(0)).setText("x");
+//                });
+//            }
+//        }
+//    }
+
+    public void squareClickHandler() {
+        // Run through all the children of boardGridPane
+        for (Node node : boardGridPane.getChildren()) {
+            if (node instanceof StackPane) {
+                StackPane cell = (StackPane) node;
+                Label label = (Label) cell.getChildren().get(0);
+                TextField textField = new TextField();
+
+                // Add click and key event handler to each cell
+                cell.setOnMouseClicked(event -> {
+                    // Show the text field to capture input
+                    cell.getChildren().add(textField);
+                    textField.requestFocus();
+                });
+
+                textField.setOnKeyTyped(event -> {
+                    // Retrieve the typed character
+                    String typedCharacter = event.getCharacter();
+                    if(!typedCharacter.matches("[a-zA-Z]")){
+                        textField.setText("");
+                        new Alert(Alert.AlertType.ERROR, "Only letters are allowed").showAndWait();
+                        return;
+                    }
+
+                    // Generate the image path based on the typed character
+                    String imagePath = "./resources/Images/Tiles/" + typedCharacter + ".png";
+
+                    // Set the background image and remove the background color
+                    cell.setId("cell"); // Set an ID for the StackPane
+                    cell.setStyle("-fx-background-color: transparent;"); // Remove the background color
+
+                    // Update the label text
+                    label.setText(typedCharacter);
+                    label.setVisible(false);
+                    // Remove the text field from the cell
+                    cell.getChildren().remove(textField);
+
+                    // Set the background image using CSS
+//                cell.getStyleClass().add("cell-background");
+
+                    // Set the background image using JavaFX
+                    cell.setBackground(new Background(new BackgroundImage(new Image("C:\\Users\\אופיר\\Desktop\\Idan studies - לימודים עידן\\שנה ב\\סמסטר ב שנה ב\\פתמ 2\\Project\\src\\main\\resources\\Images\\Tiles\\"+ typedCharacter.toUpperCase()+ ".png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
                 });
             }
         }
-
     }
 
     @FXML
