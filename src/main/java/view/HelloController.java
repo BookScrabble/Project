@@ -118,7 +118,6 @@ public void squareClickHandler() {
         int numRows = GridPane.getRowIndex(boardGridPane.getChildren().get(index));
         // Implement your saving logic here
         this.word += word;
-        System.out.println("Row: " + numRows + ", Column: " + numColumns);
         this.indexCol.add(numColumns);
         this.indexRow.add(numRows);
     }
