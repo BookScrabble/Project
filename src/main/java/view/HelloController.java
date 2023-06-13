@@ -54,45 +54,51 @@ public class HelloController {
                 Label label = (Label) cell.getChildren().get(0);
                 TextField textField = new TextField();
 
-                // Add click and key event handler to each cell
+                // Add click event handler to each cell
                 cell.setOnMouseClicked(event -> {
                     // Show the text field to capture input
                     cell.getChildren().add(textField);
                     textField.requestFocus();
                 });
 
-                textField.setOnKeyTyped(event -> {
+                // Add key pressed event handler to the text field
+                textField.setOnKeyReleased(event -> {
                     // Retrieve the typed character
-                    String typedCharacter = event.getCharacter();
-                    if(!typedCharacter.matches("[a-zA-Z]")){
-                        textField.setText("");
-                        new Alert(Alert.AlertType.ERROR, "Only letters are allowed").showAndWait();
-                        return;
+                    String typedCharacter = textField.getText();
+                    if (!typedCharacter.isEmpty()) {
+                        // Ensure only one character is entered
+                        typedCharacter = typedCharacter.substring(0, 1);
+
+                        // Validate the character as a letter
+                        if (!typedCharacter.matches("[a-zA-Z]") || textField.getText().length() > 1) {
+                            textField.setText("");
+                            new Alert(Alert.AlertType.ERROR, "Only letter, and one letter is allowed.").showAndWait();
+                            return;
+                        }
+
+                        // Generate the image path based on the typed character
+                        String imagePath = "/Images/Tiles/" + typedCharacter + ".png";
+
+                        // Set the background image and remove the background color
+                        cell.setId("cell"); // Set an ID for the StackPane
+                        cell.setStyle("-fx-background-color: transparent;"); // Remove the background color
+
+                        // Update the label text
+                        label.setText(typedCharacter);
+                        label.setVisible(false);
+
+                        // Remove the text field from the cell
+                        cell.getChildren().remove(textField);
+
+                        // Set the background image using JavaFX
+                        String fullPath = HelloController.class.getResource(imagePath).toExternalForm();
+                        cell.setBackground(new Background(new BackgroundImage(new Image(fullPath), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
                     }
-
-                    // Generate the image path based on the typed character
-                    String imagePath = "./resources/Images/Tiles/" + typedCharacter + ".png";
-
-                    // Set the background image and remove the background color
-                    cell.setId("cell"); // Set an ID for the StackPane
-                    cell.setStyle("-fx-background-color: transparent;"); // Remove the background color
-
-                    // Update the label text
-                    label.setText(typedCharacter);
-                    label.setVisible(false);
-                    // Remove the text field from the cell
-                    cell.getChildren().remove(textField);
-
-                    // Set the background image using CSS
-//                cell.getStyleClass().add("cell-background");
-
-                    // Set the background image using JavaFX
-                    cell.setBackground(new Background(new BackgroundImage(new Image("C:\\Users\\אופיר\\Desktop\\Idan studies - לימודים עידן\\שנה ב\\סמסטר ב שנה ב\\פתמ 2\\Project\\src\\main\\resources\\Images\\Tiles\\"+ typedCharacter.toUpperCase()+ ".png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-
                 });
             }
         }
     }
+
 
     @FXML
     public void Submit(ActionEvent event) throws IOException{
