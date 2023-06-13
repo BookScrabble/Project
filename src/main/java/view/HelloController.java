@@ -39,7 +39,7 @@ public class HelloController {
     private GridPane boardGridPane;
     String word = "";
     boolean vertical;
-    int flag = 0, rowIndex=-1, colIndex=-1;
+    int flag = 0;
     ArrayList<Integer> indexRow = new ArrayList<>();
     ArrayList<Integer> indexCol = new ArrayList<>();
 
