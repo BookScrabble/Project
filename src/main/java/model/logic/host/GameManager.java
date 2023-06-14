@@ -1,22 +1,17 @@
 package model.logic.host;
 
-import model.logic.client.Client;
 import model.logic.host.data.Tile;
 import model.logic.host.data.Word;
 import model.logic.server.HostServer;
-import model.logic.server.MyServer;
 import model.logic.host.data.GameData;
 import model.logic.host.data.Player;
 
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
-public class GameManager implements GameHandler {
+public class GameManager extends Observable implements GameHandler {
     private static GameManager single_instance = null;
     HostServer host;
     GameData gameData;

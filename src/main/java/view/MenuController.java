@@ -16,13 +16,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import viewModel.ViewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
 
-public class HelloController {
+public class MenuController {
     @FXML
     private Label nameLabelError;
     @FXML
@@ -43,73 +44,79 @@ public class HelloController {
     ArrayList<Integer> indexRow = new ArrayList<>();
     ArrayList<Integer> indexCol = new ArrayList<>();
 
-//    public void squareClickHandler(){
-//        // run all over the boardGridPane and add a click handler to each square
-//        for(int i = 0; i < boardGridPane.getChildren().size(); i++){
-//            for(int j = 0; j < boardGridPane.getChildren().size(); j++){
-//                boardGridPane.getChildren().get(i).setOnMouseClicked(event -> {
-//                    ((Label)((StackPane)event.getSource()).getChildren().get(0)).setText("x");
-//                });
-//            }
-//        }
-//    }
-public void squareClickHandler() {
-    // Run through all the children of boardGridPane
-    for (Node node : boardGridPane.getChildren()) {
-        if (node instanceof StackPane) {
-            StackPane cell = (StackPane) node;
-            Label label = (Label) cell.getChildren().get(0);
-            ImageView imageView = new ImageView();
+    //------------------New Params-------------------------//
+    private GameController gameController; //Later move all game functionality their to make code cleaner.
+    private ConnectionController connectionController; //Later move all connection functionality their to make code cleaner.
+    ViewModel viewModel;
 
-            // Add click event handler to each cell
-            cell.setOnMouseClicked(event -> {
-                // Create a TextInputDialog for entering the letter and orientation
-                TextInputDialog dialog = new TextInputDialog();
-                dialog.setTitle("Enter a Letter");
-                dialog.setHeaderText("Enter a letter for the cell");
-                dialog.setContentText("Letter:");
-                TextField orientationField = new TextField();
+    public MenuController(){
+        this.gameController = new GameController();
+        this.connectionController = new ConnectionController();
+    }
 
-                // Show the dialog and wait for the user's input
-                Optional<String> result = dialog.showAndWait();
-                result.ifPresent(word -> {
-                    String letter = word.trim();
-                    String orientation = orientationField.getText().trim().toLowerCase();
-                    this.vertical = orientation.equals("yes");
-                    // TODO - implement the vertical logic.
-                    // Validate the entered letter
-                    if (letter.length() != 1 || !Character.isLetter(letter.charAt(0))) {
-                        new Alert(Alert.AlertType.ERROR, "Only one letter is allowed.").showAndWait();
-                        return;
-                    }
+    public void init(ViewModel viewModel){
+        this.viewModel = viewModel;
+        //Data binding
+    }
 
-                    // Generate the image path based on the entered letter
-                    String imagePath = "/Images/Tiles/" + letter.toUpperCase() + ".png";
+    public void squareClickHandler() {
+        // Run through all the children of boardGridPane
+        for (Node node : boardGridPane.getChildren()) {
+            if (node instanceof StackPane) {
+                StackPane cell = (StackPane) node;
+                Label label = (Label) cell.getChildren().get(0);
+                ImageView imageView = new ImageView();
 
-                    // Set the background image and remove the background color
-                    cell.setId("cell"); // Set an ID for the StackPane
-                    cell.setStyle("-fx-background-color: transparent;"); // Remove the background color
+                // Add click event handler to each cell
+                cell.setOnMouseClicked(event -> {
+                    // Create a TextInputDialog for entering the letter and orientation
+                    TextInputDialog dialog = new TextInputDialog();
+                    dialog.setTitle("Enter a Letter");
+                    dialog.setHeaderText("Enter a letter for the cell");
+                    dialog.setContentText("Letter:");
+                    TextField orientationField = new TextField();
 
-                    // Update the label text
-                    label.setText(letter.toUpperCase());
-                    label.setVisible(false);
+                    // Show the dialog and wait for the user's input
+                    Optional<String> result = dialog.showAndWait();
+                    result.ifPresent(word -> {
+                        String letter = word.trim();
+                        String orientation = orientationField.getText().trim().toLowerCase();
+                        this.vertical = orientation.equals("yes");
+                        // TODO - implement the vertical logic.
+                        // Validate the entered letter
+                        if (letter.length() != 1 || !Character.isLetter(letter.charAt(0))) {
+                            new Alert(Alert.AlertType.ERROR, "Only one letter is allowed.").showAndWait();
+                            return;
+                        }
 
-                    // Set the background image using JavaFX
-                    String fullPath = HelloController.class.getResource(imagePath).toExternalForm();
-                    imageView.setImage(new Image(fullPath));
-                    imageView.setPreserveRatio(true);
-                    imageView.setFitWidth(cell.getWidth());
-                    imageView.setFitHeight(cell.getHeight()+ 3);
-                    cell.getChildren().add(imageView);
+                        // Generate the image path based on the entered letter
+                        String imagePath = "/Images/Tiles/" + letter.toUpperCase() + ".png";
 
-                    // Save the word, its orientation, and the index
-                    int index = boardGridPane.getChildren().indexOf(cell);
-                    saveWordWithOrientationAndIndex(letter, orientation, index);
+                        // Set the background image and remove the background color
+                        cell.setId("cell"); // Set an ID for the StackPane
+                        cell.setStyle("-fx-background-color: transparent;"); // Remove the background color
+
+                        // Update the label text
+                        label.setText(letter.toUpperCase());
+                        label.setVisible(false);
+
+                        // Set the background image using JavaFX
+                        String fullPath = MenuController.class.getResource(imagePath).toExternalForm();
+                        imageView.setImage(new Image(fullPath));
+                        imageView.setPreserveRatio(true);
+                        imageView.setFitWidth(cell.getWidth());
+                        imageView.setFitHeight(cell.getHeight()+ 3);
+                        cell.getChildren().add(imageView);
+
+                        // Save the word, its orientation, and the index
+                        int index = boardGridPane.getChildren().indexOf(cell);
+                        saveWordWithOrientationAndIndex(letter, orientation, index);
+                    });
                 });
-            });
+            }
         }
     }
-}
+
     // Method to save the entered word, its orientation, and retrieve the column and row index
     private void saveWordWithOrientationAndIndex(String word, String orientation, int index) {
         // Retrieve the column and row index based on the StackPane index within the GridPane
@@ -214,7 +221,6 @@ public void squareClickHandler() {
         } else{
             portLabelError.setVisible(false);
         }
-
         if(allValid){
             loadBoard(event);
         }
@@ -245,6 +251,7 @@ public void squareClickHandler() {
         if(allValid){
             loadBoard(event);
         }
+
     }
 
     @FXML
