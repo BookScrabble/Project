@@ -1,6 +1,7 @@
 package view;
 
 import javafx.application.Platform;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import model.logic.host.GameManager;
 import viewModel.ViewModel;
 
 import java.io.IOException;
@@ -49,14 +51,22 @@ public class MenuController {
     private ConnectionController connectionController; //Later move all connection functionality their to make code cleaner.
     ViewModel viewModel;
 
+    public StringProperty wordFromPlayer;
+    public StringProperty playerAction;
+
     public MenuController(){
         this.gameController = new GameController();
         this.connectionController = new ConnectionController();
     }
 
-    public void init(ViewModel viewModel){
+    public void setViewModel(ViewModel viewModel){
         this.viewModel = viewModel;
-        //Data binding
+        viewModel.wordFromPlayer.bind(wordFromPlayer);
+        viewModel.playerAction.bind(playerAction);
+    }
+
+    public void setModel(GameManager model){
+        this.viewModel.setGameManager(model);
     }
 
     public void squareClickHandler() {

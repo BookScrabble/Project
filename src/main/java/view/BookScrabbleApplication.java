@@ -17,6 +17,8 @@ public class BookScrabbleApplication extends Application {
         Scene scene = new Scene(root, 1000, 550);
         scene.getStylesheets().add(getClass().getResource("HomePage.css").toExternalForm());
         ViewModel viewModel = new ViewModel();
+        MenuController mc = new MenuController();
+        mc.setViewModel(viewModel);
         stage.setScene(scene);
         stage.show();
     }

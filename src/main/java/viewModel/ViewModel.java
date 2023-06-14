@@ -10,8 +10,8 @@ import java.util.Observer;
 public class ViewModel implements Observer { // Later implement ViewModelFacade
 
     //Properties for view:...
-    StringProperty wordFromPlayer;
-    StringProperty playerAction;
+    public StringProperty wordFromPlayer;
+    public StringProperty playerAction;
 
 
     //Other parameters:...
@@ -28,7 +28,7 @@ public class ViewModel implements Observer { // Later implement ViewModelFacade
 
     }
 
-    public void updateGameManager() {
-        //Sends request to host to receive updated gameManager(single instance that sits on host side)
+    public void setGameManager(GameManager model) {
+        this.model = model;
     }
 }
