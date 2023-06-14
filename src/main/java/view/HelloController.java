@@ -11,14 +11,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
-
-import static java.lang.Thread.sleep;
+import java.util.Optional;
 
 public class HelloController {
     @FXML
@@ -35,7 +37,11 @@ public class HelloController {
     private TextField ipField;
     @FXML
     private GridPane boardGridPane;
-
+    String word = "";
+    boolean vertical;
+    int flag = 0;
+    ArrayList<Integer> indexRow = new ArrayList<>();
+    ArrayList<Integer> indexCol = new ArrayList<>();
 
 //    public void squareClickHandler(){
 //        // run all over the boardGridPane and add a click handler to each square
@@ -47,59 +53,119 @@ public class HelloController {
 //            }
 //        }
 //    }
-
 public void squareClickHandler() {
     // Run through all the children of boardGridPane
     for (Node node : boardGridPane.getChildren()) {
         if (node instanceof StackPane) {
             StackPane cell = (StackPane) node;
             Label label = (Label) cell.getChildren().get(0);
-            TextField textField = new TextField();
+            ImageView imageView = new ImageView();
 
-            // Add click and key event handler to each cell
+            // Add click event handler to each cell
             cell.setOnMouseClicked(event -> {
-                // Show the text field to capture input
-                cell.getChildren().add(textField);
-                textField.requestFocus();
-            });
+                // Create a TextInputDialog for entering the letter and orientation
+                TextInputDialog dialog = new TextInputDialog();
+                dialog.setTitle("Enter a Letter");
+                dialog.setHeaderText("Enter a letter for the cell");
+                dialog.setContentText("Letter:");
+                TextField orientationField = new TextField();
 
-            textField.setOnKeyTyped(event -> {
-                // Retrieve the typed character
-                String typedCharacter = event.getCharacter();
-                if(!typedCharacter.matches("[a-zA-Z]")){
-                    textField.setText("");
-                    new Alert(Alert.AlertType.ERROR, "Only letters are allowed").showAndWait();
-                    return;
-                }
+                // Show the dialog and wait for the user's input
+                Optional<String> result = dialog.showAndWait();
+                result.ifPresent(word -> {
+                    String letter = word.trim();
+                    String orientation = orientationField.getText().trim().toLowerCase();
+                    this.vertical = orientation.equals("yes");
+                    // TODO - implement the vertical logic.
+                    // Validate the entered letter
+                    if (letter.length() != 1 || !Character.isLetter(letter.charAt(0))) {
+                        new Alert(Alert.AlertType.ERROR, "Only one letter is allowed.").showAndWait();
+                        return;
+                    }
 
-                // Generate the image path based on the typed character
-                String imagePath = "./resources/Images/Tiles/" + typedCharacter + ".png";
+                    // Generate the image path based on the entered letter
+                    String imagePath = "/Images/Tiles/" + letter.toUpperCase() + ".png";
 
-                // Set the background image and remove the background color
-                cell.setId("cell"); // Set an ID for the StackPane
-                cell.setStyle("-fx-background-color: transparent;"); // Remove the background color
+                    // Set the background image and remove the background color
+                    cell.setId("cell"); // Set an ID for the StackPane
+                    cell.setStyle("-fx-background-color: transparent;"); // Remove the background color
 
-                // Update the label text
-                label.setText(typedCharacter);
-                label.setVisible(false);
-                // Remove the text field from the cell
-                cell.getChildren().remove(textField);
+                    // Update the label text
+                    label.setText(letter.toUpperCase());
+                    label.setVisible(false);
 
-                // Set the background image using CSS
-//                cell.getStyleClass().add("cell-background");
+                    // Set the background image using JavaFX
+                    String fullPath = HelloController.class.getResource(imagePath).toExternalForm();
+                    imageView.setImage(new Image(fullPath));
+                    imageView.setPreserveRatio(true);
+                    imageView.setFitWidth(cell.getWidth());
+                    imageView.setFitHeight(cell.getHeight()+ 3);
+                    cell.getChildren().add(imageView);
 
-                // Set the background image using JavaFX
-                 cell.setBackground(new Background(new BackgroundImage(new Image("C:\\Users\\אופיר\\Desktop\\Idan studies - לימודים עידן\\שנה ב\\סמסטר ב שנה ב\\פתמ 2\\Project\\src\\main\\resources\\Images\\Tiles\\"+ typedCharacter.toUpperCase()+ ".png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-
+                    // Save the word, its orientation, and the index
+                    int index = boardGridPane.getChildren().indexOf(cell);
+                    saveWordWithOrientationAndIndex(letter, orientation, index);
+                });
             });
         }
     }
 }
+    // Method to save the entered word, its orientation, and retrieve the column and row index
+    private void saveWordWithOrientationAndIndex(String word, String orientation, int index) {
+        // Retrieve the column and row index based on the StackPane index within the GridPane
+        int numColumns = GridPane.getColumnIndex(boardGridPane.getChildren().get(index));
+        int numRows = GridPane.getRowIndex(boardGridPane.getChildren().get(index));
+        // Implement your saving logic here
+        this.word += word;
+        this.indexCol.add(numColumns);
+        this.indexRow.add(numRows);
+    }
+
+    @FXML
+    public void start(ActionEvent event) throws IOException{
+        squareClickHandler();
+    }
 
     @FXML
     public void Submit(ActionEvent event) throws IOException{
+    while(this.flag == 0){
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Choose Vertical or Horizontal");
+        dialog.setHeaderText("Enter Vertical yes/no");
+        dialog.setContentText("Vertical:");
+        Optional<String> result = dialog.showAndWait();
+        if(result.get().equals("yes")){
+            this.vertical=true;
+            this.flag=1;
+            break;
+        }else if (result.get().equals("no")){
+            this.vertical=false;
+            this.flag=0;
+            break;
+        }
+    }
+    int startRow =-1, startCol=-1;
+    int endRow =-1, endCol=-1;
+    if(this.vertical){
+        startRow = this.indexRow.get(0);
+        startCol = this.indexCol.get(0);
+        endRow = this.indexRow.get(this.indexRow.size()-1);
+        endCol = this.indexCol.get(this.indexCol.size()-1);
+    }
+    else{
+        startRow = this.indexRow.get(0);
+        startCol = this.indexCol.get(0);
+        endRow = this.indexRow.get(this.indexRow.size()-1);
+        endCol = this.indexCol.get(this.indexCol.size()-1);
+    }
         System.out.println("Submit");
-        squareClickHandler();
+        System.out.println("Word: " + this.word + ", Vertical: " + this.vertical);
+        System.out.println("Start at index: " + startRow + ", " + startCol);
+        System.out.println("End at index: " + endRow + ", " + endCol);
+        this.indexRow.clear();
+        this.indexCol.clear();
+        this.word = "";
+        this.flag = 0;
     }
     @FXML
     public void Challenge(ActionEvent event) throws IOException{
