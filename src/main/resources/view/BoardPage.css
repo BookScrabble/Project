@@ -1,9 +1,12 @@
+.root {
+    -fx-background-color: #ccc;
+}
+
 .center-cell {
     -fx-background-color: pink;
     -fx-font-size: 16px;
     -fx-text-fill: white;
 }
-
 .TripleWord-cell{
     -fx-background-color: red;
     -fx-font-size: 16px;
@@ -74,7 +77,7 @@
 
 .ExitButton:hover{
     -fx-cursor: hand;
-    -fx-background-color: #ccc;
+    -fx-background-color: white;
 }
 
 .TextTest{
