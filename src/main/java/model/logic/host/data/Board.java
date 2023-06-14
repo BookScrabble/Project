@@ -108,9 +108,8 @@ public class Board {
     }
 
     /**
-     * This function returns the score of a word according to the tiles it's composed of.
+     * @details This function returns the score of a word according to the tiles it's composed of.
      * The function checks each tile to see if it's on a special board index, and updates the score accordingly.
-     *
      * @param word word
      * @return score total for all the tiles.
      */
@@ -155,8 +154,7 @@ public class Board {
     }
 
     /**
-     * This function is used to create the string representation of a board location.
-     *
+     * @details This function is used to create the string representation of a board location.
      * @param r row
      * @param c column
      * @return returns a string in the shape of "xxyy" with xx being row and yy being column.
@@ -203,8 +201,7 @@ public class Board {
     }
 
     /**
-     * Checks if the board is empty or has any tiles on it
-     *
+     * @details Checks if the board is empty or has any tiles on it
      * @return true once a tile was found, false otherwise
      */
     private boolean isBoardEmpty() {
@@ -218,9 +215,7 @@ public class Board {
     }
 
     /**
-     * This function checks if a word will be on the star square.
-     * USE ONLY IF BOARD IS EMPTY.
-     *
+     * @details This function checks if a word will be on the star square.
      * @param word word
      * @return true / false accordingly.
      */
@@ -233,15 +228,13 @@ public class Board {
             if (word.getRow() == 7)
                 return word.getCol() + wordLength > 7;
         }
-
         return false;
     }
 
     /**
-     * Checks if the word is in the boundaries of the board
-     *
+     * @details Checks if the word within the boundaries of the board.
      * @param word word
-     * @return true / false
+     * @return true / false accordingly.
      */
     private boolean wordIsInBounds(Word word) {
         if (word.allTilesAreNulls())
@@ -260,8 +253,7 @@ public class Board {
     }
 
     /**
-     * Checks if the word has an adjacent or overlapping tile
-     *
+     * @details Checks if the word has an adjacent or overlapping tile
      * @param word word
      * @return true / false
      */
@@ -273,8 +265,7 @@ public class Board {
     }
 
     /**
-     * Checks if the word has an adjacent tile anywhere
-     *
+     * @details Checks if the word has an adjacent tile anywhere
      * @param word word
      * @return true / false
      */
@@ -313,8 +304,7 @@ public class Board {
     }
 
     /**
-     * Checks if the word has an adjacent tile anywhere
-     *
+     * @details Checks if the word has an adjacent tile anywhere
      * @param word word
      * @return true / false
      */
@@ -353,8 +343,7 @@ public class Board {
     }
 
     /**
-     * This function checks if the word doesn't need to change a tile to be added.
-     *
+     * @details Checks if the word doesn't need to change a tile to be added.
      * @param word word
      * @return true / false accordingly.
      */
@@ -385,27 +374,22 @@ public class Board {
             }
             return false;
         }
-        if (wordLength == countOfSameLetters)
-            return false;
-        return true;
+        return wordLength != countOfSameLetters;
     }
 
     /**
-     * Checks if the word is legal in the dictionary
-     * TODO - Finish implementation of dictionaryLegal
+     * @details Checks if the word is legal in the dictionary
      * @param word word
      * @return true / false
      */
     public boolean dictionaryLegal(Word word) {
-//        GameManager gameManager = GameManager.get();
-//        String result = gameManager.query(word);
-//        return result.equals("true");
-        return true;
+        GameManager gameManager = GameManager.get();
+        String result = gameManager.query(word);
+        return result.equals("true");
     }
 
     /**
-     * Creates an arraylist of the newly created words from the placed word.
-     *
+     * @details Creates an arraylist of the newly created words from the placed word.
      * @param word word
      * @return returns the arraylist of the new words.
      */
@@ -438,8 +422,7 @@ public class Board {
     }
 
     /**
-     * Checks if the word is complete or has a null tile anywhere
-     *
+     * @details Checks if the word is complete or has a null tile anywhere
      * @param word word
      * @return true / false
      */
@@ -453,9 +436,8 @@ public class Board {
     }
 
     /**
-     * This function will be used with getWords function.
+     * @details This function will be used with getWords function.
      * It will add all the newly formed words around the added word.
-     *
      * @param word  word
      * @param words arraylist for the new words.
      */
@@ -468,9 +450,8 @@ public class Board {
     }
 
     /**
-     * This function finds all the new words that were created around the placement of a new word.
+     * @details This function finds all the new words that were created around the placement of a new word.
      * Used for a vertical word to find horizontal new words.
-     *
      * @param word  word
      * @param words arraylist of new words
      */
@@ -510,9 +491,8 @@ public class Board {
     }
 
     /**
-     * This function finds all the new words that were created around the placement of a new word.
+     * @details This function finds all the new words that were created around the placement of a new word.
      * Used for a horizontal word to find vertical new words.
-     *
      * @param word  word
      * @param words new words
      */
@@ -552,8 +532,7 @@ public class Board {
     }
 
     /**
-     * Checks if a word is in the foundWords arraylist to see if it had been previously found.
-     *
+     * @details Checks if a word is in the foundWords arraylist to see if it had been previously found.
      * @param word word
      * @return true / false
      */
@@ -571,9 +550,8 @@ public class Board {
     }
 
     /**
-     * Completes a word that has a null tile somewhere by checking the board to see
+     * @details Completes a word that has a null tile somewhere by checking the board to see
      * if there is a tile in the corresponding place.
-     *
      * @param word word
      * @return the word with the board values for where the word had a tile that was null.
      */
@@ -602,8 +580,7 @@ public class Board {
     }
 
     /**
-     * Tries to place the word in the board and returns the score the move.
-     *
+     * @details Tries to place the word in the board and returns the score the move.
      * @param newWord new word to place
      * @return total score of the word + score of the additional words that were created.
      */
@@ -625,6 +602,9 @@ public class Board {
         return score;
     }
 
+    /**
+     * @details Helper method for model testing/debug, Prints board to console as a matrix grid.
+     */
     public void printBoard() {
         for (int i = 0; i < BOARD_WIDTH; i++) {
             for (int j = 0; j < BOARD_HEIGHT; j++) {
@@ -639,8 +619,7 @@ public class Board {
     }
 
     /**
-     * This function adds a word to the board.
-     *
+     * @details This function adds a word to the board.
      * @param word  word
      * @param board board
      */
