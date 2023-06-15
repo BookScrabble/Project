@@ -66,9 +66,7 @@ public class ConnectionController {
         //GameManager... HostServer... Client..
         if(allValid){
             GameManager gameManager = GameManager.get();
-            viewModel.setModel(gameManager);
-            //Ping Pong
-            //New Client
+            connectToServer();
             loadBoard(event);
         }
     }
@@ -96,29 +94,28 @@ public class ConnectionController {
         }
         //Test connection (Fake client "Ping") "Pong" -> Real Client...
         if(allValid){
-            try {
-                Socket pingCheck = new Socket(ipField.getText(), Integer.parseInt(portField.getText()));
-                PrintWriter printWriter = new PrintWriter(pingCheck.getOutputStream(), true);
-                printWriter.println("ping");
-                ObjectInputStream objectInputStream = new ObjectInputStream(pingCheck.getInputStream());
-                try {
-                    GameManager model = (GameManager) objectInputStream.readObject();
-                    viewModel.setModel(model);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                pingCheck.close();
-            } catch (IOException e){
-                e.printStackTrace();
-            }
-            //Delay 3 seconds
-            playerClient = new Client(ipField.getText(), Integer.parseInt(portField.getText()), nameField.getText());
-            //Ping ModelResponse
-            //Not null
-            //viewModel.setModel(gameManager);
-            //Client
+            connectToServer();
             loadBoard(event);
         }
+    }
+
+    public void connectToServer(){
+        try {
+            Socket pingCheck = new Socket(ipField.getText(), Integer.parseInt(portField.getText()));
+            PrintWriter printWriter = new PrintWriter(pingCheck.getOutputStream(), true);
+            printWriter.println("ping");
+            ObjectInputStream objectInputStream = new ObjectInputStream(pingCheck.getInputStream());
+            try {
+                GameManager model = (GameManager) objectInputStream.readObject();
+                viewModel.setModel(model);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            pingCheck.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        playerClient = new Client(ipField.getText(), Integer.parseInt(portField.getText()), nameField.getText());
     }
 
     public boolean validPort(String port){
