@@ -10,9 +10,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.logic.client.Client;
+import model.logic.host.GameManager;
+import viewModel.ViewModel;
 
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class ConnectionController {
 
@@ -29,8 +36,16 @@ public class ConnectionController {
     @FXML
     private TextField ipField;
 
+    Client playerClient;
+
+    ViewModel viewModel;
+
     public ConnectionController(){
 
+    }
+
+    public void setViewModel(ViewModel viewModel) {
+        this.viewModel = viewModel;
     }
 
     @FXML
@@ -48,7 +63,12 @@ public class ConnectionController {
         } else{
             portLabelError.setVisible(false);
         }
+        //GameManager... HostServer... Client..
         if(allValid){
+            GameManager gameManager = GameManager.get();
+            viewModel.setModel(gameManager);
+            //Ping Pong
+            //New Client
             loadBoard(event);
         }
     }
@@ -74,8 +94,29 @@ public class ConnectionController {
         } else{
             ipLabelError.setVisible(false);
         }
-
+        //Test connection (Fake client "Ping") "Pong" -> Real Client...
         if(allValid){
+            try {
+                Socket pingCheck = new Socket(ipField.getText(), Integer.parseInt(portField.getText()));
+                PrintWriter printWriter = new PrintWriter(pingCheck.getOutputStream(), true);
+                printWriter.println("ping");
+                ObjectInputStream objectInputStream = new ObjectInputStream(pingCheck.getInputStream());
+                try {
+                    GameManager model = (GameManager) objectInputStream.readObject();
+                    viewModel.setModel(model);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                pingCheck.close();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+            //Delay 3 seconds
+            playerClient = new Client(ipField.getText(), Integer.parseInt(portField.getText()), nameField.getText());
+            //Ping ModelResponse
+            //Not null
+            //viewModel.setModel(gameManager);
+            //Client
             loadBoard(event);
         }
     }

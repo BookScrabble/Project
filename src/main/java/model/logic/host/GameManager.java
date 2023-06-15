@@ -11,7 +11,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.*;
 
-public class GameManager extends Observable implements GameHandler {
+public class GameManager extends Observable implements GameHandler,Serializable {
     private static GameManager single_instance = null;
     HostServer host;
     GameData gameData;
@@ -237,5 +237,13 @@ public class GameManager extends Observable implements GameHandler {
     public void stopGame(){
         this.turnManager.nextTurn();
         this.host.stopGame();
+    }
+
+    public void setCalculationServerIp(String calculationServerIp) {
+        this.calculationServerIp = calculationServerIp;
+    }
+
+    public String getCalculationServerIp() {
+        return calculationServerIp;
     }
 }

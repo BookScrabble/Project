@@ -1,6 +1,7 @@
 package view;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
 
-public class MenuController {
+public class ViewController {
     @FXML
     private Label nameLabelError;
     @FXML
@@ -54,19 +55,19 @@ public class MenuController {
     public StringProperty wordFromPlayer;
     public StringProperty playerAction;
 
-    public MenuController(){
+    public ViewController(){
         this.gameController = new GameController();
         this.connectionController = new ConnectionController();
+        wordFromPlayer = new SimpleStringProperty();
+        playerAction = new SimpleStringProperty();
     }
 
     public void setViewModel(ViewModel viewModel){
         this.viewModel = viewModel;
+        gameController.setViewModel(viewModel);
+        connectionController.setViewModel(viewModel);
         viewModel.wordFromPlayer.bind(wordFromPlayer);
         viewModel.playerAction.bind(playerAction);
-    }
-
-    public void setModel(GameManager model){
-        this.viewModel.setGameManager(model);
     }
 
     public void squareClickHandler() {
@@ -111,7 +112,7 @@ public class MenuController {
                         label.setVisible(false);
 
                         // Set the background image using JavaFX
-                        String fullPath = MenuController.class.getResource(imagePath).toExternalForm();
+                        String fullPath = ViewController.class.getResource(imagePath).toExternalForm();
                         imageView.setImage(new Image(fullPath));
                         imageView.setPreserveRatio(true);
                         imageView.setFitWidth(cell.getWidth());

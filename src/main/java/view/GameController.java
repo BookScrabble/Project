@@ -3,6 +3,7 @@ package view;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextInputDialog;
+import viewModel.ViewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ public class GameController {
     ArrayList<Integer> indexRow;
     ArrayList<Integer> indexCol;
 
+    ViewModel viewModel;
+
     //All functionality buttons will be linked here and from viewModel we will have access to those methods.
     public GameController(){
         this.word = "";
@@ -23,6 +26,10 @@ public class GameController {
         this.flag = 0;
         this.indexRow = new ArrayList<>();
         this.indexCol = new ArrayList<>();
+    }
+
+    public void setViewModel(ViewModel viewModel) {
+        this.viewModel = viewModel;
     }
 
     @FXML

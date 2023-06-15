@@ -1,8 +1,8 @@
 package viewModel;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import model.logic.host.GameManager;
-import view.MenuController;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -19,16 +19,16 @@ public class ViewModel implements Observer { // Later implement ViewModelFacade
 
     public ViewModel(){
         this.model = null;
+        wordFromPlayer = new SimpleStringProperty();
+        playerAction = new SimpleStringProperty();
     }
-
-
 
     @Override
     public void update(Observable o, Object arg) {
 
     }
 
-    public void setGameManager(GameManager model) {
+    public void setModel(GameManager model) {
         this.model = model;
     }
 }
