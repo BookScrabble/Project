@@ -14,12 +14,10 @@ import model.logic.host.GameManager;
 import viewModel.ViewModel;
 
 import java.io.IOException;
-import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Objects;
-import java.util.Scanner;
 
 public class ConnectionController {
 
@@ -36,8 +34,6 @@ public class ConnectionController {
     @FXML
     private TextField ipField;
 
-    Client playerClient;
-
     ViewModel viewModel;
 
     public ConnectionController(){
@@ -45,6 +41,7 @@ public class ConnectionController {
     }
 
     public void setViewModel(ViewModel viewModel) {
+        System.out.println("Setting viewModel in ConnectionController -> " + viewModel);
         this.viewModel = viewModel;
     }
 
@@ -63,9 +60,10 @@ public class ConnectionController {
         } else{
             portLabelError.setVisible(false);
         }
-        //GameManager... HostServer... Client..
         if(allValid){
             GameManager gameManager = GameManager.get();
+            ipField = new TextField();
+            ipField.setText("localhost");
             connectToServer();
             loadBoard(event);
         }
@@ -86,13 +84,12 @@ public class ConnectionController {
         } else{
             portLabelError.setVisible(false);
         }
-        if(!validIp(ipField.getText())){
-            ipLabelError.setVisible(true);
-            allValid = false;
-        } else{
-            ipLabelError.setVisible(false);
-        }
-        //Test connection (Fake client "Ping") "Pong" -> Real Client...
+//        if(!validIp(ipField.getText())){
+//            ipLabelError.setVisible(true);
+//            allValid = false;
+//        } else{
+//            ipLabelError.setVisible(false);
+//        }
         if(allValid){
             connectToServer();
             loadBoard(event);
@@ -115,7 +112,7 @@ public class ConnectionController {
         } catch (IOException e){
             e.printStackTrace();
         }
-        playerClient = new Client(ipField.getText(), Integer.parseInt(portField.getText()), nameField.getText());
+        Client playerClient = new Client(ipField.getText(), Integer.parseInt(portField.getText()), nameField.getText());
     }
 
     public boolean validPort(String port){
@@ -149,6 +146,16 @@ public class ConnectionController {
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(sceneName + ".css")).toExternalForm());
         } catch (NullPointerException ignored){}
         stage.setScene(scene);
-        stage.show();
+        //stage.show();
+    }
+
+    @FXML
+    public void Back(ActionEvent event) throws IOException{
+        StartGame(event);
+    }
+
+    @FXML
+    public void StartGame(ActionEvent event) throws IOException{
+        loadScene(event, "StartGame");
     }
 }

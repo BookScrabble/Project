@@ -26,9 +26,11 @@ public class GameController {
         this.flag = 0;
         this.indexRow = new ArrayList<>();
         this.indexCol = new ArrayList<>();
+        //Binding..
     }
 
     public void setViewModel(ViewModel viewModel) {
+        System.out.println("Setting viewModel in GameController -> " + viewModel);
         this.viewModel = viewModel;
     }
 

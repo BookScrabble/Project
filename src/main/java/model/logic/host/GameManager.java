@@ -35,7 +35,7 @@ public class GameManager extends Observable implements GameHandler,Serializable 
      */
     public static GameManager get() {
         if (single_instance == null)
-            single_instance = new GameManager(20000);
+            single_instance = new GameManager(19999);
         return single_instance;
     }
 

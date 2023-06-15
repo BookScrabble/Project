@@ -64,10 +64,10 @@ public class ViewController {
 
     public void setViewModel(ViewModel viewModel){
         this.viewModel = viewModel;
-        gameController.setViewModel(viewModel);
-        connectionController.setViewModel(viewModel);
         viewModel.wordFromPlayer.bind(wordFromPlayer);
         viewModel.playerAction.bind(playerAction);
+        gameController.setViewModel(viewModel);
+        connectionController.setViewModel(viewModel);
     }
 
     public void squareClickHandler() {
@@ -314,7 +314,7 @@ public class ViewController {
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(sceneName + ".css")).toExternalForm());
         } catch (NullPointerException ignored){}
         stage.setScene(scene);
-        stage.show();
+        //stage.show();
     }
 
     public boolean validPort(String port){

@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import viewModel.ViewModel;
 
@@ -26,5 +27,6 @@ public class BookScrabbleApplication extends Application {
 
     public static void main(String[] args) {
         launch();
+        System.out.println("main is dead");
     }
 }

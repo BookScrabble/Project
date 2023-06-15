@@ -18,7 +18,6 @@ public class ViewModel implements Observer { // Later implement ViewModelFacade
     GameManager model; //Game status
 
     public ViewModel(){
-        this.model = null;
         wordFromPlayer = new SimpleStringProperty();
         playerAction = new SimpleStringProperty();
     }
