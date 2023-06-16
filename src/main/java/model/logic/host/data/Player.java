@@ -1,10 +1,11 @@
 package model.logic.host.data;
 
+import java.io.Serializable;
 import java.util.*;
 
 import model.logic.host.data.Tile.Bag;
 
-public class Player {
+public class Player implements Serializable {
     String name;
     int score;
     List<Tile> tiles;
