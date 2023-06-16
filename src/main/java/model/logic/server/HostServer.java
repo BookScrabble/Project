@@ -6,7 +6,9 @@ import model.logic.host.GameManager;
 import model.logic.host.GuestHandler;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -14,10 +16,10 @@ import java.net.SocketTimeoutException;
 import java.util.*;
 
 
-public class HostServer extends MyServer {
+public class HostServer extends MyServer implements Serializable {
 
     private final Map<Integer, Socket> clients;
-    ServerSocket server;
+    MyServerSocket server;
     private boolean gameIsRunning;
     private Timer turnTimer;
 
@@ -46,8 +48,7 @@ public class HostServer extends MyServer {
     @Override
     protected void runServer() throws Exception {
         try {
-            this.server = new ServerSocket(this.port);
-            server.setSoTimeout(1000);
+            this.server = new MyServerSocket(new ServerSocket(this.port));
             connectClients();
             playGame();
         } catch (SocketException ignored) {}
@@ -56,12 +57,20 @@ public class HostServer extends MyServer {
     public void connectClients() {
         while (!gameIsRunning) {
             try {
-                Socket aClient = server.accept();
-                Scanner inFromClient = new Scanner(aClient.getInputStream());
-                String playerName = inFromClient.next();
-                clients.put(clients.size() + 1, aClient);
-                GameManager.get().addPlayer(playerName);
-                System.out.println("Player " + playerName + " Connected Successfully!");
+                Socket aClient = server.getServerSocket().accept();
+                Scanner inPingCheck = new Scanner(aClient.getInputStream());
+                String ping = inPingCheck.next();
+                if(ping.equals("ping")){
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(aClient.getOutputStream());
+                    objectOutputStream.writeObject(GameManager.get());
+                    aClient.close();
+                    Socket realClient = server.getServerSocket().accept();
+                    Scanner inFromClient = new Scanner(realClient.getInputStream());
+                    String playerName = inFromClient.next();
+                    clients.put(clients.size() + 1, aClient);
+                    GameManager.get().addPlayer(playerName);
+                    System.out.println("Player " + playerName + " Connected Successfully!");
+                }
             }catch (SocketTimeoutException ignored) {}
             catch (IOException e) {
                 e.printStackTrace();

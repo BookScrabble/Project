@@ -1,12 +1,13 @@
 package model.logic.host.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class GameData {
+public class GameData implements Serializable {
     Board board;
     Tile.Bag bag;
     Map<Integer, Player> playerData;

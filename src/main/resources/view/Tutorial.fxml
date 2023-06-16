@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.HelloController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ViewController">
    <children>
       <Label layoutY="4.0" text="The Scrabble Board">
          <font>
@@ -38,8 +38,8 @@
          </font>
       </Label>
       <Text fontSmoothingType="LCD" layoutX="138.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="When the game begins, the first player will place their word on the star spin in the centre of the board. The star is a double square and will offer a double word score. All players following will build their words off of this word, extending the game to other squares on the board." wrappingWidth="457.8945312499999" />
-      <Button layoutX="190.0" layoutY="374.0" mnemonicParsing="false" onAction="#StartGame" text="Start" />
-      <Button layoutX="367.0" layoutY="374.0" mnemonicParsing="false" onAction="#BackToHomePage" text="Back" />
+      <Button layoutX="190.0" layoutY="374.0" mnemonicParsing="false" onAction="#ChooseGameMode" text="Start" />
+      <Button layoutX="367.0" layoutY="374.0" mnemonicParsing="false" onAction="#loadHomePage" text="Back" />
    </children>
    <stylesheets>
       <URL value="@Tutorial.css" />

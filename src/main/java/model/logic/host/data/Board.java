@@ -3,11 +3,12 @@ package model.logic.host.data;
 
 import model.logic.host.GameManager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class Board {
+public class Board implements Serializable {
     private static Board single_instance = null;
     private final static int BOARD_HEIGHT = 15;
     private final static int BOARD_WIDTH = 15;

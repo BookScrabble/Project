@@ -4,12 +4,13 @@ package model.logic.server;
 import model.logic.client.ClientHandler;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
-public class MyServer {
+public class MyServer implements Serializable {
     protected final int port;
     protected final ClientHandler clientHandler;
     protected volatile boolean stop;

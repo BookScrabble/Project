@@ -1,22 +1,17 @@
 package model.logic.host;
 
-import model.logic.client.Client;
 import model.logic.host.data.Tile;
 import model.logic.host.data.Word;
 import model.logic.server.HostServer;
-import model.logic.server.MyServer;
 import model.logic.host.data.GameData;
 import model.logic.host.data.Player;
 
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
-public class GameManager implements GameHandler {
+public class GameManager extends Observable implements GameHandler,Serializable {
     private static GameManager single_instance = null;
     HostServer host;
     GameData gameData;
@@ -40,7 +35,7 @@ public class GameManager implements GameHandler {
      */
     public static GameManager get() {
         if (single_instance == null)
-            single_instance = new GameManager(20000);
+            single_instance = new GameManager(19999);
         return single_instance;
     }
 
@@ -242,5 +237,13 @@ public class GameManager implements GameHandler {
     public void stopGame(){
         this.turnManager.nextTurn();
         this.host.stopGame();
+    }
+
+    public void setCalculationServerIp(String calculationServerIp) {
+        this.calculationServerIp = calculationServerIp;
+    }
+
+    public String getCalculationServerIp() {
+        return calculationServerIp;
     }
 }

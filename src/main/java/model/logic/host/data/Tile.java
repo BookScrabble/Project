@@ -1,9 +1,10 @@
 package model.logic.host.data;
 
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Tile {
+public class Tile implements Serializable {
     public final int score;
     public final char letter;
 
@@ -33,7 +34,7 @@ public class Tile {
     /**
      * Bag is a public static inner class and will be the only class with the ability to create tiles.
      */
-    public static class Bag {
+    public static class Bag implements Serializable {
 
         private static Bag single_instance = null;
         // This array represents remaining letters by index.
