@@ -24,7 +24,7 @@ public class TestSerializable {
         }
 
         try {
-            Socket pingCheck = new Socket("localhost", 20000);
+            Socket pingCheck = new Socket("localhost", 19999);
             PrintWriter printWriter = new PrintWriter(pingCheck.getOutputStream(), true);
             printWriter.println("ping");
             ObjectInputStream objectInputStream = new ObjectInputStream(pingCheck.getInputStream());
@@ -39,7 +39,7 @@ public class TestSerializable {
             e.printStackTrace();
         }
 
-        Client playerClient = new Client("localhost", 20000, "Lior");
+        Client playerClient = new Client("localhost", 19999, "Lior");
 
         System.out.println("Main is dead!");
 

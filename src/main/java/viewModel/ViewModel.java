@@ -13,7 +13,6 @@ public class ViewModel implements Observer { // Later implement ViewModelFacade
     public StringProperty wordFromPlayer;
     public StringProperty playerAction;
 
-
     //Other parameters:...
     GameManager model; //Game status
 

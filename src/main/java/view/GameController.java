@@ -1,25 +1,35 @@
 package view;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import view.data.ViewSharedData;
 import viewModel.ViewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Optional;
 
 public class GameController {
-
     String word;
     boolean vertical;
     int flag;
     ArrayList<Integer> indexRow;
     ArrayList<Integer> indexCol;
+    @FXML
+    GridPane boardGridPane;
+    ViewSharedData viewSharedData;
 
-    ViewModel viewModel;
-
-    //All functionality buttons will be linked here and from viewModel we will have access to those methods.
     public GameController(){
         this.word = "";
         this.vertical = false;
@@ -29,9 +39,10 @@ public class GameController {
         //Binding..
     }
 
-    public void setViewModel(ViewModel viewModel) {
-        System.out.println("Setting viewModel in GameController -> " + viewModel);
-        this.viewModel = viewModel;
+    public void setViewSharedData(ViewSharedData viewSharedData) {
+        this.viewSharedData = viewSharedData;
+        System.out.println("ViewSharedData in GameController -> " + viewSharedData);
+        System.out.println("Player -> " + viewSharedData.getPlayer());
     }
 
     @FXML
@@ -96,4 +107,82 @@ public class GameController {
         System.out.println("Resign");
     }
 
+    public void squareClickHandler() {
+        // Run through all the children of boardGridPane
+        for (Node node : boardGridPane.getChildren()) {
+            if (node instanceof StackPane) {
+                StackPane cell = (StackPane) node;
+                Label label = (Label) cell.getChildren().get(0);
+                ImageView imageView = new ImageView();
+
+                // Add click event handler to each cell
+                cell.setOnMouseClicked(event -> {
+                    // Create a TextInputDialog for entering the letter and orientation
+                    TextInputDialog dialog = new TextInputDialog();
+                    dialog.setTitle("Enter a Letter");
+                    dialog.setHeaderText("Enter a letter for the cell");
+                    dialog.setContentText("Letter:");
+                    TextField orientationField = new TextField();
+
+                    // Show the dialog and wait for the user's input
+                    Optional<String> result = dialog.showAndWait();
+                    result.ifPresent(word -> {
+                        String letter = word.trim();
+                        String orientation = orientationField.getText().trim().toLowerCase();
+                        this.vertical = orientation.equals("yes");
+                        // TODO - implement the vertical logic.
+                        // Validate the entered letter
+                        if (letter.length() != 1 || !Character.isLetter(letter.charAt(0))) {
+                            new Alert(Alert.AlertType.ERROR, "Only one letter is allowed.").showAndWait();
+                            return;
+                        }
+
+                        // Generate the image path based on the entered letter
+                        String imagePath = "/Images/Tiles/" + letter.toUpperCase() + ".png";
+
+                        // Set the background image and remove the background color
+                        cell.setId("cell"); // Set an ID for the StackPane
+                        cell.setStyle("-fx-background-color: transparent;"); // Remove the background color
+
+                        // Update the label text
+                        label.setText(letter.toUpperCase());
+                        label.setVisible(false);
+
+                        // Set the background image using JavaFX
+                        String fullPath = Objects.requireNonNull(ViewController.class.getResource(imagePath)).toExternalForm();
+                        imageView.setImage(new Image(fullPath));
+                        imageView.setPreserveRatio(true);
+                        imageView.setFitWidth(cell.getWidth());
+                        imageView.setFitHeight(cell.getHeight()+ 3);
+                        cell.getChildren().add(imageView);
+
+                        // Save the word, its orientation, and the index
+                        int index = boardGridPane.getChildren().indexOf(cell);
+                        saveWordWithOrientationAndIndex(letter, orientation, index);
+                    });
+                });
+            }
+        }
+    }
+
+    // Method to save the entered word, its orientation, and retrieve the column and row index
+    private void saveWordWithOrientationAndIndex(String word, String orientation, int index) {
+        // Retrieve the column and row index based on the StackPane index within the GridPane
+        int numColumns = GridPane.getColumnIndex(boardGridPane.getChildren().get(index));
+        int numRows = GridPane.getRowIndex(boardGridPane.getChildren().get(index));
+        // Implement your saving logic here
+        this.word += word;
+        this.indexCol.add(numColumns);
+        this.indexRow.add(numRows);
+    }
+
+    @FXML
+    public void start(ActionEvent event) throws IOException{
+        squareClickHandler();
+    }
+
+    @FXML
+    public void Exit(ActionEvent event) throws IOException{
+        Platform.exit();
+    }
 }

@@ -6,21 +6,29 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import view.data.ViewSharedData;
 import viewModel.ViewModel;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class BookScrabbleApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
-        Scene scene = new Scene(root, 1000, 550);
-        scene.getStylesheets().add(getClass().getResource("HomePage.css").toExternalForm());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("HomePage.fxml"));
+        Parent root = loader.load();
 
         ViewModel viewModel = new ViewModel();
-        ViewController mc = new ViewController();
-        mc.setViewModel(viewModel);
+        ViewSharedData sharedData = new ViewSharedData(viewModel);
+        System.out.println("View Model created in BookScrabbleApplication ->" + sharedData);
 
+        ViewController viewController = loader.getController();
+        viewController.setViewSharedData(sharedData);
+
+        Scene scene = new Scene(root, 1000, 550);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("HomePage.css")).toExternalForm());
+
+        stage.setUserData(viewModel);
         stage.setScene(scene);
         stage.show();
     }

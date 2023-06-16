@@ -8,7 +8,7 @@
 <?import java.net.URL?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ViewController">
    <children>
-      <Button contentDisplay="CENTER" layoutX="291.0" layoutY="209.0" mnemonicParsing="false" onAction="#StartGame" prefHeight="25.0" prefWidth="101.0" text="Start" textAlignment="CENTER" textOverrun="CLIP">
+      <Button contentDisplay="CENTER" layoutX="291.0" layoutY="209.0" mnemonicParsing="false" onAction="#ChooseGameMode" prefHeight="25.0" prefWidth="101.0" text="Start" textAlignment="CENTER" textOverrun="CLIP">
          <font>
             <Font name="Arial Bold Italic" size="18.0" />
          </font>

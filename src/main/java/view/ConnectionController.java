@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.logic.client.Client;
 import model.logic.host.GameManager;
+import view.data.ViewSharedData;
 import viewModel.ViewModel;
 
 import java.io.IOException;
@@ -33,16 +34,15 @@ public class ConnectionController {
     private Label ipLabelError;
     @FXML
     private TextField ipField;
-
-    ViewModel viewModel;
+    ViewSharedData viewSharedData;
 
     public ConnectionController(){
 
     }
 
-    public void setViewModel(ViewModel viewModel) {
-        System.out.println("Setting viewModel in ConnectionController -> " + viewModel);
-        this.viewModel = viewModel;
+    public void setViewSharedData(ViewSharedData viewSharedData) {
+        this.viewSharedData = viewSharedData;
+        System.out.println("ViewSharedData in Connection controller -> " + this.viewSharedData);
     }
 
     @FXML
@@ -104,7 +104,7 @@ public class ConnectionController {
             ObjectInputStream objectInputStream = new ObjectInputStream(pingCheck.getInputStream());
             try {
                 GameManager model = (GameManager) objectInputStream.readObject();
-                viewModel.setModel(model);
+                this.viewSharedData.getViewModel().setModel(model);
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -113,6 +113,7 @@ public class ConnectionController {
             e.printStackTrace();
         }
         Client playerClient = new Client(ipField.getText(), Integer.parseInt(portField.getText()), nameField.getText());
+        this.viewSharedData.setPlayer(playerClient);
     }
 
     public boolean validPort(String port){
@@ -128,13 +129,23 @@ public class ConnectionController {
     }
 
     @FXML
-    public void loadBoard(ActionEvent event) throws IOException{
-        loadScene(event, "BoardPage");
-    }
-
-    @FXML
     public void loadScene(ActionEvent event, String sceneName) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(sceneName + ".fxml")));
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(sceneName + ".fxml")));
+        Parent root = loader.load();
+
+        ViewController viewController = null;
+        ConnectionController connectionController = null;
+        GameController gameController = null;
+        switch(sceneName){
+            case "HomePage" -> viewController = loader.getController();
+            case "HostPage", "GuestPage", "StartGame" -> connectionController = loader.getController();
+            case "BoardPage" -> gameController = loader.getController();
+        }
+
+        if(viewController != null) viewController.setViewSharedData(this.viewSharedData);
+        else if(connectionController != null) connectionController.setViewSharedData(this.viewSharedData);
+        else if(gameController != null) gameController.setViewSharedData(this.viewSharedData);
+
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = null;
         if(Objects.equals(sceneName, "BoardPage")){
@@ -146,7 +157,7 @@ public class ConnectionController {
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(sceneName + ".css")).toExternalForm());
         } catch (NullPointerException ignored){}
         stage.setScene(scene);
-        //stage.show();
+        stage.show();
     }
 
     @FXML
@@ -157,5 +168,25 @@ public class ConnectionController {
     @FXML
     public void StartGame(ActionEvent event) throws IOException{
         loadScene(event, "StartGame");
+    }
+
+    @FXML
+    public void loadBoard(ActionEvent event) throws IOException{
+        loadScene(event, "BoardPage");
+    }
+
+    @FXML
+    public void loadHostForm(ActionEvent event) throws IOException{
+        loadScene(event, "HostPage");
+    }
+
+    @FXML
+    public void loadHomePage(ActionEvent event) throws IOException{
+        loadScene(event, "HomePage");
+    }
+
+    @FXML
+    public void loadGuestForm(ActionEvent event) throws IOException{
+        loadScene(event, "GuestPage");
     }
 }
