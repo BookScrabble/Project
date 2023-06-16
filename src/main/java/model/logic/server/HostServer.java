@@ -4,6 +4,7 @@ import model.logic.client.Client;
 import model.logic.client.ClientHandler;
 import model.logic.host.GameManager;
 import model.logic.host.GuestHandler;
+import model.logic.host.MySocket;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -18,7 +19,7 @@ import java.util.*;
 
 public class HostServer extends MyServer implements Serializable {
 
-    private final Map<Integer, Socket> clients;
+    private final Map<Integer, MySocket> clients;
     MyServerSocket server;
     private boolean gameIsRunning;
     private Timer turnTimer;
@@ -35,7 +36,7 @@ public class HostServer extends MyServer implements Serializable {
             new Thread(() -> {
                 GameManager.get().getTurnManager().nextTurn();
                 System.out.println("Current player -> " + GameManager.get().getCurrentPlayerID());
-                Socket currentPlayer = clients.get(GameManager.get().getCurrentPlayerID());
+                Socket currentPlayer = clients.get(GameManager.get().getCurrentPlayerID()).getPlayerSocket();
                 try {
                     clientHandler.handleClient(currentPlayer.getInputStream(), currentPlayer.getOutputStream());
                     this.cancel();
@@ -64,10 +65,10 @@ public class HostServer extends MyServer implements Serializable {
                     ObjectOutputStream objectOutputStream = new ObjectOutputStream(aClient.getOutputStream());
                     objectOutputStream.writeObject(GameManager.get());
                     aClient.close();
-                    Socket realClient = server.getServerSocket().accept();
-                    Scanner inFromClient = new Scanner(realClient.getInputStream());
+                    MySocket realClient = new MySocket(server.getServerSocket().accept());
+                    Scanner inFromClient = new Scanner(realClient.getPlayerSocket().getInputStream());
                     String playerName = inFromClient.next();
-                    clients.put(clients.size() + 1, aClient);
+                    clients.put(clients.size() + 1, realClient);
                     GameManager.get().addPlayer(playerName);
                     System.out.println("Player " + playerName + " Connected Successfully!");
                 }
@@ -93,9 +94,9 @@ public class HostServer extends MyServer implements Serializable {
 
     //TODO - Implement method
     private void broadcastUpdate(String messageForPlayers) {
-        for(Socket aClient : clients.values()) {
+        for(MySocket aClient : clients.values()) {
             try {
-                PrintWriter outToClient = new PrintWriter(aClient.getOutputStream(), true);
+                PrintWriter outToClient = new PrintWriter(aClient.getPlayerSocket().getOutputStream(), true);
                 outToClient.println(messageForPlayers);
             } catch (IOException ignored) {}
         }
@@ -104,9 +105,9 @@ public class HostServer extends MyServer implements Serializable {
     @Override
     public void close() {
         Client.serverIsRunning = false;
-        for(Socket aClient : clients.values()) {
+        for(MySocket aClient : clients.values()) {
             try {
-                aClient.close();
+                aClient.getPlayerSocket().close();
             } catch (IOException ignored) {}
         }
         clients.clear();
