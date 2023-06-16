@@ -29,4 +29,8 @@ public class ViewModel implements Observer { // Later implement ViewModelFacade
     public void setModel(GameManager model) {
         this.model = model;
     }
+
+    public GameManager getModel() {
+        return model;
+    }
 }
