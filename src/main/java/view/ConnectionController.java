@@ -11,11 +11,14 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.logic.client.Client;
 import model.logic.host.GameManager;
+import model.logic.host.MySocket;
+import view.data.GameModelReceiver;
 import view.data.ViewSharedData;
 import viewModel.ViewModel;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Objects;
@@ -98,24 +101,32 @@ public class ConnectionController {
     }
 
     public void connectToServer(){
-        try {
-            Socket pingCheck = new Socket(ipField.getText(), Integer.parseInt(portField.getText()));
-            PrintWriter printWriter = new PrintWriter(pingCheck.getOutputStream(), true);
-            printWriter.println("ping");
-            ObjectInputStream objectInputStream = new ObjectInputStream(pingCheck.getInputStream());
-            try {
-                GameManager model = (GameManager) objectInputStream.readObject();
-                model.addObserver(viewSharedData.getViewModel());
-                this.viewSharedData.getViewModel().setModel(model);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-            pingCheck.close();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-        Client playerClient = new Client(ipField.getText(), Integer.parseInt(portField.getText()), nameField.getText());
+//        try {
+//            Socket pingCheck = new Socket(ipField.getText(), Integer.parseInt(portField.getText()));
+//            PrintWriter printWriter = new PrintWriter(pingCheck.getOutputStream(), true);
+//            printWriter.println("ping");
+//            ObjectInputStream objectInputStream = new ObjectInputStream(pingCheck.getInputStream());
+//            try {
+//                GameManager model = (GameManager) objectInputStream.readObject();
+//                this.viewSharedData.getViewModel().setModel(model);
+//            } catch (ClassNotFoundException e) {
+//                throw new RuntimeException(e);
+//            }
+//            pingCheck.close();
+//        } catch (IOException e){
+//            e.printStackTrace();
+//        }
+//        Client playerClient = new Client(ipField.getText(), Integer.parseInt(portField.getText()), nameField.getText());
+//        this.viewSharedData.setPlayer(playerClient);
+
+        String ip = ipField.getText();
+        int port = Integer.parseInt(portField.getText());
+        String name = nameField.getText();
+
+        Client playerClient = new Client(ip, port, name);
+        GameModelReceiver playerGameModelReceiver = new GameModelReceiver(ip, port);
         this.viewSharedData.setPlayer(playerClient);
+        this.viewSharedData.setGameModelReceiver(playerGameModelReceiver);
     }
 
     public boolean validPort(String port){

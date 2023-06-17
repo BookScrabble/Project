@@ -40,9 +40,6 @@ public class GameController {
 
     public void setViewSharedData(ViewSharedData viewSharedData) {
         this.viewSharedData = viewSharedData;
-        System.out.println("ViewSharedData in GameController -> " + viewSharedData);
-        System.out.println("Player -> " + viewSharedData.getPlayer());
-        System.out.println("Model -> " + viewSharedData.getViewModel().getModel().getGameData().getAllPlayers());
     }
 
     @FXML
@@ -179,7 +176,6 @@ public class GameController {
     @FXML
     public void start(ActionEvent event) throws IOException{
         squareClickHandler();
-        System.out.println("total observers in model -> " + this.viewSharedData.getViewModel().getModel().countObservers());
         this.viewSharedData.getViewModel().getModel().initializeGame();
     }
 

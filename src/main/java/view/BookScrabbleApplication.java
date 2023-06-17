@@ -20,7 +20,6 @@ public class BookScrabbleApplication extends Application {
 
         ViewModel viewModel = new ViewModel();
         ViewSharedData sharedData = new ViewSharedData(viewModel);
-        System.out.println("View Model created in BookScrabbleApplication ->" + sharedData);
 
         ViewController viewController = loader.getController();
         viewController.setViewSharedData(sharedData);

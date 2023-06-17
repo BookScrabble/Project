@@ -20,6 +20,7 @@ public class MySocket implements Serializable {
         in.defaultReadObject();
         this.playerSocket = new Socket();
     }
+
     public Socket getPlayerSocket() {
         return playerSocket;
     }

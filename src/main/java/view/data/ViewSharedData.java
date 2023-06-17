@@ -2,14 +2,17 @@ package view.data;
 
 import model.logic.client.Client;
 import viewModel.ViewModel;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ViewSharedData {
+public class ViewSharedData implements Observer {
     ViewModel viewModel;
-
     Client player;
+    GameModelReceiver gameModelReceiver;
 
     public ViewSharedData(ViewModel viewModel){
         this.viewModel = viewModel;
+        gameModelReceiver = null;
     }
 
     public ViewModel getViewModel() {
@@ -24,5 +27,14 @@ public class ViewSharedData {
         return player;
     }
 
+    public void setGameModelReceiver(GameModelReceiver gameModelReceiver) {
+        this.gameModelReceiver = gameModelReceiver;
+        this.gameModelReceiver.addObserver(this);
+    }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        System.out.println("Got notify from GameModelReceiver(Hi its ViewSharedData)");
+        this.getViewModel().setModel(this.gameModelReceiver.getUpdatedModel());
+    }
 }

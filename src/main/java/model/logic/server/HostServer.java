@@ -3,13 +3,10 @@ package model.logic.server;
 import model.logic.client.Client;
 import model.logic.client.ClientHandler;
 import model.logic.host.GameManager;
-import model.logic.host.GuestHandler;
 import model.logic.host.MySocket;
+import view.data.GameModelReceiver;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
-import java.io.Serializable;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -20,6 +17,7 @@ import java.util.*;
 public class HostServer extends MyServer implements Serializable {
 
     private final Map<Integer, MySocket> clients;
+    private final Map<Integer, MySocket> clientsModelReceiver;
     MyServerSocket server;
     private boolean gameIsRunning;
     private Timer turnTimer;
@@ -27,6 +25,7 @@ public class HostServer extends MyServer implements Serializable {
     public HostServer(int port, ClientHandler clientHandler) {
         super(port, clientHandler);
         this.clients = new HashMap<>();
+        this.clientsModelReceiver = new HashMap<>();
         this.server = null;
     }
 
@@ -56,27 +55,64 @@ public class HostServer extends MyServer implements Serializable {
     }
 
     public void connectClients() {
+//        while (!gameIsRunning) {
+//            try {
+//                Socket aClient = server.getServerSocket().accept();
+//                Scanner inPingCheck = new Scanner(aClient.getInputStream());
+//                String ping = inPingCheck.next();
+//                if(ping.equals("ping")){
+//                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(aClient.getOutputStream());
+//                    objectOutputStream.writeObject(GameManager.get());
+//                    aClient.close();
+//                    MySocket realClient = new MySocket(server.getServerSocket().accept());
+//                    Scanner inFromClient = new Scanner(realClient.getPlayerSocket().getInputStream());
+//                    String playerName = inFromClient.next();
+//                    clients.put(clients.size() + 1, realClient);
+//                    GameManager.get().addPlayer(playerName);
+//                    System.out.println("Player " + playerName + " Connected Successfully!");
+//                    sendUpdatedModel(GameManager.get());
+//                }
+//            }catch (SocketTimeoutException ignored) {}
+//            catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
         while (!gameIsRunning) {
             try {
-                Socket aClient = server.getServerSocket().accept();
-                Scanner inPingCheck = new Scanner(aClient.getInputStream());
-                String ping = inPingCheck.next();
-                if(ping.equals("ping")){
-                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(aClient.getOutputStream());
-                    objectOutputStream.writeObject(GameManager.get());
-                    aClient.close();
-                    MySocket realClient = new MySocket(server.getServerSocket().accept());
-                    Scanner inFromClient = new Scanner(realClient.getPlayerSocket().getInputStream());
-                    String playerName = inFromClient.next();
-                    clients.put(clients.size() + 1, realClient);
-                    GameManager.get().addPlayer(playerName);
-                    System.out.println("Player " + playerName + " Connected Successfully!");
-                }
+                MySocket client = new MySocket(server.getServerSocket().accept());
+                Scanner inFromClient = new Scanner(client.getPlayerSocket().getInputStream());
+                String playerName = inFromClient.next();
+                clients.put(clients.size()+1, client);
+                GameManager.get().addPlayer(playerName);
+                System.out.println("Player " + playerName + " Connected Successfully!");
+                MySocket clientModelReceiver = new MySocket(server.getServerSocket().accept());
+                clientsModelReceiver.put(clients.size(), clientModelReceiver);
+                sendUpdatedModel(GameManager.get());
             }catch (SocketTimeoutException ignored) {}
             catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void sendUpdatedModel(GameManager model){
+        int i = 1;
+        for (MySocket gameModelReceiver : clientsModelReceiver.values()){
+            try {
+                System.out.println("Updated client number " + i);
+                i++;
+                ObjectOutputStream outToModelReceiver = new ObjectOutputStream(gameModelReceiver.getPlayerSocket().getOutputStream());
+                outToModelReceiver.writeObject(model);
+            } catch (IOException ignored) {
+                System.out.println("Not found");
+            }
+        }
+        sendUpdateViewRequest();
+    }
+
+    public void sendUpdateViewRequest(){
+        //TODO - Update all client sockets that change was made and their view needs a refresh.
     }
 
     /**
@@ -92,7 +128,7 @@ public class HostServer extends MyServer implements Serializable {
         }
     }
 
-    //TODO - Implement method
+    //TODO - Implement method/Change to observer updates(ClientModelObserver MITM)
     private void broadcastUpdate(String messageForPlayers) {
         for(MySocket aClient : clients.values()) {
             try {

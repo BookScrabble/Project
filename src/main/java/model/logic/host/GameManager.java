@@ -11,7 +11,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.*;
 
-public class GameManager extends Observable implements GameHandler,Serializable {
+public class GameManager implements GameHandler,Serializable {
     private static GameManager single_instance = null;
     HostServer host;
     GameData gameData;
@@ -66,10 +66,10 @@ public class GameManager extends Observable implements GameHandler,Serializable 
      * the turn order decided by turn manager.
      */
     public void initializeGame(){
-        if(turnManager == null) return;
-        initializeTurnManager();
-        updateGuests("tiles");
-        System.out.println("From GameManager observers count -> " + countObservers());
+        //if(turnManager != null) return;
+        //initializeTurnManager();
+        //updateGuests("tiles");
+        System.out.println("Test clients connected size -> " + this.getGameData().getAllPlayers().size());
     }
 
     /**
@@ -157,8 +157,7 @@ public class GameManager extends Observable implements GameHandler,Serializable 
         -"turnEnded"
         -
          */
-        setChanged();
-        notifyObservers(change);
+
     }
 
     /**

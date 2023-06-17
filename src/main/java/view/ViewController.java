@@ -19,7 +19,6 @@ import java.util.Objects;
 
 public class ViewController {
     ViewSharedData viewSharedData;
-
     public StringProperty wordFromPlayer;
     public StringProperty playerAction;
 
