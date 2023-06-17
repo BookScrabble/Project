@@ -23,7 +23,7 @@ public class ViewModel implements Observer { // Later implement ViewModelFacade
 
     @Override
     public void update(Observable o, Object arg) {
-
+        System.out.println("Received an update from the model -> this -> " + this);
     }
 
     public void setModel(GameManager model) {

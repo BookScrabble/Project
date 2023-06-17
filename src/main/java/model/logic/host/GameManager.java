@@ -62,21 +62,37 @@ public class GameManager extends Observable implements GameHandler,Serializable 
     }
 
     /**
-     * @details Used to initiate the game. Initialize turnManager if needed and uses HostServer startGame method.
+     * @details Used to initialize turn manager, Show players which tile they got. and later prompt players for
+     * the turn order decided by turn manager.
+     */
+    public void initializeGame(){
+        if(turnManager == null) return;
+        initializeTurnManager();
+        updateGuests("tiles");
+        System.out.println("From GameManager observers count -> " + countObservers());
+    }
+
+    /**
+     * @details Used to initiate the game. Initialize turn manager if needed, fill all
+     * players hands and uses HostServer startGame method.
      */
     public void startGame() {
         if(turnManager == null){
-            initializeTurnManager();
+            initializeGame();
         }
+        for(Player player : this.gameData.getAllPlayers().values()){
+            fillHand(player);
+        }
+        updateGuests("tiles");
         this.host.startGame();
     }
 
     /**
-     * @details Helper method for game manager to fill hand of player(maximum 7 tiles).
+     * @details fill hand of player(maximum 7 tiles).
      */
-    private void fillHand() {
-        while(gameData.getPlayer(turnManager.getCurrentPlayerTurn()).getAllTiles().size() < 7){
-            gameData.getPlayer(turnManager.getCurrentPlayerTurn()).getAllTiles().add(Tile.Bag.getBag().getRand());
+    public void fillHand(Player player) {
+        while(player.getAllTiles().size() < 7){
+            player.getAllTiles().add(Tile.Bag.getBag().getRand());
         }
     }
 
@@ -122,10 +138,9 @@ public class GameManager extends Observable implements GameHandler,Serializable 
             else if(score == -1){
                 return "-1";
             }else{
-                int oldScore = currentPlayer.getScore();
-                currentPlayer.setScore(oldScore + score);
-                fillHand();
-                updateGuests();
+                currentPlayer.setScore(currentPlayer.getScore() + score);
+                fillHand(currentPlayer);
+                updateGuests("turnEnded");
                 return "1";
             }
         }
@@ -135,10 +150,15 @@ public class GameManager extends Observable implements GameHandler,Serializable 
     /**
      * @Details Updates all connected guests if change was made in game state.
      */
-    public void updateGuests(){
+    public void updateGuests(String change){
         /*
-        TODO - Implementation required
+        changes so far:
+        -"tiles"
+        -"turnEnded"
+        -
          */
+        setChanged();
+        notifyObservers(change);
     }
 
     /**

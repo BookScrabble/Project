@@ -63,7 +63,7 @@ public class ConnectionController {
         if(allValid){
             GameManager gameManager = GameManager.get();
             ipField = new TextField();
-            ipField.setText("localhost");
+            ipField.setText("localhost"); //Default ip to make server run locally on host computer.
             gameManager.initializeHostServer(Integer.parseInt(portField.getText()));
             connectToServer();
             loadBoard(event);
@@ -105,6 +105,7 @@ public class ConnectionController {
             ObjectInputStream objectInputStream = new ObjectInputStream(pingCheck.getInputStream());
             try {
                 GameManager model = (GameManager) objectInputStream.readObject();
+                model.addObserver(viewSharedData.getViewModel());
                 this.viewSharedData.getViewModel().setModel(model);
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);

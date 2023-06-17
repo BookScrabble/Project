@@ -179,6 +179,8 @@ public class GameController {
     @FXML
     public void start(ActionEvent event) throws IOException{
         squareClickHandler();
+        System.out.println("total observers in model -> " + this.viewSharedData.getViewModel().getModel().countObservers());
+        this.viewSharedData.getViewModel().getModel().initializeGame();
     }
 
     @FXML

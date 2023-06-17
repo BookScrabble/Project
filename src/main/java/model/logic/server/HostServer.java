@@ -40,7 +40,7 @@ public class HostServer extends MyServer implements Serializable {
                 try {
                     clientHandler.handleClient(currentPlayer.getInputStream(), currentPlayer.getOutputStream());
                     this.cancel();
-                    turnTimer.scheduleAtFixedRate(new ManageTurnTask(), 1000, 5000);
+                    turnTimer.scheduleAtFixedRate(new ManageTurnTask(), 5000, 60000);
                 } catch (IOException ignored) {}
             }).start();
         }
@@ -88,7 +88,7 @@ public class HostServer extends MyServer implements Serializable {
         }
         if(gameIsRunning){
             turnTimer = new Timer();
-            turnTimer.scheduleAtFixedRate(new ManageTurnTask(), 1000, 5000); //TODO - Update delay and period here and in ManageTurnTask!
+            turnTimer.scheduleAtFixedRate(new ManageTurnTask(), 5000, 60000);
         }
     }
 

@@ -23,4 +23,6 @@ public class ViewSharedData {
     public Client getPlayer() {
         return player;
     }
+
+
 }
