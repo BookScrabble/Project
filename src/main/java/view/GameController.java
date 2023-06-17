@@ -13,7 +13,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import view.data.ViewSharedData;
-import viewModel.ViewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,6 +42,7 @@ public class GameController {
         this.viewSharedData = viewSharedData;
         System.out.println("ViewSharedData in GameController -> " + viewSharedData);
         System.out.println("Player -> " + viewSharedData.getPlayer());
+        System.out.println("Model -> " + viewSharedData.getViewModel().getModel().getGameData().getAllPlayers());
     }
 
     @FXML
