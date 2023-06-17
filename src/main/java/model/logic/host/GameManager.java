@@ -19,12 +19,12 @@ public class GameManager extends Observable implements GameHandler,Serializable 
     int calculationServerPort;
     private TurnManager turnManager;
 
-    private GameManager(int port) {
-        host = new HostServer(port, new GuestHandler());
+    private GameManager() {
+        //host = new HostServer(port, new GuestHandler());
         calculationServerPort = 10000;
         calculationServerIp = "localhost";
         gameData = new GameData();
-        host.start();
+        //host.start();
         turnManager = null;
     }
 
@@ -35,7 +35,7 @@ public class GameManager extends Observable implements GameHandler,Serializable 
      */
     public static GameManager get() {
         if (single_instance == null)
-            single_instance = new GameManager(19999);
+            single_instance = new GameManager();
         return single_instance;
     }
 
@@ -45,6 +45,12 @@ public class GameManager extends Observable implements GameHandler,Serializable 
     public void initializeTurnManager(){
         for(Player player : gameData.getAllPlayers().values()) addTile(player);
         turnManager = new TurnManager(gameData.getAllPlayers());
+    }
+
+
+    public void initializeHostServer(int port){
+        host = new HostServer(port, new GuestHandler());
+        host.start();
     }
 
     /**
@@ -106,6 +112,8 @@ public class GameManager extends Observable implements GameHandler,Serializable 
             Tile[] tiles = new Tile[word.length()];
 
             Player currentPlayer = gameData.getPlayer(turnManager.getCurrentPlayerTurn());
+            if(currentPlayer == null) return "Player Is Not Found!";
+
             Word newWord = buildWord(currentPlayer, word, row, col, vertical);
             int score = gameData.getBoard().tryPlaceWord(newWord);
             if (score == 0) {
@@ -228,6 +236,12 @@ public class GameManager extends Observable implements GameHandler,Serializable 
      */
     public TurnManager getTurnManager(){
         return this.turnManager;
+    }
+
+    public void removePlayer(int playerId){
+        gameData.removePlayer(playerId);
+        host.removePlayer(playerId);
+        turnManager.removePlayer(playerId);
     }
 
     /**

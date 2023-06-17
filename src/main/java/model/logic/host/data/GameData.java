@@ -90,4 +90,8 @@ public class GameData implements Serializable {
         }
     }
 
+    public void removePlayer(int playerId){
+        this.playerData.remove(playerId);
+    }
+
 }

@@ -64,6 +64,7 @@ public class ConnectionController {
             GameManager gameManager = GameManager.get();
             ipField = new TextField();
             ipField.setText("localhost");
+            gameManager.initializeHostServer(Integer.parseInt(portField.getText()));
             connectToServer();
             loadBoard(event);
         }
@@ -84,12 +85,12 @@ public class ConnectionController {
         } else{
             portLabelError.setVisible(false);
         }
-//        if(!validIp(ipField.getText())){
-//            ipLabelError.setVisible(true);
-//            allValid = false;
-//        } else{
-//            ipLabelError.setVisible(false);
-//        }
+        if(!validIp(ipField.getText())){
+            ipLabelError.setVisible(true);
+            allValid = false;
+        } else{
+            ipLabelError.setVisible(false);
+        }
         if(allValid){
             connectToServer();
             loadBoard(event);
@@ -121,7 +122,7 @@ public class ConnectionController {
     }
 
     public boolean validIp(String ip){
-        return ip.matches("(\\b25[0-5]|\\b2[0-4][0-9]|\\b[01]?[0-9][0-9]?)(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}");
+        return ip.matches("(\\b25[0-5]|\\b2[0-4][0-9]|\\b[01]?[0-9][0-9]?)(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}") || ip.equals("localhost");
     }
 
     public boolean validName(String name){

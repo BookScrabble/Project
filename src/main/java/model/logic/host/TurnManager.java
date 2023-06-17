@@ -38,5 +38,9 @@ public class TurnManager {
         this.currentPlayerTurn = newTurn;
     }
 
+    public void removePlayer(int playerId){
+        this.playersTurn.remove((Object)playerId);
+    }
+
 
 }

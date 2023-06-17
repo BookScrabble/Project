@@ -102,6 +102,15 @@ public class HostServer extends MyServer implements Serializable {
         }
     }
 
+    public void removePlayer(int playerId){
+        MySocket removedPlayer = this.clients.remove(playerId);
+        if(removedPlayer != null) {
+            try {
+                removedPlayer.getPlayerSocket().close();
+            } catch (IOException ignored) {}
+        }
+    }
+
     @Override
     public void close() {
         Client.serverIsRunning = false;

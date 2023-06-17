@@ -34,6 +34,10 @@ public class GuestHandler implements ClientHandler,Serializable {
                                     stillPlaying = false;
                                 }
                                 case "0" -> outToClient.println("Word not found in dictionary, Challenge or try again");
+                                case "Player Is Not Found!" -> {
+                                    stillPlaying = false;
+                                    gm.removePlayer(gm.getCurrentPlayerID());
+                                }
                                 default -> {
                                     outToClient.println("Word accepted, turn done");
                                     stillPlaying = false;
