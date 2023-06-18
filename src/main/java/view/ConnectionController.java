@@ -63,6 +63,7 @@ public class ConnectionController {
             ipField.setText("localhost"); //Default ip to make server run locally on host computer.
             gameManager.initializeHostServer(Integer.parseInt(portField.getText()));
             connectToServer();
+            viewSharedData.setHost(true);
             loadWaitingHostRoom(event);
         }
     }
@@ -90,6 +91,7 @@ public class ConnectionController {
         }
         if(allValid){
             connectToServer();
+            viewSharedData.setHost(false);
             loadWaitingHostRoom(event);
         }
     }
@@ -139,6 +141,7 @@ public class ConnectionController {
         else if(gameController != null) {
             gameController.setViewSharedData(this.viewSharedData);
             gameController.bindAll();
+            if(viewSharedData.getHost()) gameController.toggleStartButton();
         }
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

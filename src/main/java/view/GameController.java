@@ -9,10 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -57,6 +54,8 @@ public class GameController {
     Label fourthPlayerName;
     @FXML
     Label fourthPlayerScore;
+    @FXML
+    Button startGame;
 
     //Properties:
 
@@ -67,6 +66,7 @@ public class GameController {
         this.flag = 0;
         this.indexRow = new ArrayList<>();
         this.indexCol = new ArrayList<>();
+        this.startGame = new Button();
         initiatePlayersName();
         initiatePlayersScore();
     }
@@ -83,6 +83,10 @@ public class GameController {
         secondPlayerScore = new Label();
         thirdPlayerScore = new Label();
         fourthPlayerScore = new Label();
+    }
+
+    public void toggleStartButton(){
+        startGame.setVisible(true);
     }
 
 

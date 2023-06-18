@@ -12,11 +12,13 @@ public class ViewSharedData implements Observer {
     String hostIp;
     String playerName;
     int hostPort;
+    boolean isHost;
 
     public ViewSharedData(ViewModel viewModel){
         this.viewModel = viewModel;
         gameModelReceiver = null;
         hostIp = "localhost";
+        isHost = false;
     }
 
     public ViewModel getViewModel() {
@@ -37,6 +39,14 @@ public class ViewSharedData implements Observer {
 
     public String getHostIp() {
         return hostIp;
+    }
+
+    public void setHost(boolean host) {
+        isHost = host;
+    }
+
+    public boolean getHost(){
+        return isHost;
     }
 
     public void setPlayerName(String playerName) {
