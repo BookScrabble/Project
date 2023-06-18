@@ -185,7 +185,7 @@ public class GameController {
     //Testing ONLY
     public void sendStartToServer(){
         try {
-            MySocket initiateServer = new MySocket(new Socket("localhost", 12345));
+            MySocket initiateServer = new MySocket(new Socket(viewSharedData.getHostIp(), viewSharedData.getHostPort()));
             PrintWriter printWriter = new PrintWriter(initiateServer.getPlayerSocket().getOutputStream(),true);
             printWriter.println("start");
         } catch (IOException e) {

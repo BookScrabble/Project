@@ -108,6 +108,9 @@ public class ConnectionController {
         GameModelReceiver playerGameModelReceiver = new GameModelReceiver(ip, port);
         this.viewSharedData.setPlayer(playerClient);
         this.viewSharedData.setGameModelReceiver(playerGameModelReceiver);
+        this.viewSharedData.setHostIp(ip);
+        this.viewSharedData.setHostPort(port);
+        this.viewSharedData.setPlayerName(name);
     }
 
     public boolean validPort(String port){
