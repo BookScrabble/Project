@@ -45,7 +45,6 @@ public class ConnectionController {
 
     public void setViewSharedData(ViewSharedData viewSharedData) {
         this.viewSharedData = viewSharedData;
-        System.out.println("ViewSharedData in Connection controller -> " + this.viewSharedData);
     }
 
     @FXML
@@ -101,24 +100,6 @@ public class ConnectionController {
     }
 
     public void connectToServer(){
-//        try {
-//            Socket pingCheck = new Socket(ipField.getText(), Integer.parseInt(portField.getText()));
-//            PrintWriter printWriter = new PrintWriter(pingCheck.getOutputStream(), true);
-//            printWriter.println("ping");
-//            ObjectInputStream objectInputStream = new ObjectInputStream(pingCheck.getInputStream());
-//            try {
-//                GameManager model = (GameManager) objectInputStream.readObject();
-//                this.viewSharedData.getViewModel().setModel(model);
-//            } catch (ClassNotFoundException e) {
-//                throw new RuntimeException(e);
-//            }
-//            pingCheck.close();
-//        } catch (IOException e){
-//            e.printStackTrace();
-//        }
-//        Client playerClient = new Client(ipField.getText(), Integer.parseInt(portField.getText()), nameField.getText());
-//        this.viewSharedData.setPlayer(playerClient);
-
         String ip = ipField.getText();
         int port = Integer.parseInt(portField.getText());
         String name = nameField.getText();

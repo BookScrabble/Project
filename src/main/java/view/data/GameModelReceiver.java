@@ -9,14 +9,13 @@ import java.util.Observable;
 
 public class GameModelReceiver extends Observable implements Serializable {
     MySocket server;
-    private final BufferedInputStream inFromServer;
+    private BufferedInputStream inFromServer;
     GameManager updatedModel;
     public GameModelReceiver(String ip, int port){
         try {
             server = new MySocket(new Socket(ip, port));
             inFromServer = new BufferedInputStream(server.getPlayerSocket().getInputStream());
             updatedModel = null;
-            System.out.println("server status in GameModelReceiver -> " + server.getPlayerSocket().isClosed());
             listenForModelUpdates();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -27,7 +26,6 @@ public class GameModelReceiver extends Observable implements Serializable {
         this.updatedModel = newModel;
         setChanged();
         notifyObservers();
-        System.out.println("notifyFromGameModelReceiver To ViewSharedData");
     }
 
     public MySocket getServer(){
@@ -43,7 +41,7 @@ public class GameModelReceiver extends Observable implements Serializable {
             while (!server.getPlayerSocket().isClosed()) {
                 try {
                     GameManager newModel = (GameManager) new ObjectInputStream(inFromServer).readObject();
-                    System.out.println("Received model client size -> " + newModel.getGameData().getAllPlayers().size());
+                    System.out.println("Received updated model");
                     setUpdatedModel(newModel);
                 } catch (IOException | ClassNotFoundException ignored) {}
             }

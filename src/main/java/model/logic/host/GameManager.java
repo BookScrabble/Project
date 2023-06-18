@@ -45,6 +45,7 @@ public class GameManager implements GameHandler,Serializable {
     public void initializeTurnManager(){
         for(Player player : gameData.getAllPlayers().values()) addTile(player);
         turnManager = new TurnManager(gameData.getAllPlayers());
+        System.out.println("Turns decided by turn manager -> " + turnManager.getPlayersTurn());
     }
 
 
@@ -66,10 +67,10 @@ public class GameManager implements GameHandler,Serializable {
      * the turn order decided by turn manager.
      */
     public void initializeGame(){
-        //if(turnManager != null) return;
-        //initializeTurnManager();
-        //updateGuests("tiles");
-        System.out.println("Test clients connected size -> " + this.getGameData().getAllPlayers().size());
+        if(turnManager != null) return;
+        initializeTurnManager();
+        updateGuests("tiles");
+        System.out.println("Test clients that are currently playing -> size: " + this.getGameData().getAllPlayers().size());
     }
 
     /**

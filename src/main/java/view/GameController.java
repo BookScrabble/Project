@@ -12,9 +12,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import model.logic.host.MySocket;
 import view.data.ViewSharedData;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
@@ -175,9 +178,19 @@ public class GameController {
 
     @FXML
     public void start(ActionEvent event) throws IOException{
-        //squareClickHandler();
-        this.viewSharedData.getViewModel().getModel().initializeGame();
-        this.viewSharedData.getGameModelReceiver().getUpdatedModel().initializeGame();
+        squareClickHandler();
+        sendStartToServer();
+    }
+
+    //Testing ONLY
+    public void sendStartToServer(){
+        try {
+            MySocket initiateServer = new MySocket(new Socket("localhost", 12345));
+            PrintWriter printWriter = new PrintWriter(initiateServer.getPlayerSocket().getOutputStream(),true);
+            printWriter.println("start");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML

@@ -38,7 +38,6 @@ public class ViewSharedData implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("Got notify from GameModelReceiver(Hi its ViewSharedData)");
         this.getViewModel().setModel(this.gameModelReceiver.getUpdatedModel());
     }
 }

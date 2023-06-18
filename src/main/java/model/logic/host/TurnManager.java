@@ -23,7 +23,7 @@ public class TurnManager {
     }
 
     public void nextTurn(){
-        this.currentPlayerTurn = (this.currentPlayerTurn+1)%4;
+        this.currentPlayerTurn = (this.currentPlayerTurn+1)%playersTurn.size();
     }
 
     public int getCurrentPlayerTurn(){
