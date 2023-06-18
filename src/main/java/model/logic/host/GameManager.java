@@ -20,11 +20,9 @@ public class GameManager implements GameHandler,Serializable {
     private TurnManager turnManager;
 
     private GameManager() {
-        //host = new HostServer(port, new GuestHandler());
         calculationServerPort = 10000;
         calculationServerIp = "localhost";
         gameData = new GameData();
-        //host.start();
         turnManager = null;
     }
 

@@ -13,7 +13,7 @@
             <Font name="System Bold Italic" size="24.0" />
          </font>
       </Label>
-      <Button layoutX="198.0" layoutY="219.0" mnemonicParsing="false" onAction="#sendStartToServer" styleClass="Button" text="Start Game" />
+      <Button layoutX="198.0" layoutY="219.0" mnemonicParsing="false" onAction="#start" styleClass="Button" text="Start Game" />
       <Button layoutX="198.0" layoutY="290.0" mnemonicParsing="false" onAction="#Exit" styleClass="Button" text="Close Game" />
       <Label layoutX="181.0" layoutY="74.0" text="Players : ">
          <font>

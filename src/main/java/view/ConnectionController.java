@@ -163,11 +163,6 @@ public class ConnectionController {
     }
 
     @FXML
-    public void loadBoard(ActionEvent event) throws IOException{
-        loadScene(event, "BoardPage");
-    }
-
-    @FXML
     public void loadHostForm(ActionEvent event) throws IOException{
         loadScene(event, "HostPage");
     }

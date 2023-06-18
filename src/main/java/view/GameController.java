@@ -3,7 +3,10 @@ package view;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -12,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import model.logic.host.MySocket;
 import view.data.ViewSharedData;
 
@@ -31,6 +35,7 @@ public class GameController {
     @FXML
     GridPane boardGridPane;
     ViewSharedData viewSharedData;
+
 
     public GameController(){
         this.word = "";
@@ -178,7 +183,7 @@ public class GameController {
 
     @FXML
     public void start(ActionEvent event) throws IOException{
-        squareClickHandler();
+        loadBoard(event);
         sendStartToServer();
     }
 
@@ -198,6 +203,46 @@ public class GameController {
                 } catch (IOException ignored) {}
             }
         }
+    }
+
+    @FXML
+    public void loadScene(ActionEvent event, String sceneName) throws IOException {
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(sceneName + ".fxml")));
+        Parent root = loader.load();
+
+        ViewController viewController = null;
+        ConnectionController connectionController = null;
+        GameController gameController = null;
+        switch(sceneName){
+            case "HomePage" -> viewController = loader.getController();
+            case "HostPage", "GuestPage", "StartGame" -> connectionController = loader.getController();
+            case "BoardPage" -> gameController = loader.getController();
+        }
+
+        if(viewController != null) viewController.setViewSharedData(this.viewSharedData);
+        else if(connectionController != null) connectionController.setViewSharedData(this.viewSharedData);
+        else if(gameController != null) {
+            gameController.setViewSharedData(this.viewSharedData);
+            gameController.squareClickHandler();
+        }
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = null;
+        if(Objects.equals(sceneName, "BoardPage")){
+            scene = new Scene(root,1400,1000);
+        } else{
+            scene = new Scene(root);
+        }
+        try {
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(sceneName + ".css")).toExternalForm());
+        } catch (NullPointerException ignored){}
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    public void loadBoard(ActionEvent event) throws IOException{
+        loadScene(event, "BoardPage");
     }
 
     @FXML
