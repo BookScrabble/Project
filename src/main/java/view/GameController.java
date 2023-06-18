@@ -175,8 +175,9 @@ public class GameController {
 
     @FXML
     public void start(ActionEvent event) throws IOException{
-        squareClickHandler();
+        //squareClickHandler();
         this.viewSharedData.getViewModel().getModel().initializeGame();
+        this.viewSharedData.getGameModelReceiver().getUpdatedModel().initializeGame();
     }
 
     @FXML

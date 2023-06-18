@@ -84,11 +84,24 @@ public class HostServer extends MyServer implements Serializable {
                 Scanner inFromClient = new Scanner(client.getPlayerSocket().getInputStream());
                 String playerName = inFromClient.next();
                 clients.put(clients.size()+1, client);
-                GameManager.get().addPlayer(playerName);
+                GameManager centralModel = GameManager.get();
+                centralModel.addPlayer(playerName);
+                //GameManager.get().addPlayer(playerName);
                 System.out.println("Player " + playerName + " Connected Successfully!");
                 MySocket clientModelReceiver = new MySocket(server.getServerSocket().accept());
                 clientsModelReceiver.put(clients.size(), clientModelReceiver);
-                sendUpdatedModel(GameManager.get());
+                //sendUpdatedModel(GameManager.get());
+                for (MySocket gameModelReceiver : clientsModelReceiver.values()){
+                    new Thread(() -> {
+                        try {
+                            System.out.println("Updated client"); //Prints should be in host only.
+                            ObjectOutputStream outToModelReceiver = new ObjectOutputStream(gameModelReceiver.getPlayerSocket().getOutputStream());
+                            outToModelReceiver.writeObject(GameManager.get());
+                        } catch (IOException ignored) {
+                            System.out.println("Not found");
+                        }
+                    }).start();
+                }
             }catch (SocketTimeoutException ignored) {}
             catch (IOException e) {
                 e.printStackTrace();
@@ -97,16 +110,17 @@ public class HostServer extends MyServer implements Serializable {
     }
 
     public void sendUpdatedModel(GameManager model){
-        int i = 1;
         for (MySocket gameModelReceiver : clientsModelReceiver.values()){
-            try {
-                System.out.println("Updated client number " + i);
-                i++;
-                ObjectOutputStream outToModelReceiver = new ObjectOutputStream(gameModelReceiver.getPlayerSocket().getOutputStream());
-                outToModelReceiver.writeObject(model);
-            } catch (IOException ignored) {
-                System.out.println("Not found");
-            }
+            new Thread(() -> {
+                try {
+                    System.out.println("Updated client");
+                    ObjectOutputStream outToModelReceiver = new ObjectOutputStream(gameModelReceiver.getPlayerSocket().getOutputStream());
+                    outToModelReceiver.writeObject(model);
+                    outToModelReceiver.flush();
+                } catch (IOException ignored) {
+                    System.out.println("Not found");
+                }
+            }).start();
         }
         sendUpdateViewRequest();
     }
