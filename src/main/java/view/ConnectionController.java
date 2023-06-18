@@ -186,4 +186,10 @@ public class ConnectionController {
     public void loadGuestForm(ActionEvent event) throws IOException{
         loadScene(event, "GuestPage");
     }
+
+    @FXML
+    public void loadWaitingHostRoom(ActionEvent event) throws IOException{
+        loadScene(event, "WaitingHostRoom");
+    }
+
 }
