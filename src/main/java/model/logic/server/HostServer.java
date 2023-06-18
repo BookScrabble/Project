@@ -69,6 +69,7 @@ public class HostServer extends MyServer implements Serializable {
                 if(playerName.equals("start")) {
                     GameManager.get().startGame();
                     sendUpdatedModel();
+                    broadcastUpdate("loadBoard");
                     return;
                 }
                 if(clients.size() < 4){

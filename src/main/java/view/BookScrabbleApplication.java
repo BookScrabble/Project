@@ -12,8 +12,12 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class BookScrabbleApplication extends Application {
+
+    private static Stage primaryStage;
+
     @Override
     public void start(Stage stage) throws IOException {
+        primaryStage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("HomePage.fxml"));
         Parent root = loader.load();
 
@@ -31,8 +35,12 @@ public class BookScrabbleApplication extends Application {
         stage.show();
     }
 
+    public static Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
     public static void main(String[] args) {
-        launch();
+        launch(args);
         System.out.println("main is dead");
     }
 }

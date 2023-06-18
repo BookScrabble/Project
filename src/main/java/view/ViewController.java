@@ -6,7 +6,6 @@ import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
@@ -32,7 +31,7 @@ public class ViewController {
 
 
     @FXML
-    public void loadScene(ActionEvent event, String sceneName) throws IOException {
+    public void loadScene(String sceneName) throws IOException {
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(sceneName + ".fxml")));
         Parent root = loader.load();
         ViewController viewController = null;
@@ -44,7 +43,7 @@ public class ViewController {
         if(viewController != null) viewController.setViewSharedData(this.viewSharedData);
         else if(connectionController != null) connectionController.setViewSharedData(this.viewSharedData);
 
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = BookScrabbleApplication.getPrimaryStage();
         Scene scene = null;
         if(Objects.equals(sceneName, "BoardPage")){
             scene = new Scene(root,1400,1000);
@@ -59,18 +58,18 @@ public class ViewController {
     }
 
     @FXML
-    public void StartTutorial(ActionEvent event) throws IOException{
-        loadScene(event, "Tutorial");
+    public void StartTutorial() throws IOException{
+        loadScene("Tutorial");
     }
 
     @FXML
-    public void ChooseGameMode(ActionEvent event) throws IOException{
-        loadScene(event, "GameModePage");
+    public void ChooseGameMode() throws IOException{
+        loadScene("GameModePage");
     }
 
     @FXML
-    public void loadHomePage(ActionEvent event) throws IOException{
-        loadScene(event, "HomePage");
+    public void loadHomePage() throws IOException{
+        loadScene("HomePage");
     }
 
     @FXML
@@ -80,7 +79,7 @@ public class ViewController {
 
     @FXML
     public void Back(ActionEvent event) throws IOException{
-        ChooseGameMode(event);
+        ChooseGameMode();
     }
 
 }

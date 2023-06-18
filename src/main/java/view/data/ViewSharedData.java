@@ -1,5 +1,6 @@
 package view.data;
 
+import javafx.event.ActionEvent;
 import model.logic.client.Client;
 import viewModel.ViewModel;
 import java.util.Observable;
@@ -16,9 +17,9 @@ public class ViewSharedData implements Observer {
 
     public ViewSharedData(ViewModel viewModel){
         this.viewModel = viewModel;
-        gameModelReceiver = null;
-        hostIp = "localhost";
-        isHost = false;
+        this.gameModelReceiver = null;
+        this.hostIp = "localhost";
+        this.isHost = false;
     }
 
     public ViewModel getViewModel() {

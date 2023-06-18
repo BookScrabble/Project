@@ -1,5 +1,8 @@
 package model.logic.client;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
@@ -8,6 +11,8 @@ public class Client {
     private Socket server;
     private Scanner inFromServer;
     private PrintWriter outToServer;
+
+    private StringProperty action;
 
     public static volatile boolean serverIsRunning = true;
     /**
@@ -23,6 +28,7 @@ public class Client {
             this.outToServer = new PrintWriter(this.server.getOutputStream(), true);
             this.inFromServer = new Scanner(this.server.getInputStream());
             outToServer.println(clientName);
+            this.action = new SimpleStringProperty();
             listenForServerUpdates();
         } catch (IOException e) {
             e.printStackTrace();
@@ -40,7 +46,8 @@ public class Client {
                         case "wordNotFoundInDictionary" -> wordNotFoundInDictionary();
                         case "boardPlacementIllegal" -> boardPlacementIllegal();
                         case "updateGameModel" -> updateGameModel();
-                        default -> System.out.println(msgFromServer); //TODO - Implemented for testing.
+                        case "loadBoard" -> loadBoard();
+                        default -> System.out.println(msgFromServer);
                     }
                 }
             }
@@ -48,10 +55,18 @@ public class Client {
         }).start();
     }
 
+    public StringProperty getAction() {
+        return action;
+    }
 
     private void playTurn() {
         System.out.println("Turn started");
         outToServer.println("submit,BELIEVE,7,7,vertical");
+    }
+
+    public void loadBoard(){
+        System.out.println("Loading board please wait!");
+        action.setValue("loadBoard");
     }
 
     private void wordNotFoundInDictionary() {

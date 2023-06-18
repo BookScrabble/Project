@@ -1,6 +1,7 @@
 package view;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -57,6 +58,8 @@ public class GameController {
     @FXML
     Button startGame;
 
+    StringProperty clientAction;
+
     //Properties:
 
 
@@ -89,6 +92,25 @@ public class GameController {
         startGame.setVisible(true);
     }
 
+    public void initializePlayerAction(){
+        clientAction = new SimpleStringProperty();
+        clientAction.bind(viewSharedData.getPlayer().getAction());
+        System.out.println(clientAction);
+        viewSharedData.getPlayer().getAction().addListener(((observable, oldAction, newAction) -> {
+            handleClientAction(newAction);
+        }));
+    }
+
+    public void handleClientAction(String action){
+        Platform.runLater(() -> {
+            switch(action){
+                case "loadBoard" -> {
+                    try {loadBoard();} catch (IOException ignored) {}
+                }
+            }
+        });
+    }
+
 
     public void bindAll(){
         ViewModel viewModel = this.viewSharedData.getViewModel();
@@ -103,7 +125,7 @@ public class GameController {
     }
 
     @FXML
-    public void Submit(ActionEvent event) throws IOException {
+    public void Submit() throws IOException {
         while(this.flag == 0){
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Choose Vertical or Horizontal");
@@ -235,7 +257,7 @@ public class GameController {
 
     @FXML
     public void start(ActionEvent event) throws IOException{
-        loadBoard(event);
+        loadBoard();
         sendStartToServer();
     }
 
@@ -258,7 +280,7 @@ public class GameController {
     }
 
     @FXML
-    public void loadScene(ActionEvent event, String sceneName) throws IOException {
+    public void loadScene(String sceneName) throws IOException {
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(sceneName + ".fxml")));
         Parent root = loader.load();
 
@@ -277,9 +299,10 @@ public class GameController {
             gameController.setViewSharedData(this.viewSharedData);
             gameController.squareClickHandler();
             gameController.bindAll();
+            gameController.initializePlayerAction();
         }
 
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = BookScrabbleApplication.getPrimaryStage();
         Scene scene = null;
         if(Objects.equals(sceneName, "BoardPage")){
             scene = new Scene(root,1400,1000);
@@ -294,8 +317,8 @@ public class GameController {
     }
 
     @FXML
-    public void loadBoard(ActionEvent event) throws IOException{
-        loadScene(event, "BoardPage");
+    public void loadBoard() throws IOException{
+        loadScene("BoardPage");
     }
 
     @FXML
