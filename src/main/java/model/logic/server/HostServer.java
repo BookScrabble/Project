@@ -77,7 +77,6 @@ public class HostServer extends MyServer implements Serializable {
                     System.out.println("Player " + playerName + " Connected Successfully!");
                     MySocket clientModelReceiver = new MySocket(server.getServerSocket().accept());
                     clientsModelReceiver.put(clients.size(), clientModelReceiver);
-                    System.out.println(clientModelReceiver);
                     sendUpdatedModel();
                 }
             }catch (SocketTimeoutException ignored) {}

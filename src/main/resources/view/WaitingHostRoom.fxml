@@ -20,22 +20,22 @@
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="273.0" layoutY="74.0" text="Player 1">
+      <Label fx:id="firstPlayerName" layoutX="273.0" layoutY="74.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="273.0" layoutY="103.0" text="Player 2">
+      <Label fx:id="secondPlayerName" layoutX="273.0" layoutY="103.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="273.0" layoutY="131.0" text="Player 3">
+      <Label fx:id="thirdPlayerName" layoutX="273.0" layoutY="131.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="273.0" layoutY="157.0" text="Player 4">
+      <Label fx:id="fourthPlayerName" layoutX="273.0" layoutY="157.0">
          <font>
             <Font size="14.0" />
          </font>

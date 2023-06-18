@@ -1,6 +1,8 @@
 package view;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +20,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.logic.host.MySocket;
 import view.data.ViewSharedData;
+import viewModel.ViewModel;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -35,6 +38,27 @@ public class GameController {
     @FXML
     GridPane boardGridPane;
     ViewSharedData viewSharedData;
+    @FXML
+    Label firstPlayerName;
+    @FXML
+    Label firstPlayerScore;
+
+    @FXML
+    Label secondPlayerName;
+    @FXML
+    Label secondPlayerScore;
+
+    @FXML
+    Label thirdPlayerName;
+    @FXML
+    Label thirdPlayerScore;
+
+    @FXML
+    Label fourthPlayerName;
+    @FXML
+    Label fourthPlayerScore;
+
+    //Properties:
 
 
     public GameController(){
@@ -43,7 +67,31 @@ public class GameController {
         this.flag = 0;
         this.indexRow = new ArrayList<>();
         this.indexCol = new ArrayList<>();
-        //Binding..
+        initiatePlayersName();
+        initiatePlayersScore();
+    }
+
+    public void initiatePlayersName(){
+        firstPlayerName = new Label();
+        secondPlayerName = new Label();
+        thirdPlayerName = new Label();
+        fourthPlayerName = new Label();
+    }
+
+    public void initiatePlayersScore(){
+        firstPlayerScore = new Label();
+        secondPlayerScore = new Label();
+        thirdPlayerScore = new Label();
+        fourthPlayerScore = new Label();
+    }
+
+
+    public void bindAll(){
+        ViewModel viewModel = this.viewSharedData.getViewModel();
+        firstPlayerName.textProperty().bind(viewModel.firstPlayerName);
+        secondPlayerName.textProperty().bind(viewModel.secondPlayerName);
+        thirdPlayerName.textProperty().bind(viewModel.thirdPlayerName);
+        fourthPlayerName.textProperty().bind(viewModel.fourthPlayerName);
     }
 
     public void setViewSharedData(ViewSharedData viewSharedData) {
@@ -224,6 +272,7 @@ public class GameController {
         else if(gameController != null) {
             gameController.setViewSharedData(this.viewSharedData);
             gameController.squareClickHandler();
+            gameController.bindAll();
         }
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

@@ -24,9 +24,9 @@
       </Label>
       <HBox layoutX="14.0" layoutY="104.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
          <children>
-            <Label styleClass="PlayerCardText" text="Player 1: Test" />
+            <Label fx:id="firstPlayerName" styleClass="PlayerCardText" />
             <Region HBox.hgrow="SOMETIMES" />
-            <Label styleClass="PlayerCardText" text="Score: 0" />
+            <Label fx:id="firstPlayerScore" styleClass="PlayerCardText" />
          </children>
          <padding>
             <Insets left="5.0" right="5.0" />
@@ -34,9 +34,9 @@
       </HBox>
       <HBox layoutX="14.0" layoutY="148.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
          <children>
-            <Label styleClass="PlayerCardText" text="Player 2: Test" />
+            <Label fx:id="secondPlayerName" styleClass="PlayerCardText" />
             <Region HBox.hgrow="SOMETIMES" />
-            <Label styleClass="PlayerCardText" text="Score: 0" />
+            <Label fx:id="secondPlayerScore" styleClass="PlayerCardText" />
          </children>
          <padding>
             <Insets left="5.0" right="5.0" />
@@ -44,9 +44,9 @@
       </HBox>
       <HBox layoutX="14.0" layoutY="191.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
          <children>
-            <Label styleClass="PlayerCardText" text="Player 3: Test" />
+            <Label fx:id="thirdPlayerName" styleClass="PlayerCardText" />
             <Region HBox.hgrow="SOMETIMES" />
-            <Label styleClass="PlayerCardText" text="Score: 0" />
+            <Label fx:id="thirdPlayerScore" styleClass="PlayerCardText" />
          </children>
          <padding>
             <Insets left="5.0" right="5.0" />
@@ -54,9 +54,9 @@
       </HBox>
       <HBox layoutX="14.0" layoutY="234.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
          <children>
-            <Label styleClass="PlayerCardText" text="Player 4: Test" />
+            <Label fx:id="fourthPlayerName" styleClass="PlayerCardText" />
             <Region HBox.hgrow="SOMETIMES" />
-            <Label styleClass="PlayerCardText" text="Score: 0" />
+            <Label fx:id="fourthPlayerScore" styleClass="PlayerCardText" />
          </children>
          <padding>
             <Insets left="5.0" right="5.0" />

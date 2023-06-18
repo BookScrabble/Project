@@ -131,12 +131,15 @@ public class ConnectionController {
         switch(sceneName){
             case "HomePage" -> viewController = loader.getController();
             case "HostPage", "GuestPage", "StartGame" -> connectionController = loader.getController();
-            case "BoardPage", "WaitingHostRoom" -> gameController = loader.getController();
+            case "WaitingHostRoom" -> gameController = loader.getController();
         }
 
         if(viewController != null) viewController.setViewSharedData(this.viewSharedData);
         else if(connectionController != null) connectionController.setViewSharedData(this.viewSharedData);
-        else if(gameController != null) gameController.setViewSharedData(this.viewSharedData);
+        else if(gameController != null) {
+            gameController.setViewSharedData(this.viewSharedData);
+            gameController.bindAll();
+        }
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = null;
