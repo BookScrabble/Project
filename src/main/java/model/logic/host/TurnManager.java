@@ -3,13 +3,14 @@ package model.logic.host;
 import model.logic.host.data.Player;
 import model.logic.host.data.Tile;
 
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class TurnManager {
+public class TurnManager implements Serializable {
     private int currentPlayerTurn;
     private List<Integer> playersTurn;
 

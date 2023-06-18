@@ -20,7 +20,7 @@ public class HostServer extends MyServer implements Serializable {
     private final Map<Integer, MySocket> clientsModelReceiver;
     MyServerSocket server;
     private boolean gameIsRunning;
-    private Timer turnTimer;
+    private MyTimer turnTimer;
 
     public HostServer(int port, ClientHandler clientHandler) {
         super(port, clientHandler);
@@ -29,17 +29,23 @@ public class HostServer extends MyServer implements Serializable {
         this.server = null;
     }
 
+    public Map<Integer, MySocket> getClientsModelReceiver() {
+        return clientsModelReceiver;
+    }
+
     public class ManageTurnTask extends TimerTask{
         @Override
         public void run() {
             new Thread(() -> {
+                //System.out.println(getClientsModelReceiver());
+                sendUpdatedModel();
                 GameManager.get().getTurnManager().nextTurn();
                 System.out.println("Current player turn -> " + GameManager.get().getCurrentPlayerID());
                 Socket currentPlayer = clients.get(GameManager.get().getCurrentPlayerID()).getPlayerSocket();
                 try {
                     clientHandler.handleClient(currentPlayer.getInputStream(), currentPlayer.getOutputStream());
                     this.cancel();
-                    turnTimer.scheduleAtFixedRate(new ManageTurnTask(), 5000, 15000);
+                    turnTimer.getTimer().scheduleAtFixedRate(new ManageTurnTask(), 5000, 15000);
                 } catch (IOException ignored) {}
             }).start();
         }
@@ -65,12 +71,15 @@ public class HostServer extends MyServer implements Serializable {
                     sendUpdatedModel();
                     return;
                 }
-                clients.put(clients.size()+1, client);
-                GameManager.get().addPlayer(playerName);
-                System.out.println("Player " + playerName + " Connected Successfully!");
-                MySocket clientModelReceiver = new MySocket(server.getServerSocket().accept());
-                clientsModelReceiver.put(clients.size(), clientModelReceiver);
-                sendUpdatedModel();
+                if(clients.size() < 4){
+                    clients.put(clients.size()+1, client);
+                    GameManager.get().addPlayer(playerName);
+                    System.out.println("Player " + playerName + " Connected Successfully!");
+                    MySocket clientModelReceiver = new MySocket(server.getServerSocket().accept());
+                    clientsModelReceiver.put(clients.size(), clientModelReceiver);
+                    System.out.println(clientModelReceiver);
+                    sendUpdatedModel();
+                }
             }catch (SocketTimeoutException ignored) {}
             catch (IOException e) {
                 e.printStackTrace();
@@ -101,9 +110,9 @@ public class HostServer extends MyServer implements Serializable {
             startGame();
         }
         if(gameIsRunning){
-            turnTimer = new Timer();
+            turnTimer = new MyTimer(new Timer());
             System.out.println("Timer is starting");
-            turnTimer.scheduleAtFixedRate(new ManageTurnTask(), 5000, 15000);
+            turnTimer.getTimer().scheduleAtFixedRate(new ManageTurnTask(), 5000, 15000);
         }
     }
 
@@ -148,7 +157,7 @@ public class HostServer extends MyServer implements Serializable {
 
     public void stopGame() {
         this.gameIsRunning = false;
-        if(turnTimer != null) turnTimer.cancel();
+        if(turnTimer != null) turnTimer.getTimer().cancel();
         GameManager.get().skipTurn();
         this.close();
     }
