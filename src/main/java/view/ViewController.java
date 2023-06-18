@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 import view.data.ViewSharedData;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class ViewController {

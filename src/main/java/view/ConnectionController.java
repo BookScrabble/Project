@@ -11,16 +11,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.logic.client.Client;
 import model.logic.host.GameManager;
-import model.logic.host.MySocket;
 import view.data.GameModelReceiver;
 import view.data.ViewSharedData;
-import viewModel.ViewModel;
+
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.Objects;
 
 public class ConnectionController {
