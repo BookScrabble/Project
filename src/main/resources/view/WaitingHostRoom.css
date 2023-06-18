@@ -1,0 +1,20 @@
+.Button{
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+    -fx-font-size: 20px;
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 5px;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 50px;
+    -fx-alignment: center;
+}
+
+.Button:hover{
+    -fx-cursor: hand;
+    -fx-background-color: #ccc;
+}

@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 import view.data.ViewSharedData;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class ViewController {
@@ -74,6 +73,12 @@ public class ViewController {
         loadScene(event, "HomePage");
     }
 
+
+    @FXML
+    public void loadBoard(ActionEvent event) throws IOException{
+        loadScene(event, "BoardPage");
+    }
+
     @FXML
     public void Exit(ActionEvent event) throws IOException{
         Platform.exit();
@@ -83,4 +88,5 @@ public class ViewController {
     public void Back(ActionEvent event) throws IOException{
         ChooseGameMode(event);
     }
+
 }

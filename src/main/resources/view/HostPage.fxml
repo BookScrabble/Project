@@ -27,7 +27,7 @@
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Label>
-      <Button layoutX="78.0" layoutY="292.0" mnemonicParsing="false" onAction="#StartAsHost" prefHeight="25.0" prefWidth="62.0" text="Start" />
+      <Button layoutX="78.0" layoutY="292.0" mnemonicParsing="false" onAction="#loadWaitingHostRoom" prefHeight="25.0" prefWidth="62.0" text="Start" />
       <TextField fx:id="portField" layoutX="263.0" layoutY="172.0">
          <effect>
             <BoxBlur height="0.3" iterations="0" width="2.0">
