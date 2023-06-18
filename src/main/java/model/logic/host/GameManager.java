@@ -11,7 +11,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.*;
 
-public class GameManager extends Observable implements GameHandler,Serializable {
+public class GameManager implements GameHandler,Serializable {
     private static GameManager single_instance = null;
     HostServer host;
     GameData gameData;
@@ -19,12 +19,12 @@ public class GameManager extends Observable implements GameHandler,Serializable 
     int calculationServerPort;
     private TurnManager turnManager;
 
-    private GameManager(int port) {
-        host = new HostServer(port, new GuestHandler());
+    private GameManager() {
+        //host = new HostServer(port, new GuestHandler());
         calculationServerPort = 10000;
         calculationServerIp = "localhost";
         gameData = new GameData();
-        host.start();
+        //host.start();
         turnManager = null;
     }
 
@@ -35,7 +35,7 @@ public class GameManager extends Observable implements GameHandler,Serializable 
      */
     public static GameManager get() {
         if (single_instance == null)
-            single_instance = new GameManager(19999);
+            single_instance = new GameManager();
         return single_instance;
     }
 
@@ -45,6 +45,13 @@ public class GameManager extends Observable implements GameHandler,Serializable 
     public void initializeTurnManager(){
         for(Player player : gameData.getAllPlayers().values()) addTile(player);
         turnManager = new TurnManager(gameData.getAllPlayers());
+        System.out.println("Turns decided by turn manager -> " + turnManager.getPlayersTurn());
+    }
+
+
+    public void initializeHostServer(int port){
+        host = new HostServer(port, new GuestHandler());
+        host.start();
     }
 
     /**
@@ -56,21 +63,37 @@ public class GameManager extends Observable implements GameHandler,Serializable 
     }
 
     /**
-     * @details Used to initiate the game. Initialize turnManager if needed and uses HostServer startGame method.
+     * @details Used to initialize turn manager, Show players which tile they got. and later prompt players for
+     * the turn order decided by turn manager.
+     */
+    public void initializeGame(){
+        if(turnManager != null) return;
+        initializeTurnManager();
+        updateGuests("tiles");
+        System.out.println("Test clients that are currently playing -> size: " + this.getGameData().getAllPlayers().size());
+    }
+
+    /**
+     * @details Used to initiate the game. Initialize turn manager if needed, fill all
+     * players hands and uses HostServer startGame method.
      */
     public void startGame() {
         if(turnManager == null){
-            initializeTurnManager();
+            initializeGame();
         }
+        for(Player player : this.gameData.getAllPlayers().values()){
+            fillHand(player);
+        }
+        updateGuests("tiles");
         this.host.startGame();
     }
 
     /**
-     * @details Helper method for game manager to fill hand of player(maximum 7 tiles).
+     * @details fill hand of player(maximum 7 tiles).
      */
-    private void fillHand() {
-        while(gameData.getPlayer(turnManager.getCurrentPlayerTurn()).getAllTiles().size() < 7){
-            gameData.getPlayer(turnManager.getCurrentPlayerTurn()).getAllTiles().add(Tile.Bag.getBag().getRand());
+    public void fillHand(Player player) {
+        while(player.getAllTiles().size() < 7){
+            player.getAllTiles().add(Tile.Bag.getBag().getRand());
         }
     }
 
@@ -106,6 +129,8 @@ public class GameManager extends Observable implements GameHandler,Serializable 
             Tile[] tiles = new Tile[word.length()];
 
             Player currentPlayer = gameData.getPlayer(turnManager.getCurrentPlayerTurn());
+            if(currentPlayer == null) return "Player Is Not Found!";
+
             Word newWord = buildWord(currentPlayer, word, row, col, vertical);
             int score = gameData.getBoard().tryPlaceWord(newWord);
             if (score == 0) {
@@ -114,10 +139,9 @@ public class GameManager extends Observable implements GameHandler,Serializable 
             else if(score == -1){
                 return "-1";
             }else{
-                int oldScore = currentPlayer.getScore();
-                currentPlayer.setScore(oldScore + score);
-                fillHand();
-                updateGuests();
+                currentPlayer.setScore(currentPlayer.getScore() + score);
+                fillHand(currentPlayer);
+                updateGuests("turnEnded");
                 return "1";
             }
         }
@@ -127,10 +151,14 @@ public class GameManager extends Observable implements GameHandler,Serializable 
     /**
      * @Details Updates all connected guests if change was made in game state.
      */
-    public void updateGuests(){
+    public void updateGuests(String change){
         /*
-        TODO - Implementation required
+        changes so far:
+        -"tiles"
+        -"turnEnded"
+        -
          */
+
     }
 
     /**
@@ -228,6 +256,12 @@ public class GameManager extends Observable implements GameHandler,Serializable 
      */
     public TurnManager getTurnManager(){
         return this.turnManager;
+    }
+
+    public void removePlayer(int playerId){
+        gameData.removePlayer(playerId);
+        host.removePlayer(playerId);
+        turnManager.removePlayer(playerId);
     }
 
     /**

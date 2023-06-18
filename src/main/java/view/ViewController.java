@@ -19,7 +19,6 @@ import java.util.Objects;
 
 public class ViewController {
     ViewSharedData viewSharedData;
-
     public StringProperty wordFromPlayer;
     public StringProperty playerAction;
 
@@ -30,7 +29,6 @@ public class ViewController {
 
     public void setViewSharedData(ViewSharedData viewSharedData) {
         this.viewSharedData = viewSharedData;
-        System.out.println("ViewSharedData in ViewController -> " + viewSharedData);
     }
 
 

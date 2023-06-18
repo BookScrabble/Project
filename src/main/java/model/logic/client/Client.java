@@ -10,7 +10,6 @@ public class Client {
     private PrintWriter outToServer;
 
     public static volatile boolean serverIsRunning = true;
-
     /**
      * Client constructor which both initialize the client parameters but also
      * opens a thread for this client to listen on.
@@ -40,7 +39,7 @@ public class Client {
                         case "playTurn" -> playTurn();
                         case "wordNotFoundInDictionary" -> wordNotFoundInDictionary();
                         case "boardPlacementIllegal" -> boardPlacementIllegal();
-                        case "updateGameState" -> updateGameState();
+                        case "updateGameModel" -> updateGameModel();
                         default -> System.out.println(msgFromServer); //TODO - Implemented for testing.
                     }
                 }
@@ -50,9 +49,6 @@ public class Client {
     }
 
 
-    /**
-     * TODO - for now test implementation.
-     */
     private void playTurn() {
         System.out.println("Turn started");
         outToServer.println("submit,BELIEVE,7,7,vertical");
@@ -65,7 +61,7 @@ public class Client {
     private void boardPlacementIllegal() {
     }
 
-    private void updateGameState() {
+    private void updateGameModel() {
         System.out.println("Refreshing view...");
     }
 

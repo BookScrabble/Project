@@ -11,11 +11,14 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.logic.client.Client;
 import model.logic.host.GameManager;
+import model.logic.host.MySocket;
+import view.data.GameModelReceiver;
 import view.data.ViewSharedData;
 import viewModel.ViewModel;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Objects;
@@ -42,7 +45,6 @@ public class ConnectionController {
 
     public void setViewSharedData(ViewSharedData viewSharedData) {
         this.viewSharedData = viewSharedData;
-        System.out.println("ViewSharedData in Connection controller -> " + this.viewSharedData);
     }
 
     @FXML
@@ -63,7 +65,8 @@ public class ConnectionController {
         if(allValid){
             GameManager gameManager = GameManager.get();
             ipField = new TextField();
-            ipField.setText("localhost");
+            ipField.setText("localhost"); //Default ip to make server run locally on host computer.
+            gameManager.initializeHostServer(Integer.parseInt(portField.getText()));
             connectToServer();
             loadBoard(event);
         }
@@ -84,12 +87,12 @@ public class ConnectionController {
         } else{
             portLabelError.setVisible(false);
         }
-//        if(!validIp(ipField.getText())){
-//            ipLabelError.setVisible(true);
-//            allValid = false;
-//        } else{
-//            ipLabelError.setVisible(false);
-//        }
+        if(!validIp(ipField.getText())){
+            ipLabelError.setVisible(true);
+            allValid = false;
+        } else{
+            ipLabelError.setVisible(false);
+        }
         if(allValid){
             connectToServer();
             loadBoard(event);
@@ -97,23 +100,17 @@ public class ConnectionController {
     }
 
     public void connectToServer(){
-        try {
-            Socket pingCheck = new Socket(ipField.getText(), Integer.parseInt(portField.getText()));
-            PrintWriter printWriter = new PrintWriter(pingCheck.getOutputStream(), true);
-            printWriter.println("ping");
-            ObjectInputStream objectInputStream = new ObjectInputStream(pingCheck.getInputStream());
-            try {
-                GameManager model = (GameManager) objectInputStream.readObject();
-                this.viewSharedData.getViewModel().setModel(model);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-            pingCheck.close();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-        Client playerClient = new Client(ipField.getText(), Integer.parseInt(portField.getText()), nameField.getText());
+        String ip = ipField.getText();
+        int port = Integer.parseInt(portField.getText());
+        String name = nameField.getText();
+
+        Client playerClient = new Client(ip, port, name);
+        GameModelReceiver playerGameModelReceiver = new GameModelReceiver(ip, port);
         this.viewSharedData.setPlayer(playerClient);
+        this.viewSharedData.setGameModelReceiver(playerGameModelReceiver);
+        this.viewSharedData.setHostIp(ip);
+        this.viewSharedData.setHostPort(port);
+        this.viewSharedData.setPlayerName(name);
     }
 
     public boolean validPort(String port){
@@ -121,7 +118,7 @@ public class ConnectionController {
     }
 
     public boolean validIp(String ip){
-        return ip.matches("(\\b25[0-5]|\\b2[0-4][0-9]|\\b[01]?[0-9][0-9]?)(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}");
+        return ip.matches("(\\b25[0-5]|\\b2[0-4][0-9]|\\b[01]?[0-9][0-9]?)(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}") || ip.equals("localhost");
     }
 
     public boolean validName(String name){

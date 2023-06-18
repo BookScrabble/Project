@@ -3,13 +3,10 @@ package model.logic.server;
 import model.logic.client.Client;
 import model.logic.client.ClientHandler;
 import model.logic.host.GameManager;
-import model.logic.host.GuestHandler;
 import model.logic.host.MySocket;
+import view.data.GameModelReceiver;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
-import java.io.Serializable;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -20,6 +17,7 @@ import java.util.*;
 public class HostServer extends MyServer implements Serializable {
 
     private final Map<Integer, MySocket> clients;
+    private final Map<Integer, MySocket> clientsModelReceiver;
     MyServerSocket server;
     private boolean gameIsRunning;
     private Timer turnTimer;
@@ -27,6 +25,7 @@ public class HostServer extends MyServer implements Serializable {
     public HostServer(int port, ClientHandler clientHandler) {
         super(port, clientHandler);
         this.clients = new HashMap<>();
+        this.clientsModelReceiver = new HashMap<>();
         this.server = null;
     }
 
@@ -35,12 +34,12 @@ public class HostServer extends MyServer implements Serializable {
         public void run() {
             new Thread(() -> {
                 GameManager.get().getTurnManager().nextTurn();
-                System.out.println("Current player -> " + GameManager.get().getCurrentPlayerID());
+                System.out.println("Current player turn -> " + GameManager.get().getCurrentPlayerID());
                 Socket currentPlayer = clients.get(GameManager.get().getCurrentPlayerID()).getPlayerSocket();
                 try {
                     clientHandler.handleClient(currentPlayer.getInputStream(), currentPlayer.getOutputStream());
                     this.cancel();
-                    turnTimer.scheduleAtFixedRate(new ManageTurnTask(), 1000, 5000);
+                    turnTimer.scheduleAtFixedRate(new ManageTurnTask(), 5000, 15000);
                 } catch (IOException ignored) {}
             }).start();
         }
@@ -58,20 +57,20 @@ public class HostServer extends MyServer implements Serializable {
     public void connectClients() {
         while (!gameIsRunning) {
             try {
-                Socket aClient = server.getServerSocket().accept();
-                Scanner inPingCheck = new Scanner(aClient.getInputStream());
-                String ping = inPingCheck.next();
-                if(ping.equals("ping")){
-                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(aClient.getOutputStream());
-                    objectOutputStream.writeObject(GameManager.get());
-                    aClient.close();
-                    MySocket realClient = new MySocket(server.getServerSocket().accept());
-                    Scanner inFromClient = new Scanner(realClient.getPlayerSocket().getInputStream());
-                    String playerName = inFromClient.next();
-                    clients.put(clients.size() + 1, realClient);
-                    GameManager.get().addPlayer(playerName);
-                    System.out.println("Player " + playerName + " Connected Successfully!");
+                MySocket client = new MySocket(server.getServerSocket().accept());
+                Scanner inFromClient = new Scanner(client.getPlayerSocket().getInputStream());
+                String playerName = inFromClient.next();
+                if(playerName.equals("start")) {
+                    GameManager.get().startGame();
+                    sendUpdatedModel();
+                    return;
                 }
+                clients.put(clients.size()+1, client);
+                GameManager.get().addPlayer(playerName);
+                System.out.println("Player " + playerName + " Connected Successfully!");
+                MySocket clientModelReceiver = new MySocket(server.getServerSocket().accept());
+                clientsModelReceiver.put(clients.size(), clientModelReceiver);
+                sendUpdatedModel();
             }catch (SocketTimeoutException ignored) {}
             catch (IOException e) {
                 e.printStackTrace();
@@ -79,25 +78,50 @@ public class HostServer extends MyServer implements Serializable {
         }
     }
 
-    /**
-     * TODO - Finish implementation of time/turn management.
-     */
+    public void sendUpdatedModel(){
+        new Thread(() -> {
+            for (MySocket gameModelReceiver : clientsModelReceiver.values()){
+                try {
+                    ObjectOutputStream outToModelReceiver = new ObjectOutputStream(gameModelReceiver.getPlayerSocket().getOutputStream());
+                    outToModelReceiver.writeObject(GameManager.get());
+                } catch (IOException ignored) {
+                    System.out.println("GameModelReceiver not found -> IOException");
+                }
+            }
+        }).start();
+        sendUpdateViewRequest();
+    }
+
+    public void sendUpdateViewRequest(){
+        //TODO - Update all client sockets that change was made and their view needs a refresh.
+    }
+
     public void playGame(){
         if(!gameIsRunning){
             startGame();
         }
         if(gameIsRunning){
             turnTimer = new Timer();
-            turnTimer.scheduleAtFixedRate(new ManageTurnTask(), 1000, 5000); //TODO - Update delay and period here and in ManageTurnTask!
+            System.out.println("Timer is starting");
+            turnTimer.scheduleAtFixedRate(new ManageTurnTask(), 5000, 15000);
         }
     }
 
-    //TODO - Implement method
+    //TODO - Implement method/Change to observer updates(GameModelReceiver MITM)
     private void broadcastUpdate(String messageForPlayers) {
         for(MySocket aClient : clients.values()) {
             try {
                 PrintWriter outToClient = new PrintWriter(aClient.getPlayerSocket().getOutputStream(), true);
                 outToClient.println(messageForPlayers);
+            } catch (IOException ignored) {}
+        }
+    }
+
+    public void removePlayer(int playerId){
+        MySocket removedPlayer = this.clients.remove(playerId);
+        if(removedPlayer != null) {
+            try {
+                removedPlayer.getPlayerSocket().close();
             } catch (IOException ignored) {}
         }
     }
