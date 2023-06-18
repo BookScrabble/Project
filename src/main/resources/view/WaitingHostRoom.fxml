@@ -13,8 +13,8 @@
             <Font name="System Bold Italic" size="24.0" />
          </font>
       </Label>
-      <Button layoutX="198.0" layoutY="175.0" mnemonicParsing="false" onAction="#loadBoard" styleClass="Button" text="Start Game" />
-      <Button layoutX="198.0" layoutY="263.0" mnemonicParsing="false" onAction="#Exit" styleClass="Button" text="Close Game" />
+      <Button layoutX="198.0" layoutY="219.0" mnemonicParsing="false" onAction="#loadBoard" styleClass="Button" text="Start Game" />
+      <Button layoutX="198.0" layoutY="290.0" mnemonicParsing="false" onAction="#Exit" styleClass="Button" text="Close Game" />
       <Label layoutX="181.0" layoutY="74.0" text="Players : ">
          <font>
             <Font name="System Bold Italic" size="14.0" />
@@ -26,6 +26,16 @@
          </font>
       </Label>
       <Label layoutX="273.0" layoutY="103.0" text="Player 2">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="273.0" layoutY="131.0" text="Player 3">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="273.0" layoutY="157.0" text="Player 4">
          <font>
             <Font size="14.0" />
          </font>

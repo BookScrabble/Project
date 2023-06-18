@@ -2260,7 +2260,6 @@
             </children>
          </StackPane>
       </GridPane>
-      <Button layoutX="1170.0" layoutY="158.0" mnemonicParsing="false" onAction="#start" prefWidth="131.0" styleClass="ExitButton" text="Start Game" />
 
    </children>
    <stylesheets>
