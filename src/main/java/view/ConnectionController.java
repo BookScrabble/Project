@@ -63,7 +63,7 @@ public class ConnectionController {
             ipField.setText("localhost"); //Default ip to make server run locally on host computer.
             gameManager.initializeHostServer(Integer.parseInt(portField.getText()));
             connectToServer();
-            loadBoard(event);
+            loadWaitingHostRoom(event);
         }
     }
 
@@ -90,7 +90,7 @@ public class ConnectionController {
         }
         if(allValid){
             connectToServer();
-            loadBoard(event);
+            loadWaitingHostRoom(event);
         }
     }
 
@@ -131,7 +131,7 @@ public class ConnectionController {
         switch(sceneName){
             case "HomePage" -> viewController = loader.getController();
             case "HostPage", "GuestPage", "StartGame" -> connectionController = loader.getController();
-            case "BoardPage" -> gameController = loader.getController();
+            case "BoardPage", "WaitingHostRoom" -> gameController = loader.getController();
         }
 
         if(viewController != null) viewController.setViewSharedData(this.viewSharedData);

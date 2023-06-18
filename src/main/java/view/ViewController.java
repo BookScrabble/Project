@@ -73,12 +73,6 @@ public class ViewController {
         loadScene(event, "HomePage");
     }
 
-
-    @FXML
-    public void loadBoard(ActionEvent event) throws IOException{
-        loadScene(event, "BoardPage");
-    }
-
     @FXML
     public void Exit(ActionEvent event) throws IOException{
         Platform.exit();
