@@ -56,6 +56,22 @@ public class GameController {
     @FXML
     Label fourthPlayerScore;
     @FXML
+    ImageView firstTile;
+    @FXML
+    ImageView secondTile;
+    @FXML
+    ImageView thirdTile;
+    @FXML
+    ImageView fourthTile;
+    @FXML
+    ImageView fifthTile;
+    @FXML
+    ImageView sixTile;
+    @FXML
+    ImageView sevenTile;
+
+
+    @FXML
     Button startGame;
 
     StringProperty clientAction;
@@ -70,18 +86,29 @@ public class GameController {
         this.indexRow = new ArrayList<>();
         this.indexCol = new ArrayList<>();
         this.startGame = new Button();
-        initiatePlayersName();
-        initiatePlayersScore();
+        initiatePlayerName();
+        initiatePlayerScore();
+        initiatePlayerTiles();
     }
 
-    public void initiatePlayersName(){
+    private void initiatePlayerTiles() {
+        firstTile = new ImageView();
+        secondTile = new ImageView();
+        thirdTile = new ImageView();
+        fourthTile = new ImageView();
+        fifthTile = new ImageView();
+        sixTile = new ImageView();
+        sevenTile = new ImageView();
+    }
+
+    public void initiatePlayerName(){
         firstPlayerName = new Label();
         secondPlayerName = new Label();
         thirdPlayerName = new Label();
         fourthPlayerName = new Label();
     }
 
-    public void initiatePlayersScore(){
+    public void initiatePlayerScore(){
         firstPlayerScore = new Label();
         secondPlayerScore = new Label();
         thirdPlayerScore = new Label();
@@ -95,7 +122,6 @@ public class GameController {
     public void initializePlayerAction(){
         clientAction = new SimpleStringProperty();
         clientAction.bind(viewSharedData.getPlayer().getAction());
-        System.out.println(clientAction);
         viewSharedData.getPlayer().getAction().addListener(((observable, oldAction, newAction) -> {
             handleClientAction(newAction);
         }));
@@ -114,10 +140,26 @@ public class GameController {
 
     public void bindAll(){
         ViewModel viewModel = this.viewSharedData.getViewModel();
+
         firstPlayerName.textProperty().bind(viewModel.firstPlayerName);
         secondPlayerName.textProperty().bind(viewModel.secondPlayerName);
         thirdPlayerName.textProperty().bind(viewModel.thirdPlayerName);
         fourthPlayerName.textProperty().bind(viewModel.fourthPlayerName);
+
+        firstPlayerScore.textProperty().bind(viewModel.firstPlayerScore.asString());
+        secondPlayerScore.textProperty().bind(viewModel.secondPlayerScore.asString());
+        thirdPlayerScore.textProperty().bind(viewModel.thirdPlayerScore.asString());
+        fourthPlayerScore.textProperty().bind(viewModel.fourthPlayerScore.asString());
+
+        firstTile.imageProperty().bind(viewModel.firstTile);
+        secondTile.imageProperty().bind(viewModel.secondTile);
+        thirdTile.imageProperty().bind(viewModel.thirdTile);
+        fourthTile.imageProperty().bind(viewModel.fourthTile);
+        fifthTile.imageProperty().bind(viewModel.fifthTile);
+        sixTile.imageProperty().bind(viewModel.sixTile);
+        sevenTile.imageProperty().bind(viewModel.sevenTile);
+
+        viewModel.playerId.bind(viewSharedData.getPlayer().playerId);
     }
 
     public void setViewSharedData(ViewSharedData viewSharedData) {
@@ -259,6 +301,7 @@ public class GameController {
     public void start(ActionEvent event) throws IOException{
         loadBoard();
         sendStartToServer();
+        System.out.println(viewSharedData.getViewModel().getModel().getGameData().getPlayer(viewSharedData.getPlayer().playerId.get()).getAllTiles());
     }
 
     //Testing ONLY

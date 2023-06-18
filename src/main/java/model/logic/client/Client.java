@@ -1,5 +1,7 @@
 package model.logic.client;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -11,8 +13,8 @@ public class Client {
     private Socket server;
     private Scanner inFromServer;
     private PrintWriter outToServer;
-
     private StringProperty action;
+    public IntegerProperty playerId;
 
     public static volatile boolean serverIsRunning = true;
     /**
@@ -28,6 +30,8 @@ public class Client {
             this.outToServer = new PrintWriter(this.server.getOutputStream(), true);
             this.inFromServer = new Scanner(this.server.getInputStream());
             outToServer.println(clientName);
+            playerId = new SimpleIntegerProperty();
+            playerId.setValue(Integer.parseInt(inFromServer.next()));
             this.action = new SimpleStringProperty();
             listenForServerUpdates();
         } catch (IOException e) {
@@ -74,6 +78,7 @@ public class Client {
     }
 
     private void boardPlacementIllegal() {
+
     }
 
     private void updateGameModel() {

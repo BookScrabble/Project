@@ -67,7 +67,7 @@ public class GameManager implements GameHandler,Serializable {
     public void initializeGame(){
         if(turnManager != null) return;
         initializeTurnManager();
-        updateGuests("tiles");
+        //updateGuests("tiles");
         System.out.println("Test clients that are currently playing -> size: " + this.getGameData().getAllPlayers().size());
     }
 
@@ -82,7 +82,7 @@ public class GameManager implements GameHandler,Serializable {
         for(Player player : this.gameData.getAllPlayers().values()){
             fillHand(player);
         }
-        updateGuests("tiles");
+        //updateGuests("tiles");
         this.host.startGame();
     }
 

@@ -68,11 +68,12 @@ public class HostServer extends MyServer implements Serializable {
                 String playerName = inFromClient.next();
                 if(playerName.equals("start")) {
                     GameManager.get().startGame();
-                    sendUpdatedModel();
                     broadcastUpdate("loadBoard");
                     return;
                 }
                 if(clients.size() < 4){
+                    PrintWriter outToClient = new PrintWriter(client.getPlayerSocket().getOutputStream(),true);
+                    outToClient.println(clients.size()+1);
                     clients.put(clients.size()+1, client);
                     GameManager.get().addPlayer(playerName);
                     System.out.println("Player " + playerName + " Connected Successfully!");
@@ -152,6 +153,7 @@ public class HostServer extends MyServer implements Serializable {
     }
 
     public void startGame() {
+        sendUpdatedModel();
         this.gameIsRunning = true;
     }
 
