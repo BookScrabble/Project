@@ -27,7 +27,7 @@ public class BookScrabbleApplication extends Application {
         ViewController viewController = loader.getController();
         viewController.setViewSharedData(sharedData);
 
-        Scene scene = new Scene(root, 1000, 550);
+        Scene scene = new Scene(root, 1400, 900);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("HomePage.css")).toExternalForm());
 
         stage.setUserData(viewModel);

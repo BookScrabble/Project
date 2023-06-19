@@ -7,11 +7,14 @@
 <?import javafx.scene.effect.BoxBlur?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ConnectionController">
+<AnchorPane prefHeight="900.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ConnectionController">
    <children>
-      <TextField fx:id="nameField" layoutX="263.0" layoutY="97.0">
+      <TextField fx:id="nameField" layoutX="700.0" layoutY="195.0">
          <effect>
             <BoxBlur height="0.3" iterations="0" width="2.0">
                <input>
@@ -19,16 +22,16 @@
                </input>
             </BoxBlur>
          </effect></TextField>
-      <Label layoutX="132.0" layoutY="100.0" text="Enter your name">
+      <Label layoutX="529.0" layoutY="194.0" text="Enter your name" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="14.0" />
+            <Font name="System Bold" size="18.0" />
          </font></Label>
-      <Label layoutX="131.0" layoutY="175.0" text="Enter server Port">
+      <Label layoutX="529.0" layoutY="277.0" text="Enter server Port" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="14.0" />
+            <Font name="System Bold" size="18.0" />
          </font></Label>
-      <Button layoutX="78.0" layoutY="292.0" mnemonicParsing="false" onAction="#StartAsHost" prefHeight="25.0" prefWidth="62.0" text="Start" />
-      <TextField fx:id="portField" layoutX="263.0" layoutY="172.0">
+      <Button layoutX="472.0" layoutY="359.0" mnemonicParsing="false" onAction="#StartAsHost" prefHeight="25.0" prefWidth="62.0" text="Start" />
+      <TextField fx:id="portField" layoutX="700.0" layoutY="278.0">
          <effect>
             <BoxBlur height="0.3" iterations="0" width="2.0">
                <input>
@@ -37,9 +40,36 @@
             </BoxBlur>
          </effect>
       </TextField>
-      <Label fx:id="nameLabelError" layoutX="247.0" layoutY="74.0" text="Name can only contain Alphabetic" textFill="RED" visible="false" />
-      <Label fx:id="portLabelError" layoutX="234.0" layoutY="149.0" text="Port can only be between 10000-20000" textFill="RED" visible="false" />
-      <Button layoutX="342.0" layoutY="292.0" mnemonicParsing="false" onAction="#loadHomePage" prefHeight="25.0" prefWidth="62.0" text="Back" />
+      <Label fx:id="nameLabelError" layoutX="670.0" layoutY="174.0" text="Name can only contain Alphabetic" textFill="RED" visible="false">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label fx:id="portLabelError" layoutX="654.0" layoutY="258.0" text="Port can only be between 10000-20000" textFill="RED" visible="false">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Button layoutX="743.0" layoutY="359.0" mnemonicParsing="false" onAction="#loadHomePage" prefHeight="25.0" prefWidth="62.0" text="Back" />
+      <Label layoutX="558.0" layoutY="75.0" text="Create game">
+         <font>
+            <Font name="System Bold Italic" size="48.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.46685082872928174" centerY="0.8554502369668247" radius="0.5">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </Label>
    </children>
    <stylesheets>
       <URL value="@HostPage.css" />

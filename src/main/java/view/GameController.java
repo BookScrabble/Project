@@ -387,11 +387,7 @@ public class GameController {
 
         Stage stage = BookScrabbleApplication.getPrimaryStage();
         Scene scene = null;
-        if(Objects.equals(sceneName, "BoardPage")){
-            scene = new Scene(root,1400,1000);
-        } else{
-            scene = new Scene(root);
-        }
+        scene = new Scene(root);
         try {
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(sceneName + ".css")).toExternalForm());
         } catch (NullPointerException ignored){}
