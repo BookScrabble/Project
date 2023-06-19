@@ -1,7 +1,7 @@
 .root {
-    -fx-background-image: url("../images/homePage.jpg");
+    -fx-background-image: url("../images/FirstCheckBackground.jpg");
     -fx-background-repeat: no-repeat;
-    -fx-background-size: 1000 550;
+    -fx-background-size: 1400 900;
     -fx-background-position: center center;
 }
 
@@ -19,4 +19,9 @@ Button{
     -fx-pref-width: 200px;
     -fx-pref-height: 50px;
     -fx-alignment: center;
+}
+
+Button:hover{
+    -fx-background-color: #ccc;
+    -fx-cursor: hand;
 }

@@ -7,23 +7,26 @@
 <?import javafx.scene.effect.BoxBlur?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ConnectionController">
+<AnchorPane prefHeight="900.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ConnectionController">
    <children>
-      <Label layoutX="131.0" layoutY="67.0" text="Enter your name">
+      <Label layoutX="530.0" layoutY="187.0" text="Enter your name" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="14.0" />
+            <Font name="System Bold" size="18.0" />
          </font></Label>
-      <Label layoutX="130.0" layoutY="134.0" text="Enter server port">
+      <Label layoutX="530.0" layoutY="267.0" text="Enter server port" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="14.0" />
+            <Font name="System Bold" size="18.0" />
          </font></Label>
-      <Label layoutX="130.0" layoutY="210.0" text="Enter server Ip">
+      <Label layoutX="530.0" layoutY="350.0" text="Enter server Ip" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="14.0" />
+            <Font name="System Bold" size="18.0" />
          </font></Label>
-      <TextField fx:id="nameField" layoutX="335.0" layoutY="64.0">
+      <TextField fx:id="nameField" layoutX="701.0" layoutY="188.0">
          <effect>
             <BoxBlur height="0.3" iterations="0" width="2.0">
                <input>
@@ -32,7 +35,7 @@
             </BoxBlur>
          </effect>
       </TextField>
-      <TextField fx:id="portField" layoutX="335.0" layoutY="131.0">
+      <TextField fx:id="portField" layoutX="701.0" layoutY="268.0">
          <effect>
             <BoxBlur height="0.3" iterations="0" width="2.0">
                <input>
@@ -41,7 +44,7 @@
             </BoxBlur>
          </effect>
       </TextField>
-      <TextField fx:id="ipField" layoutX="335.0" layoutY="207.0">
+      <TextField fx:id="ipField" layoutX="701.0" layoutY="351.0">
          <effect>
             <BoxBlur height="0.3" iterations="0" width="2.0">
                <input>
@@ -50,11 +53,42 @@
             </BoxBlur>
          </effect>
       </TextField>
-      <Label fx:id="nameLabelError" layoutX="317.0" layoutY="40.0" text="Name can only contain alphabetic" textFill="RED" visible="false" />
-      <Label fx:id="portLabelError" layoutX="303.0" layoutY="108.0" text="Port can only be between 10000-20000" textFill="RED" visible="false" />
-      <Label fx:id="ipLabelError" layoutX="311.0" layoutY="183.0" text="IP format should be xxx.yyy.zzz.www" textFill="RED" visible="false" />
-      <Button layoutX="86.0" layoutY="296.0" mnemonicParsing="false" onAction="#StartAsGuest" text="Start" />
-      <Button layoutX="329.0" layoutY="296.0" mnemonicParsing="false" onAction="#loadHomePage" text="Back" />
+      <Label fx:id="nameLabelError" layoutX="671.0" layoutY="167.0" text="Name can only contain alphabetic" textFill="RED" visible="false">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label fx:id="portLabelError" layoutX="673.0" layoutY="248.0" text="Port can only be between 10000-20000" textFill="RED" visible="false">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label fx:id="ipLabelError" layoutX="673.0" layoutY="330.0" text="IP format should be xxx.yyy.zzz.www" textFill="RED" visible="false">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Button layoutX="492.0" layoutY="450.0" mnemonicParsing="false" onAction="#StartAsGuest" text="Start" />
+      <Button layoutX="758.0" layoutY="450.0" mnemonicParsing="false" onAction="#loadHomePage" text="Back" />
+      <Label text="Label" />
+      <Label layoutX="584.0" layoutY="82.0" text="Join game">
+         <font>
+            <Font name="System Bold Italic" size="48.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5441988950276243" centerY="0.8744075829383887" radius="0.5">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </Label>
    </children>
    <stylesheets>
       <URL value="@GuestPage.css" />
