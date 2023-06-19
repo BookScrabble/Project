@@ -43,5 +43,9 @@ public class TurnManager implements Serializable {
         this.playersTurn.remove((Object)playerId);
     }
 
+    public int getTurnManagerIndex(){
+        return currentPlayerTurn;
+    }
+
 
 }

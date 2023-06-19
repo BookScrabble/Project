@@ -2,6 +2,7 @@ package viewModel;
 
 import javafx.application.Platform;
 import javafx.beans.property.*;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import model.logic.host.GameManager;
 import model.logic.host.data.Player;
@@ -37,6 +38,13 @@ public class ViewModel{ // Later implement ViewModelFacade
     public ObjectProperty<Image> fifthTile;
     public ObjectProperty<Image> sixTile;
     public ObjectProperty<Image> sevenTile;
+
+    public ObjectProperty<Button> skipTurn;
+    public ObjectProperty<Button> submit;
+    public ObjectProperty<Button> challenge;
+    public ObjectProperty<Button> swap;
+    public ObjectProperty<Button> sort;
+    public ObjectProperty<Button> resign;
 
 
     public List<ObjectProperty<Image>> tiles;
@@ -75,6 +83,14 @@ public class ViewModel{ // Later implement ViewModelFacade
         sixTile = new SimpleObjectProperty<>();
         sevenTile = new SimpleObjectProperty<>();
 
+        resign = new SimpleObjectProperty<>();
+        submit = new SimpleObjectProperty<>();
+        swap = new SimpleObjectProperty<>();
+        sort = new SimpleObjectProperty<>();
+        challenge = new SimpleObjectProperty<>();
+        skipTurn = new SimpleObjectProperty<>();
+
+
         playersNames.add(firstPlayerName);
         playersNames.add(secondPlayerName);
         playersNames.add(thirdPlayerName);
@@ -105,6 +121,7 @@ public class ViewModel{ // Later implement ViewModelFacade
             updatePlayerNames();
             updatePlayerScores();
             updatePlayerTiles();
+            updateButtons();
         });
     }
 
@@ -122,11 +139,32 @@ public class ViewModel{ // Later implement ViewModelFacade
 
     public void updatePlayerTiles(){
         int i = 0;
+        if(model.getGameData().getPlayer(playerId.get()) == null) return;
         for(Tile tile : model.getGameData().getPlayer(playerId.get()).getAllTiles()){
             String fullPath = Objects.requireNonNull(ViewController
                     .class.getResource("/Images/Tiles/" + tile.letter + ".png")).toExternalForm();
             tiles.get(i).setValue(new Image(fullPath));
             i++;
+        }
+    }
+
+    public void updateButtons(){
+        if(!getModel().isGameRunning() || model.getTurnManager().getTurnManagerIndex() == -1) return;
+        if(model.getCurrentPlayerID() == playerId.get()){
+            resign.get().setVisible(true);
+            submit.get().setVisible(true);
+            swap.get().setVisible(true);
+            //challenge.get().setVisible(true);
+            sort.get().setVisible(true);
+            skipTurn.get().setVisible(true);
+        }
+        else{
+            resign.get().setVisible(false);
+            submit.get().setVisible(false);
+            swap.get().setVisible(false);
+            challenge.get().setVisible(false);
+            sort.get().setVisible(false);
+            skipTurn.get().setVisible(false);
         }
     }
 

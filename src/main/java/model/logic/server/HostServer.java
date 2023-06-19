@@ -37,15 +37,14 @@ public class HostServer extends MyServer implements Serializable {
         @Override
         public void run() {
             new Thread(() -> {
-                //System.out.println(getClientsModelReceiver());
-                sendUpdatedModel();
                 GameManager.get().getTurnManager().nextTurn();
+                sendUpdatedModel();
                 System.out.println("Current player turn -> " + GameManager.get().getCurrentPlayerID());
                 Socket currentPlayer = clients.get(GameManager.get().getCurrentPlayerID()).getPlayerSocket();
                 try {
                     clientHandler.handleClient(currentPlayer.getInputStream(), currentPlayer.getOutputStream());
                     this.cancel();
-                    turnTimer.getTimer().scheduleAtFixedRate(new ManageTurnTask(), 5000, 15000);
+                    turnTimer.getTimer().scheduleAtFixedRate(new ManageTurnTask(), 5000, 60000);
                 } catch (IOException ignored) {}
             }).start();
         }
@@ -69,6 +68,7 @@ public class HostServer extends MyServer implements Serializable {
                 if(playerName.equals("start")) {
                     GameManager.get().startGame();
                     broadcastUpdate("loadBoard");
+                    broadcastUpdate("bindButtons");
                     return;
                 }
                 if(clients.size() < 4){
@@ -113,7 +113,7 @@ public class HostServer extends MyServer implements Serializable {
         if(gameIsRunning){
             turnTimer = new MyTimer(new Timer());
             System.out.println("Timer is starting");
-            turnTimer.getTimer().scheduleAtFixedRate(new ManageTurnTask(), 5000, 15000);
+            turnTimer.getTimer().scheduleAtFixedRate(new ManageTurnTask(), 5000, 60000);
         }
     }
 

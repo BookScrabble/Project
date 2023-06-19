@@ -51,6 +51,7 @@ public class Client {
                         case "boardPlacementIllegal" -> boardPlacementIllegal();
                         case "updateGameModel" -> updateGameModel();
                         case "loadBoard" -> loadBoard();
+                        case "bindButtons" -> bindButtons();
                         default -> System.out.println(msgFromServer);
                     }
                 }
@@ -69,8 +70,11 @@ public class Client {
     }
 
     public void loadBoard(){
-        System.out.println("Loading board please wait!");
         action.setValue("loadBoard");
+    }
+
+    public void bindButtons(){
+        action.setValue("bindButtons");
     }
 
     private void wordNotFoundInDictionary() {

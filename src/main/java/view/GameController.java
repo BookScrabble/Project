@@ -70,6 +70,19 @@ public class GameController {
     @FXML
     ImageView sevenTile;
 
+    @FXML
+    Button resign;
+    @FXML
+    Button skipTurn;
+    @FXML
+    Button challenge;
+    @FXML
+    Button sort;
+    @FXML
+    Button swap;
+    @FXML
+    Button submit;
+
 
     @FXML
     Button startGame;
@@ -89,6 +102,7 @@ public class GameController {
         initiatePlayerName();
         initiatePlayerScore();
         initiatePlayerTiles();
+        initiatePlayerButton();
     }
 
     private void initiatePlayerTiles() {
@@ -115,6 +129,15 @@ public class GameController {
         fourthPlayerScore = new Label();
     }
 
+    public void initiatePlayerButton(){
+        resign = new Button();
+        challenge = new Button();
+        swap = new Button();
+        sort = new Button();
+        submit = new Button();
+        skipTurn = new Button();
+    }
+
     public void toggleStartButton(){
         startGame.setVisible(true);
     }
@@ -132,6 +155,10 @@ public class GameController {
             switch(action){
                 case "loadBoard" -> {
                     try {loadBoard();} catch (IOException ignored) {}
+                }
+                case "bindButtons" -> {
+                    bindButtons();
+                    viewSharedData.getViewModel().updateViewProperties();
                 }
             }
         });
@@ -160,6 +187,19 @@ public class GameController {
         sevenTile.imageProperty().bind(viewModel.sevenTile);
 
         viewModel.playerId.bind(viewSharedData.getPlayer().playerId);
+    }
+
+
+    /**
+     * TODO - FIX implementation(Null Exception)
+     */
+    public void bindButtons(){
+        resign.visibleProperty().bind(viewSharedData.getViewModel().resign.get().visibleProperty());
+        challenge.visibleProperty().bind(viewSharedData.getViewModel().challenge.get().visibleProperty());
+        submit.visibleProperty().bind(viewSharedData.getViewModel().submit.get().visibleProperty());
+        sort.visibleProperty().bind(viewSharedData.getViewModel().sort.get().visibleProperty());
+        swap.visibleProperty().bind(viewSharedData.getViewModel().swap.get().visibleProperty());
+        skipTurn.visibleProperty().bind(viewSharedData.getViewModel().skipTurn.get().visibleProperty());
     }
 
     public void setViewSharedData(ViewSharedData viewSharedData) {
