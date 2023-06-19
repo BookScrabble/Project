@@ -90,6 +90,13 @@ public class ViewModel{ // Later implement ViewModelFacade
         challenge = new SimpleObjectProperty<>();
         skipTurn = new SimpleObjectProperty<>();
 
+        resign.set(new Button());
+        submit.set(new Button());
+        challenge.set(new Button());
+        swap.set(new Button());
+        sort.set(new Button());
+        skipTurn.set(new Button());
+
 
         playersNames.add(firstPlayerName);
         playersNames.add(secondPlayerName);
@@ -154,17 +161,16 @@ public class ViewModel{ // Later implement ViewModelFacade
             resign.get().setVisible(true);
             submit.get().setVisible(true);
             swap.get().setVisible(true);
-            //challenge.get().setVisible(true);
             sort.get().setVisible(true);
             skipTurn.get().setVisible(true);
+            challenge.get().setVisible(true);
         }
         else{
-            resign.get().setVisible(false);
             submit.get().setVisible(false);
             swap.get().setVisible(false);
-            challenge.get().setVisible(false);
             sort.get().setVisible(false);
             skipTurn.get().setVisible(false);
+            challenge.get().setVisible(false);
         }
     }
 

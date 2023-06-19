@@ -44,7 +44,7 @@ public class HostServer extends MyServer implements Serializable {
                 try {
                     clientHandler.handleClient(currentPlayer.getInputStream(), currentPlayer.getOutputStream());
                     this.cancel();
-                    turnTimer.getTimer().scheduleAtFixedRate(new ManageTurnTask(), 5000, 60000);
+                    turnTimer.getTimer().scheduleAtFixedRate(new ManageTurnTask(), 5000, 15000);
                 } catch (IOException ignored) {}
             }).start();
         }
@@ -68,7 +68,6 @@ public class HostServer extends MyServer implements Serializable {
                 if(playerName.equals("start")) {
                     GameManager.get().startGame();
                     broadcastUpdate("loadBoard");
-                    broadcastUpdate("bindButtons");
                     return;
                 }
                 if(clients.size() < 4){
@@ -112,13 +111,12 @@ public class HostServer extends MyServer implements Serializable {
         }
         if(gameIsRunning){
             turnTimer = new MyTimer(new Timer());
-            System.out.println("Timer is starting");
-            turnTimer.getTimer().scheduleAtFixedRate(new ManageTurnTask(), 5000, 60000);
+            turnTimer.getTimer().scheduleAtFixedRate(new ManageTurnTask(), 5000, 15000);
         }
     }
 
     //TODO - Implement method/Change to observer updates(GameModelReceiver MITM)
-    private void broadcastUpdate(String messageForPlayers) {
+    public void broadcastUpdate(String messageForPlayers) {
         for(MySocket aClient : clients.values()) {
             try {
                 PrintWriter outToClient = new PrintWriter(aClient.getPlayerSocket().getOutputStream(), true);
