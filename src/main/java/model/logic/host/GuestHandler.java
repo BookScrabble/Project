@@ -13,6 +13,7 @@ public class GuestHandler implements ClientHandler,Serializable {
     public void handleClient(InputStream in, OutputStream out) {
         boolean stillPlaying = true;
         GameManager gm = GameManager.get();
+        gm.host.broadcastUpdate("bindButtons");
         int currentTurn = gm.getCurrentPlayerID();
         BufferedReader inFromClient = new BufferedReader(new InputStreamReader(in));
         PrintWriter outToClient = new PrintWriter(new OutputStreamWriter(out), true);

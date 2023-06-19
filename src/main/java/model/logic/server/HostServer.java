@@ -20,7 +20,7 @@ public class HostServer extends MyServer implements Serializable {
     private final Map<Integer, MySocket> clientsModelReceiver;
     MyServerSocket server;
     private boolean gameIsRunning;
-    private Timer turnTimer;
+    private MyTimer turnTimer;
 
     public HostServer(int port, ClientHandler clientHandler) {
         super(port, clientHandler);
@@ -29,17 +29,22 @@ public class HostServer extends MyServer implements Serializable {
         this.server = null;
     }
 
+    public Map<Integer, MySocket> getClientsModelReceiver() {
+        return clientsModelReceiver;
+    }
+
     public class ManageTurnTask extends TimerTask{
         @Override
         public void run() {
             new Thread(() -> {
                 GameManager.get().getTurnManager().nextTurn();
+                sendUpdatedModel();
                 System.out.println("Current player turn -> " + GameManager.get().getCurrentPlayerID());
                 Socket currentPlayer = clients.get(GameManager.get().getCurrentPlayerID()).getPlayerSocket();
                 try {
                     clientHandler.handleClient(currentPlayer.getInputStream(), currentPlayer.getOutputStream());
                     this.cancel();
-                    turnTimer.scheduleAtFixedRate(new ManageTurnTask(), 5000, 15000);
+                    turnTimer.getTimer().scheduleAtFixedRate(new ManageTurnTask(), 5000, 15000);
                 } catch (IOException ignored) {}
             }).start();
         }
@@ -62,15 +67,19 @@ public class HostServer extends MyServer implements Serializable {
                 String playerName = inFromClient.next();
                 if(playerName.equals("start")) {
                     GameManager.get().startGame();
-                    sendUpdatedModel();
+                    broadcastUpdate("loadBoard");
                     return;
                 }
-                clients.put(clients.size()+1, client);
-                GameManager.get().addPlayer(playerName);
-                System.out.println("Player " + playerName + " Connected Successfully!");
-                MySocket clientModelReceiver = new MySocket(server.getServerSocket().accept());
-                clientsModelReceiver.put(clients.size(), clientModelReceiver);
-                sendUpdatedModel();
+                if(clients.size() < 4){
+                    PrintWriter outToClient = new PrintWriter(client.getPlayerSocket().getOutputStream(),true);
+                    outToClient.println(clients.size()+1);
+                    clients.put(clients.size()+1, client);
+                    GameManager.get().addPlayer(playerName);
+                    System.out.println("Player " + playerName + " Connected Successfully!");
+                    MySocket clientModelReceiver = new MySocket(server.getServerSocket().accept());
+                    clientsModelReceiver.put(clients.size(), clientModelReceiver);
+                    sendUpdatedModel();
+                }
             }catch (SocketTimeoutException ignored) {}
             catch (IOException e) {
                 e.printStackTrace();
@@ -101,14 +110,13 @@ public class HostServer extends MyServer implements Serializable {
             startGame();
         }
         if(gameIsRunning){
-            turnTimer = new Timer();
-            System.out.println("Timer is starting");
-            turnTimer.scheduleAtFixedRate(new ManageTurnTask(), 5000, 15000);
+            turnTimer = new MyTimer(new Timer());
+            turnTimer.getTimer().scheduleAtFixedRate(new ManageTurnTask(), 5000, 15000);
         }
     }
 
     //TODO - Implement method/Change to observer updates(GameModelReceiver MITM)
-    private void broadcastUpdate(String messageForPlayers) {
+    public void broadcastUpdate(String messageForPlayers) {
         for(MySocket aClient : clients.values()) {
             try {
                 PrintWriter outToClient = new PrintWriter(aClient.getPlayerSocket().getOutputStream(), true);
@@ -143,12 +151,13 @@ public class HostServer extends MyServer implements Serializable {
     }
 
     public void startGame() {
+        sendUpdatedModel();
         this.gameIsRunning = true;
     }
 
     public void stopGame() {
         this.gameIsRunning = false;
-        if(turnTimer != null) turnTimer.cancel();
+        if(turnTimer != null) turnTimer.getTimer().cancel();
         GameManager.get().skipTurn();
         this.close();
     }

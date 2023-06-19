@@ -5,6 +5,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -12,7 +13,6 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="1000.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameController">
@@ -24,9 +24,9 @@
       </Label>
       <HBox layoutX="14.0" layoutY="104.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
          <children>
-            <Label styleClass="PlayerCardText" text="Player 1: Test" />
+            <Label fx:id="firstPlayerName" styleClass="PlayerCardText" />
             <Region HBox.hgrow="SOMETIMES" />
-            <Label styleClass="PlayerCardText" text="Score: 0" />
+            <Label fx:id="firstPlayerScore" styleClass="PlayerCardText" />
          </children>
          <padding>
             <Insets left="5.0" right="5.0" />
@@ -34,9 +34,9 @@
       </HBox>
       <HBox layoutX="14.0" layoutY="148.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
          <children>
-            <Label styleClass="PlayerCardText" text="Player 2: Test" />
+            <Label fx:id="secondPlayerName" styleClass="PlayerCardText" />
             <Region HBox.hgrow="SOMETIMES" />
-            <Label styleClass="PlayerCardText" text="Score: 0" />
+            <Label fx:id="secondPlayerScore" styleClass="PlayerCardText" />
          </children>
          <padding>
             <Insets left="5.0" right="5.0" />
@@ -44,9 +44,9 @@
       </HBox>
       <HBox layoutX="14.0" layoutY="191.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
          <children>
-            <Label styleClass="PlayerCardText" text="Player 3: Test" />
+            <Label fx:id="thirdPlayerName" styleClass="PlayerCardText" />
             <Region HBox.hgrow="SOMETIMES" />
-            <Label styleClass="PlayerCardText" text="Score: 0" />
+            <Label fx:id="thirdPlayerScore" styleClass="PlayerCardText" />
          </children>
          <padding>
             <Insets left="5.0" right="5.0" />
@@ -54,9 +54,9 @@
       </HBox>
       <HBox layoutX="14.0" layoutY="234.0" prefHeight="35.0" prefWidth="183.0" styleClass="PlayerCard">
          <children>
-            <Label styleClass="PlayerCardText" text="Player 4: Test" />
+            <Label fx:id="fourthPlayerName" styleClass="PlayerCardText" />
             <Region HBox.hgrow="SOMETIMES" />
-            <Label styleClass="PlayerCardText" text="Score: 0" />
+            <Label fx:id="fourthPlayerScore" styleClass="PlayerCardText" />
          </children>
          <padding>
             <Insets left="5.0" right="5.0" />
@@ -67,7 +67,7 @@
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Label>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="1020.0" layoutY="724.0" mnemonicParsing="false" onAction="#Resign" styleClass="Button" text="Resign">
+      <Button fx:id="resign" alignment="CENTER" contentDisplay="CENTER" layoutX="1020.0" layoutY="724.0" mnemonicParsing="false" onAction="#Resign" styleClass="Button" text="Resign">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
@@ -75,7 +75,7 @@
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Button>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="873.0" layoutY="724.0" mnemonicParsing="false" onAction="#SkipTurn" styleClass="Button" text="Skip Turn">
+      <Button fx:id="skipTurn" alignment="CENTER" contentDisplay="CENTER" layoutX="873.0" layoutY="724.0" mnemonicParsing="false" onAction="#SkipTurn" styleClass="Button" text="Skip Turn" visible="false">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
@@ -83,7 +83,7 @@
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Button>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="733.0" layoutY="724.0" mnemonicParsing="false" onAction="#SortTiles" styleClass="Button" text="Sort Tiles">
+      <Button fx:id="sort" alignment="CENTER" contentDisplay="CENTER" layoutX="733.0" layoutY="724.0" mnemonicParsing="false" onAction="#SortTiles" styleClass="Button" text="Sort Tiles" visible="false">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
@@ -91,7 +91,7 @@
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Button>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="300.0" layoutY="724.0" mnemonicParsing="false" onAction="#Submit" styleClass="Button" text="Submit">
+      <Button fx:id="submit" alignment="CENTER" contentDisplay="CENTER" layoutX="300.0" layoutY="724.0" mnemonicParsing="false" onAction="#Submit" styleClass="Button" text="Submit" visible="false">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
@@ -99,7 +99,7 @@
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Button>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="424.0" layoutY="724.0" mnemonicParsing="false" onAction="#Challenge" styleClass="Button" text="Challenge">
+      <Button fx:id="challenge" alignment="CENTER" contentDisplay="CENTER" layoutX="424.0" layoutY="724.0" mnemonicParsing="false" onAction="#Challenge" styleClass="Button" text="Challenge" visible="false">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
@@ -107,7 +107,7 @@
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Button>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="578.0" layoutY="724.0" mnemonicParsing="false" onAction="#SwapTiles" styleClass="Button" text="Swap Tiles">
+      <Button fx:id="swap" alignment="CENTER" contentDisplay="CENTER" layoutX="578.0" layoutY="724.0" mnemonicParsing="false" onAction="#SwapTiles" styleClass="Button" text="Swap Tiles" visible="false">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
@@ -115,90 +115,6 @@
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Button>
-      <VBox layoutX="292.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
-         <children>
-            <Label styleClass="TileText" text="Tile">
-               <font>
-                  <Font name="System Bold Italic" size="24.0" />
-               </font>
-            </Label>
-            <Label styleClass="TileScore" text="Score" textAlignment="RIGHT">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font>
-            </Label>
-         </children>
-      </VBox>
-      <VBox layoutX="427.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
-         <children>
-            <Label styleClass="TileText" text="Tile">
-               <font>
-                  <Font name="System Bold Italic" size="24.0" />
-               </font>
-            </Label>
-            <Label styleClass="TileScore" text="Score" textAlignment="RIGHT">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font>
-            </Label>
-         </children>
-      </VBox>
-      <VBox layoutX="578.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
-         <children>
-            <Label styleClass="TileText" text="Tile">
-               <font>
-                  <Font name="System Bold Italic" size="24.0" />
-               </font>
-            </Label>
-            <Label styleClass="TileScore" text="Score" textAlignment="RIGHT">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font>
-            </Label>
-         </children>
-      </VBox>
-      <VBox layoutX="733.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
-         <children>
-            <Label styleClass="TileText" text="Tile">
-               <font>
-                  <Font name="System Bold Italic" size="24.0" />
-               </font>
-            </Label>
-            <Label styleClass="TileScore" text="Score" textAlignment="RIGHT">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font>
-            </Label>
-         </children>
-      </VBox>
-      <VBox layoutX="874.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
-         <children>
-            <Label styleClass="TileText" text="Tile">
-               <font>
-                  <Font name="System Bold Italic" size="24.0" />
-               </font>
-            </Label>
-            <Label styleClass="TileScore" text="Score" textAlignment="RIGHT">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font>
-            </Label>
-         </children>
-      </VBox>
-      <VBox layoutX="1011.0" layoutY="775.0" prefHeight="143.0" prefWidth="94.0" styleClass="TileContainer">
-         <children>
-            <Label styleClass="TileText" text="Tile">
-               <font>
-                  <Font name="System Bold Italic" size="24.0" />
-               </font>
-            </Label>
-            <Label styleClass="TileScore" text="Score">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font>
-            </Label>
-         </children>
-      </VBox>
       <Button layoutX="1170.0" layoutY="56.0" mnemonicParsing="false" onAction="#Exit" prefWidth="131.0" styleClass="ExitButton" text="Exit" />
       <GridPane fx:id="boardGridPane" gridLinesVisible="true" layoutX="279.0" layoutY="81.0" onMouseClicked="#squareClickHandler" prefHeight="624.0" prefWidth="843.0" scaleShape="false">
          <columnConstraints>
@@ -2260,6 +2176,13 @@
             </children>
          </StackPane>
       </GridPane>
+      <ImageView fx:id="firstTile" fitHeight="50.0" fitWidth="53.0" layoutX="1144.0" layoutY="655.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="secondTile" fitHeight="50.0" fitWidth="53.0" layoutX="1144.0" layoutY="593.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="thirdTile" fitHeight="50.0" fitWidth="53.0" layoutX="1144.0" layoutY="534.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="fourthTile" fitHeight="50.0" fitWidth="53.0" layoutX="1144.0" layoutY="475.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="fifthTile" fitHeight="50.0" fitWidth="53.0" layoutX="1144.0" layoutY="414.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="sixTile" fitHeight="50.0" fitWidth="53.0" layoutX="1144.0" layoutY="352.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="sevenTile" fitHeight="50.0" fitWidth="53.0" layoutX="1144.0" layoutY="294.0" pickOnBounds="true" preserveRatio="true" />
 
    </children>
    <stylesheets>

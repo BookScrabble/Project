@@ -3,7 +3,6 @@ package view;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -64,7 +63,8 @@ public class ConnectionController {
             ipField.setText("localhost"); //Default ip to make server run locally on host computer.
             gameManager.initializeHostServer(Integer.parseInt(portField.getText()));
             connectToServer();
-            loadBoard(event);
+            viewSharedData.setHost(true);
+            loadWaitingHostRoom();
         }
     }
 
@@ -91,7 +91,8 @@ public class ConnectionController {
         }
         if(allValid){
             connectToServer();
-            loadBoard(event);
+            viewSharedData.setHost(false);
+            loadWaitingHostRoom();
         }
     }
 
@@ -122,7 +123,7 @@ public class ConnectionController {
     }
 
     @FXML
-    public void loadScene(ActionEvent event, String sceneName) throws IOException {
+    public void loadScene(String sceneName) throws IOException {
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(sceneName + ".fxml")));
         Parent root = loader.load();
 
@@ -132,14 +133,19 @@ public class ConnectionController {
         switch(sceneName){
             case "HomePage" -> viewController = loader.getController();
             case "HostPage", "GuestPage", "StartGame" -> connectionController = loader.getController();
-            case "BoardPage" -> gameController = loader.getController();
+            case "WaitingHostRoom" -> gameController = loader.getController();
         }
 
         if(viewController != null) viewController.setViewSharedData(this.viewSharedData);
         else if(connectionController != null) connectionController.setViewSharedData(this.viewSharedData);
-        else if(gameController != null) gameController.setViewSharedData(this.viewSharedData);
+        else if(gameController != null) {
+            gameController.setViewSharedData(this.viewSharedData);
+            gameController.bindAll();
+            gameController.initializePlayerAction();
+            if(viewSharedData.getHost()) gameController.toggleStartButton();
+        }
 
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = BookScrabbleApplication.getPrimaryStage();
         Scene scene = null;
         if(Objects.equals(sceneName, "BoardPage")){
             scene = new Scene(root, 1400, 900);
@@ -156,37 +162,32 @@ public class ConnectionController {
 
     @FXML
     public void Back(ActionEvent event) throws IOException{
-        StartGame(event);
+        StartGame();
     }
 
     @FXML
-    public void StartGame(ActionEvent event) throws IOException{
-        loadScene(event, "StartGame");
+    public void StartGame() throws IOException{
+        loadScene("StartGame");
     }
 
     @FXML
-    public void loadBoard(ActionEvent event) throws IOException{
-        loadScene(event, "BoardPage");
+    public void loadHostForm() throws IOException{
+        loadScene("HostPage");
     }
 
     @FXML
-    public void loadHostForm(ActionEvent event) throws IOException{
-        loadScene(event, "HostPage");
+    public void loadHomePage() throws IOException{
+        loadScene("HomePage");
     }
 
     @FXML
-    public void loadHomePage(ActionEvent event) throws IOException{
-        loadScene(event, "HomePage");
+    public void loadGuestForm() throws IOException{
+        loadScene("GuestPage");
     }
 
     @FXML
-    public void loadGuestForm(ActionEvent event) throws IOException{
-        loadScene(event, "GuestPage");
-    }
-
-    @FXML
-    public void loadWaitingHostRoom(ActionEvent event) throws IOException{
-        loadScene(event, "WaitingHostRoom");
+    public void loadWaitingHostRoom() throws IOException{
+        loadScene("WaitingHostRoom");
     }
 
 }

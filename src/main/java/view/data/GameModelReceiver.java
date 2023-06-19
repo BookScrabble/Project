@@ -9,7 +9,7 @@ import java.util.Observable;
 
 public class GameModelReceiver extends Observable implements Serializable {
     MySocket server;
-    private BufferedInputStream inFromServer;
+    private final BufferedInputStream inFromServer;
     GameManager updatedModel;
     public GameModelReceiver(String ip, int port){
         try {
@@ -41,7 +41,7 @@ public class GameModelReceiver extends Observable implements Serializable {
             while (!server.getPlayerSocket().isClosed()) {
                 try {
                     GameManager newModel = (GameManager) new ObjectInputStream(inFromServer).readObject();
-                    System.out.println("Received updated model");
+                    System.out.println("Received model update");
                     setUpdatedModel(newModel);
                 } catch (IOException | ClassNotFoundException ignored) {}
             }

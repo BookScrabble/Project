@@ -1,5 +1,6 @@
 package view.data;
 
+import javafx.event.ActionEvent;
 import model.logic.client.Client;
 import viewModel.ViewModel;
 import java.util.Observable;
@@ -12,11 +13,13 @@ public class ViewSharedData implements Observer {
     String hostIp;
     String playerName;
     int hostPort;
+    boolean isHost;
 
     public ViewSharedData(ViewModel viewModel){
         this.viewModel = viewModel;
-        gameModelReceiver = null;
-        hostIp = "localhost";
+        this.gameModelReceiver = null;
+        this.hostIp = "localhost";
+        this.isHost = false;
     }
 
     public ViewModel getViewModel() {
@@ -37,6 +40,14 @@ public class ViewSharedData implements Observer {
 
     public String getHostIp() {
         return hostIp;
+    }
+
+    public void setHost(boolean host) {
+        isHost = host;
+    }
+
+    public boolean getHost(){
+        return isHost;
     }
 
     public void setPlayerName(String playerName) {

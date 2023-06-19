@@ -1,19 +1,24 @@
 package view;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import model.logic.host.MySocket;
 import view.data.ViewSharedData;
+import viewModel.ViewModel;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -31,6 +36,61 @@ public class GameController {
     @FXML
     GridPane boardGridPane;
     ViewSharedData viewSharedData;
+    @FXML
+    Label firstPlayerName;
+    @FXML
+    Label firstPlayerScore;
+
+    @FXML
+    Label secondPlayerName;
+    @FXML
+    Label secondPlayerScore;
+
+    @FXML
+    Label thirdPlayerName;
+    @FXML
+    Label thirdPlayerScore;
+
+    @FXML
+    Label fourthPlayerName;
+    @FXML
+    Label fourthPlayerScore;
+    @FXML
+    ImageView firstTile;
+    @FXML
+    ImageView secondTile;
+    @FXML
+    ImageView thirdTile;
+    @FXML
+    ImageView fourthTile;
+    @FXML
+    ImageView fifthTile;
+    @FXML
+    ImageView sixTile;
+    @FXML
+    ImageView sevenTile;
+
+    @FXML
+    Button resign;
+    @FXML
+    Button skipTurn;
+    @FXML
+    Button challenge;
+    @FXML
+    Button sort;
+    @FXML
+    Button swap;
+    @FXML
+    Button submit;
+
+
+    @FXML
+    Button startGame;
+
+    StringProperty clientAction;
+
+    //Properties:
+
 
     public GameController(){
         this.word = "";
@@ -38,7 +98,108 @@ public class GameController {
         this.flag = 0;
         this.indexRow = new ArrayList<>();
         this.indexCol = new ArrayList<>();
-        //Binding..
+        this.startGame = new Button();
+        initiatePlayerName();
+        initiatePlayerScore();
+        initiatePlayerTiles();
+        initiatePlayerButton();
+    }
+
+    private void initiatePlayerTiles() {
+        firstTile = new ImageView();
+        secondTile = new ImageView();
+        thirdTile = new ImageView();
+        fourthTile = new ImageView();
+        fifthTile = new ImageView();
+        sixTile = new ImageView();
+        sevenTile = new ImageView();
+    }
+
+    public void initiatePlayerName(){
+        firstPlayerName = new Label();
+        secondPlayerName = new Label();
+        thirdPlayerName = new Label();
+        fourthPlayerName = new Label();
+    }
+
+    public void initiatePlayerScore(){
+        firstPlayerScore = new Label();
+        secondPlayerScore = new Label();
+        thirdPlayerScore = new Label();
+        fourthPlayerScore = new Label();
+    }
+
+    public void initiatePlayerButton(){
+        resign = new Button();
+        challenge = new Button();
+        swap = new Button();
+        sort = new Button();
+        submit = new Button();
+        skipTurn = new Button();
+    }
+
+    public void toggleStartButton(){
+        startGame.setVisible(true);
+    }
+
+    public void initializePlayerAction(){
+        clientAction = new SimpleStringProperty();
+        clientAction.bind(viewSharedData.getPlayer().getAction());
+        viewSharedData.getPlayer().getAction().addListener(((observable, oldAction, newAction) -> {
+            handleClientAction(newAction);
+        }));
+    }
+
+    public void handleClientAction(String action){
+        Platform.runLater(() -> {
+            switch(action){
+                case "loadBoard" -> {
+                    try {loadBoard();} catch (IOException ignored) {}
+                }
+                case "bindButtons" -> {
+                    bindButtons();
+                    viewSharedData.getViewModel().updateViewProperties();
+                }
+            }
+        });
+    }
+
+
+    public void bindAll(){
+        ViewModel viewModel = this.viewSharedData.getViewModel();
+
+        firstPlayerName.textProperty().bind(viewModel.firstPlayerName);
+        secondPlayerName.textProperty().bind(viewModel.secondPlayerName);
+        thirdPlayerName.textProperty().bind(viewModel.thirdPlayerName);
+        fourthPlayerName.textProperty().bind(viewModel.fourthPlayerName);
+
+        firstPlayerScore.textProperty().bind(viewModel.firstPlayerScore.asString());
+        secondPlayerScore.textProperty().bind(viewModel.secondPlayerScore.asString());
+        thirdPlayerScore.textProperty().bind(viewModel.thirdPlayerScore.asString());
+        fourthPlayerScore.textProperty().bind(viewModel.fourthPlayerScore.asString());
+
+        firstTile.imageProperty().bind(viewModel.firstTile);
+        secondTile.imageProperty().bind(viewModel.secondTile);
+        thirdTile.imageProperty().bind(viewModel.thirdTile);
+        fourthTile.imageProperty().bind(viewModel.fourthTile);
+        fifthTile.imageProperty().bind(viewModel.fifthTile);
+        sixTile.imageProperty().bind(viewModel.sixTile);
+        sevenTile.imageProperty().bind(viewModel.sevenTile);
+
+        viewModel.playerId.bind(viewSharedData.getPlayer().playerId);
+    }
+
+
+    /**
+     * TODO - FIX implementation(Null Exception)
+     */
+    public void bindButtons(){
+        resign.visibleProperty().bind(viewSharedData.getViewModel().resign.get().visibleProperty());
+        challenge.visibleProperty().bind(viewSharedData.getViewModel().challenge.get().visibleProperty());
+        submit.visibleProperty().bind(viewSharedData.getViewModel().submit.get().visibleProperty());
+        sort.visibleProperty().bind(viewSharedData.getViewModel().sort.get().visibleProperty());
+        swap.visibleProperty().bind(viewSharedData.getViewModel().swap.get().visibleProperty());
+        skipTurn.visibleProperty().bind(viewSharedData.getViewModel().skipTurn.get().visibleProperty());
     }
 
     public void setViewSharedData(ViewSharedData viewSharedData) {
@@ -46,7 +207,7 @@ public class GameController {
     }
 
     @FXML
-    public void Submit(ActionEvent event) throws IOException {
+    public void Submit() throws IOException {
         while(this.flag == 0){
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Choose Vertical or Horizontal");
@@ -178,19 +339,69 @@ public class GameController {
 
     @FXML
     public void start(ActionEvent event) throws IOException{
-        squareClickHandler();
+        loadBoard();
         sendStartToServer();
+        System.out.println(viewSharedData.getViewModel().getModel().getGameData().getPlayer(viewSharedData.getPlayer().playerId.get()).getAllTiles());
     }
 
     //Testing ONLY
     public void sendStartToServer(){
+        MySocket initiateServer = null;
         try {
-            MySocket initiateServer = new MySocket(new Socket(viewSharedData.getHostIp(), viewSharedData.getHostPort()));
+            initiateServer = new MySocket(new Socket(viewSharedData.getHostIp(), viewSharedData.getHostPort()));
             PrintWriter printWriter = new PrintWriter(initiateServer.getPlayerSocket().getOutputStream(),true);
             printWriter.println("start");
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+            if(initiateServer != null && initiateServer.getPlayerSocket().isConnected()){
+                try {
+                    initiateServer.getPlayerSocket().close();
+                } catch (IOException ignored) {}
+            }
         }
+    }
+
+    @FXML
+    public void loadScene(String sceneName) throws IOException {
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(sceneName + ".fxml")));
+        Parent root = loader.load();
+
+        ViewController viewController = null;
+        ConnectionController connectionController = null;
+        GameController gameController = null;
+        switch(sceneName){
+            case "HomePage" -> viewController = loader.getController();
+            case "HostPage", "GuestPage", "StartGame" -> connectionController = loader.getController();
+            case "BoardPage" -> gameController = loader.getController();
+        }
+
+        if(viewController != null) viewController.setViewSharedData(this.viewSharedData);
+        else if(connectionController != null) connectionController.setViewSharedData(this.viewSharedData);
+        else if(gameController != null) {
+            gameController.setViewSharedData(this.viewSharedData);
+            gameController.squareClickHandler();
+            gameController.bindAll();
+            gameController.initializePlayerAction();
+        }
+
+        Stage stage = BookScrabbleApplication.getPrimaryStage();
+        Scene scene = null;
+        if(Objects.equals(sceneName, "BoardPage")){
+            scene = new Scene(root,1400,1000);
+        } else{
+            scene = new Scene(root);
+        }
+        try {
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(sceneName + ".css")).toExternalForm());
+        } catch (NullPointerException ignored){}
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    public void loadBoard() throws IOException{
+        loadScene("BoardPage");
     }
 
     @FXML
