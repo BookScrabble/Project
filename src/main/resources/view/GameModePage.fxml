@@ -2,13 +2,39 @@
 
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ConnectionController">
+<AnchorPane prefHeight="900.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ConnectionController">
    <children>
-      <Button layoutX="100.0" layoutY="132.0" mnemonicParsing="false" onAction="#loadHostForm" styleClass="test" text="Create new game" />
-      <Button layoutX="344.0" layoutY="132.0" mnemonicParsing="false" onAction="#loadGuestForm" text="Join a game" />
-      <Button layoutX="200.0" layoutY="257.0" mnemonicParsing="false" onAction="#loadHomePage" styleClass="test" text="Back" />
+      <Button layoutX="439.0" layoutY="266.0" mnemonicParsing="false" onAction="#loadHostForm" styleClass="test" text="Create new game" />
+      <Button layoutX="761.0" layoutY="266.0" mnemonicParsing="false" onAction="#loadGuestForm" text="Join a game" />
+      <Button layoutX="600.0" layoutY="375.0" mnemonicParsing="false" onAction="#loadHomePage" styleClass="test" text="Back" />
+      <Label layoutX="639.0" layoutY="97.0" text="Label">
+         <font>
+            <Font name="System Bold Italic" size="48.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.44475138121546964" centerY="0.7985781990521328" radius="0.5">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </Label>
    </children>
    <stylesheets>
       <URL value="@GameModePage.css" />

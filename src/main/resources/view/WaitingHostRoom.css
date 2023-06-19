@@ -1,10 +1,17 @@
+.root {
+    -fx-background-image: url("../images/FirstCheckBackground.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 1400 900;
+    -fx-background-position: center center;
+}
+
 .Button{
     -fx-background-color: transparent;
-    -fx-text-fill: black;
+    -fx-text-fill: white;
     -fx-font-size: 20px;
     -fx-font-family: "Arial";
     -fx-font-weight: bold;
-    -fx-border-color: black;
+    -fx-border-color: white;
     -fx-border-width: 2px;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;

@@ -48,7 +48,7 @@ public class ViewController {
         if(Objects.equals(sceneName, "BoardPage")){
             scene = new Scene(root,1400,1000);
         } else{
-            scene = new Scene(root);
+            scene = new Scene(root,1400,900);
         }
         try {
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(sceneName + ".css")).toExternalForm());

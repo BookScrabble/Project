@@ -1,47 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.BoxBlur?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ConnectionController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ViewController">
    <children>
-      <TextField fx:id="nameField" layoutX="263.0" layoutY="97.0">
-         <effect>
-            <BoxBlur height="0.3" iterations="0" width="2.0">
-               <input>
-                  <DropShadow />
-               </input>
-            </BoxBlur>
-         </effect></TextField>
-      <Label layoutX="132.0" layoutY="100.0" text="Enter your name">
+      <Button contentDisplay="CENTER" layoutX="349.0" layoutY="248.0" mnemonicParsing="false" onAction="#ChooseGameMode" prefHeight="25.0" prefWidth="101.0" text="Start" textAlignment="CENTER" textOverrun="CLIP">
          <font>
-            <Font name="System Bold" size="14.0" />
-         </font></Label>
-      <Label layoutX="131.0" layoutY="175.0" text="Enter server Port">
+            <Font name="Arial Bold Italic" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor></Button>
+      <Button contentDisplay="CENTER" layoutX="841.0" layoutY="248.0" mnemonicParsing="false" onAction="#StartTutorial" prefHeight="25.0" prefWidth="101.0" text="Tutorial" textAlignment="CENTER" textOverrun="CLIP">
          <font>
-            <Font name="System Bold" size="14.0" />
-         </font></Label>
-      <Button layoutX="78.0" layoutY="292.0" mnemonicParsing="false" onAction="#StartAsHost" prefHeight="25.0" prefWidth="62.0" text="Start" />
-      <TextField fx:id="portField" layoutX="263.0" layoutY="172.0">
-         <effect>
-            <BoxBlur height="0.3" iterations="0" width="2.0">
-               <input>
-                  <DropShadow />
-               </input>
-            </BoxBlur>
-         </effect>
-      </TextField>
-      <Label fx:id="nameLabelError" layoutX="247.0" layoutY="74.0" text="Name can only contain Alphabetic" textFill="RED" visible="false" />
-      <Label fx:id="portLabelError" layoutX="234.0" layoutY="149.0" text="Port can only be between 10000-20000" textFill="RED" visible="false" />
-      <Button layoutX="342.0" layoutY="292.0" mnemonicParsing="false" onAction="#loadHomePage" prefHeight="25.0" prefWidth="62.0" text="Back" />
+            <Font name="Arial Bold Italic" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="0.9907407164573669" blue="0.9907407164573669" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill></Button>
+      <Button contentDisplay="CENTER" layoutX="600.0" layoutY="322.0" mnemonicParsing="false" onAction="#Exit" prefHeight="25.0" prefWidth="101.0" text="Exit" textAlignment="CENTER" textOverrun="CLIP">
+         <font>
+            <Font name="Arial Bold Italic" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor></Button>
+      <Label layoutX="407.0" layoutY="72.0" text="Welcome to BookScrabble">
+         <font>
+            <Font name="System Bold Italic" size="48.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.6823204419889503" centerY="0.6611374407582938" radius="0.5">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </Label>
    </children>
    <stylesheets>
-      <URL value="@HostPage.css" />
+      <URL value="@HomePage.css" />
    </stylesheets>
 </AnchorPane>

@@ -1,34 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<?import java.net.URL?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ViewController">
    <children>
-      <Button contentDisplay="CENTER" layoutX="291.0" layoutY="209.0" mnemonicParsing="false" onAction="#ChooseGameMode" prefHeight="25.0" prefWidth="101.0" text="Start" textAlignment="CENTER" textOverrun="CLIP">
+      <Button contentDisplay="CENTER" layoutX="349.0" layoutY="248.0" mnemonicParsing="false" onAction="#ChooseGameMode" prefHeight="25.0" prefWidth="101.0" text="Start" textAlignment="CENTER" textOverrun="CLIP">
          <font>
             <Font name="Arial Bold Italic" size="18.0" />
          </font>
          <cursor>
             <Cursor fx:constant="OPEN_HAND" />
          </cursor></Button>
-      <Button contentDisplay="CENTER" layoutX="570.0" layoutY="209.0" mnemonicParsing="false" onAction="#StartTutorial" prefHeight="25.0" prefWidth="101.0" text="Tutorial" textAlignment="CENTER" textOverrun="CLIP">
+      <Button contentDisplay="CENTER" layoutX="841.0" layoutY="248.0" mnemonicParsing="false" onAction="#StartTutorial" prefHeight="25.0" prefWidth="101.0" text="Tutorial" textAlignment="CENTER" textOverrun="CLIP">
+         <font>
+            <Font name="Arial Bold Italic" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="0.9907407164573669" blue="0.9907407164573669" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill></Button>
+      <Button contentDisplay="CENTER" layoutX="600.0" layoutY="322.0" mnemonicParsing="false" onAction="#Exit" prefHeight="25.0" prefWidth="101.0" text="Exit" textAlignment="CENTER" textOverrun="CLIP">
          <font>
             <Font name="Arial Bold Italic" size="18.0" />
          </font>
          <cursor>
             <Cursor fx:constant="OPEN_HAND" />
          </cursor></Button>
-      <Button contentDisplay="CENTER" layoutX="438.0" layoutY="275.0" mnemonicParsing="false" onAction="#Exit" prefHeight="25.0" prefWidth="101.0" text="Exit" textAlignment="CENTER" textOverrun="CLIP">
+      <Label layoutX="407.0" layoutY="72.0" text="Welcome to BookScrabble">
          <font>
-            <Font name="Arial Bold Italic" size="18.0" />
+            <Font name="System Bold Italic" size="48.0" />
          </font>
-         <cursor>
-            <Cursor fx:constant="OPEN_HAND" />
-         </cursor></Button>
+         <textFill>
+            <RadialGradient centerX="0.6823204419889503" centerY="0.6611374407582938" radius="0.5">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </Label>
    </children>
    <stylesheets>
       <URL value="@HomePage.css" />

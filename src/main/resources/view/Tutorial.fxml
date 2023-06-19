@@ -4,42 +4,81 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ViewController">
+<AnchorPane prefHeight="900.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ViewController">
    <children>
-      <Label layoutY="4.0" text="The Scrabble Board">
+      <Label layoutX="256.0" layoutY="140.0" text="The Scrabble Board" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="14.0" />
+            <Font name="System Bold" size="22.0" />
          </font></Label>
-      <Text fontSmoothingType="LCD" layoutX="138.0" layoutY="17.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A standard Scrabble board will consist of cells that are located in a large square grid. The board offers 15 cells high and 15 cells wide. The tiles used on the game will fit in each cell on the board." wrappingWidth="437.89453125" />
-      <Label layoutY="57.0" text="Scrabble Tiles">
+      <Text fill="WHITE" fontSmoothingType="LCD" layoutX="472.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A standard Scrabble board will consist of cells that are located in a large square grid. The board offers 15 cells high and 15 cells wide. The tiles used on the game will fit in each cell on the board." wrappingWidth="647.89453125">
          <font>
-            <Font name="System Bold" size="14.0" />
+            <Font name="System Italic" size="18.0" />
+         </font></Text>
+      <Label layoutX="256.0" layoutY="224.0" text="Scrabble Tiles" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Text fontSmoothingType="LCD" layoutX="138.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="There are 100 tiles that are used in the game and 98 of them will contain letters and point values. There are 2 blank tiles that can be used as wild tiles to take the place of any letter. When a blank is played, it will remain in the game as the letter it substituted for.Different letters in the game will have various point values and this will depend on how rare the letter is and how difficult it may be to lay that letter. Blank tiles will have no point values." wrappingWidth="457.8945312499999" />
-      <Label layoutX="1.0" layoutY="170.0" text="Start Game">
+      <Text fill="WHITE" fontSmoothingType="LCD" layoutX="472.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="There are 100 tiles that are used in the game and 98 of them will contain letters and point values. There are 2 blank tiles that can be used as wild tiles to take the place of any letter. When a blank is played, it will remain in the game as the letter it substituted for.Different letters in the game will have various point values and this will depend on how rare the letter is and how difficult it may be to lay that letter. Blank tiles will have no point values." wrappingWidth="647.89453125">
          <font>
-            <Font name="System Bold" size="14.0" />
+            <Font name="System Italic" size="18.0" />
+         </font></Text>
+      <Label layoutX="256.0" layoutY="392.0" text="Start Game" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Text fontSmoothingType="LCD" layoutX="138.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Every player will start their turn by drawing seven tiles from the Scrabble bag. There are three options during any turn. The player can place a word, they can exchange tiles for new tiles or they can choose to pass. In most cases, players will try to place a word as the other two options will result in no score." wrappingWidth="457.8945312499999" />
-      <Label layoutX="5.0" layoutY="329.0" text="End Game">
+      <Text fill="WHITE" fontSmoothingType="LCD" layoutX="472.0" layoutY="411.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Every player will start their turn by drawing seven tiles from the Scrabble bag. There are three options during any turn. The player can place a word, they can exchange tiles for new tiles or they can choose to pass. In most cases, players will try to place a word as the other two options will result in no score." wrappingWidth="647.8945312499999">
          <font>
-            <Font name="System Bold" size="14.0" />
+            <Font name="System Italic" size="18.0" />
+         </font></Text>
+      <Label layoutX="256.0" layoutY="609.0" text="End Game" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Text fontSmoothingType="LCD" layoutX="138.0" layoutY="342.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Once all tiles are gone from the bag and a single player has placed all of their tiles, the game will end and the player with the highest score wins." wrappingWidth="457.8945312499999" />
-      <Label layoutX="3.0" layoutY="254.0" text="First Word">
+      <Text fill="WHITE" fontSmoothingType="LCD" layoutX="472.0" layoutY="628.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Once all tiles are gone from the bag and a single player has placed all of their tiles, the game will end and the player with the highest score wins." wrappingWidth="647.89453125">
          <font>
-            <Font name="System Bold" size="14.0" />
+            <Font name="System Italic" size="18.0" />
+         </font></Text>
+      <Label layoutX="256.0" layoutY="502.0" text="First Word" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Text fontSmoothingType="LCD" layoutX="138.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="When the game begins, the first player will place their word on the star spin in the centre of the board. The star is a double square and will offer a double word score. All players following will build their words off of this word, extending the game to other squares on the board." wrappingWidth="457.8945312499999" />
-      <Button layoutX="190.0" layoutY="374.0" mnemonicParsing="false" onAction="#ChooseGameMode" text="Start" />
-      <Button layoutX="367.0" layoutY="374.0" mnemonicParsing="false" onAction="#loadHomePage" text="Back" />
+      <Text fill="WHITE" fontSmoothingType="LCD" layoutX="472.0" layoutY="521.0" strokeType="OUTSIDE" strokeWidth="0.0" text="When the game begins, the first player will place their word on the star spin in the centre of the board. The star is a double square and will offer a double word score. All players following will build their words off of this word, extending the game to other squares on the board." wrappingWidth="647.89453125">
+         <font>
+            <Font name="System Italic" size="18.0" />
+         </font></Text>
+      <Button layoutX="518.0" layoutY="722.0" mnemonicParsing="false" onAction="#ChooseGameMode" text="Start" />
+      <Button layoutX="768.0" layoutY="722.0" mnemonicParsing="false" onAction="#loadHomePage" text="Back" />
+      <Label layoutX="587.0" layoutY="43.0" text="Tutorial">
+         <font>
+            <Font name="System Bold Italic" size="48.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5662983425414365" centerY="0.8791469194312796" radius="0.5">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </Label>
    </children>
    <stylesheets>
       <URL value="@Tutorial.css" />
