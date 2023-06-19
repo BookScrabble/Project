@@ -43,8 +43,8 @@ public class HostServer extends MyServer implements Serializable {
                 Socket currentPlayer = clients.get(GameManager.get().getCurrentPlayerID()).getPlayerSocket();
                 try {
                     clientHandler.handleClient(currentPlayer.getInputStream(), currentPlayer.getOutputStream());
-                    this.cancel();
-                    turnTimer.getTimer().scheduleAtFixedRate(new ManageTurnTask(), 5000, 15000);
+//                    this.cancel();
+//                    turnTimer.getTimer().scheduleAtFixedRate(new ManageTurnTask(), 5000, 15000);
                 } catch (IOException ignored) {}
             }).start();
         }
@@ -112,6 +112,7 @@ public class HostServer extends MyServer implements Serializable {
         if(gameIsRunning){
             turnTimer = new MyTimer(new Timer());
             turnTimer.getTimer().scheduleAtFixedRate(new ManageTurnTask(), 5000, 15000);
+
         }
     }
 

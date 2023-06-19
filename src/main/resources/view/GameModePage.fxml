@@ -14,7 +14,7 @@
       <Button layoutX="439.0" layoutY="266.0" mnemonicParsing="false" onAction="#loadHostForm" styleClass="test" text="Create new game" />
       <Button layoutX="761.0" layoutY="266.0" mnemonicParsing="false" onAction="#loadGuestForm" text="Join a game" />
       <Button layoutX="600.0" layoutY="375.0" mnemonicParsing="false" onAction="#loadHomePage" styleClass="test" text="Back" />
-      <Label layoutX="639.0" layoutY="97.0" text="Label">
+      <Label layoutX="492.0" layoutY="99.0" text="Choose Game Mode">
          <font>
             <Font name="System Bold Italic" size="48.0" />
          </font>

@@ -7,7 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import model.logic.client.Client;
 import model.logic.host.GameManager;
@@ -147,18 +146,13 @@ public class ConnectionController {
 
         Stage stage = BookScrabbleApplication.getPrimaryStage();
         Scene scene = null;
-        if(Objects.equals(sceneName, "BoardPage")){
-            scene = new Scene(root, 1400, 900);
-        } else{
-            scene = new Scene(root,1400,900);
-        }
+        scene = new Scene(root);
         try {
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(sceneName + ".css")).toExternalForm());
         } catch (NullPointerException ignored){}
         stage.setScene(scene);
         stage.show();
     }
-
 
     @FXML
     public void Back(ActionEvent event) throws IOException{
