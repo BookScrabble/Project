@@ -1,5 +1,10 @@
 package model.logic.client;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
@@ -8,6 +13,8 @@ public class Client {
     private Socket server;
     private Scanner inFromServer;
     private PrintWriter outToServer;
+    private StringProperty action;
+    public IntegerProperty playerId;
 
     public static volatile boolean serverIsRunning = true;
     /**
@@ -23,6 +30,9 @@ public class Client {
             this.outToServer = new PrintWriter(this.server.getOutputStream(), true);
             this.inFromServer = new Scanner(this.server.getInputStream());
             outToServer.println(clientName);
+            playerId = new SimpleIntegerProperty();
+            playerId.setValue(Integer.parseInt(inFromServer.next()));
+            this.action = new SimpleStringProperty();
             listenForServerUpdates();
         } catch (IOException e) {
             e.printStackTrace();
@@ -40,7 +50,9 @@ public class Client {
                         case "wordNotFoundInDictionary" -> wordNotFoundInDictionary();
                         case "boardPlacementIllegal" -> boardPlacementIllegal();
                         case "updateGameModel" -> updateGameModel();
-                        default -> System.out.println(msgFromServer); //TODO - Implemented for testing.
+                        case "loadBoard" -> loadBoard();
+                        case "bindButtons" -> bindButtons();
+                        default -> System.out.println(msgFromServer);
                     }
                 }
             }
@@ -48,10 +60,21 @@ public class Client {
         }).start();
     }
 
+    public StringProperty getAction() {
+        return action;
+    }
 
     private void playTurn() {
         System.out.println("Turn started");
         outToServer.println("submit,BELIEVE,7,7,vertical");
+    }
+
+    public void loadBoard(){
+        action.setValue("loadBoard");
+    }
+
+    public void bindButtons(){
+        action.setValue("bindButtons");
     }
 
     private void wordNotFoundInDictionary() {
@@ -59,6 +82,7 @@ public class Client {
     }
 
     private void boardPlacementIllegal() {
+
     }
 
     private void updateGameModel() {

@@ -6,36 +6,36 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ViewController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameController">
    <children>
       <Label layoutX="181.0" layoutY="25.0" text="Waiting for players...">
          <font>
             <Font name="System Bold Italic" size="24.0" />
          </font>
       </Label>
-      <Button layoutX="198.0" layoutY="219.0" mnemonicParsing="false" onAction="#loadBoard" styleClass="Button" text="Start Game" />
+      <Button fx:id="startGame" layoutX="198.0" layoutY="219.0" mnemonicParsing="false" onAction="#start" styleClass="Button" text="Start Game" visible="false" />
       <Button layoutX="198.0" layoutY="290.0" mnemonicParsing="false" onAction="#Exit" styleClass="Button" text="Close Game" />
       <Label layoutX="181.0" layoutY="74.0" text="Players : ">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="273.0" layoutY="74.0" text="Player 1">
+      <Label fx:id="firstPlayerName" layoutX="273.0" layoutY="74.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="273.0" layoutY="103.0" text="Player 2">
+      <Label fx:id="secondPlayerName" layoutX="273.0" layoutY="103.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="273.0" layoutY="131.0" text="Player 3">
+      <Label fx:id="thirdPlayerName" layoutX="273.0" layoutY="131.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="273.0" layoutY="157.0" text="Player 4">
+      <Label fx:id="fourthPlayerName" layoutX="273.0" layoutY="157.0">
          <font>
             <Font size="14.0" />
          </font>
