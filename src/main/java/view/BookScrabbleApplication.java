@@ -29,7 +29,7 @@ public class BookScrabbleApplication extends Application {
 
         Scene scene = new Scene(root, 1400, 900);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("HomePage.css")).toExternalForm());
-
+        stage.setTitle("Book Scrabble");
         stage.setUserData(viewModel);
         stage.setScene(scene);
         stage.show();
