@@ -10,11 +10,16 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.logic.client.Client;
 import model.logic.host.GameManager;
+import model.logic.server.MyServer;
+import model.logic.server.dictionary.BookScrabbleHandler;
 import view.data.GameModelReceiver;
 import view.data.ViewSharedData;
 
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Objects;
 
 public class ConnectionController {
@@ -61,9 +66,25 @@ public class ConnectionController {
             ipField = new TextField();
             ipField.setText("localhost"); //Default ip to make server run locally on host computer.
             gameManager.initializeHostServer(Integer.parseInt(portField.getText()));
+            gameManager.getGameData().setDictionaries("alice_in_wonderland.txt", "Frank Herbert - Dune.txt", "Harry Potter.txt");
             connectToServer();
             viewSharedData.setHost(true);
             loadWaitingHostRoom();
+            checkOrCreateCalculationServer();
+        }
+    }
+
+    public void checkOrCreateCalculationServer(){
+        boolean connectionEstablished = false;
+        try {
+            Socket checkConnection = new Socket("localhost", 10000);
+            PrintWriter printWriter = new PrintWriter(checkConnection.getOutputStream(),true);
+            printWriter.println("connectionCheck");
+            connectionEstablished = true;
+            checkConnection.close();
+        } catch (IOException ignored) {}
+        if(!connectionEstablished){
+            viewSharedData.setCalculationServer(new MyServer(10000,new BookScrabbleHandler()));
         }
     }
 

@@ -1,14 +1,11 @@
 package model.logic.server.dictionary;
 
-
 import model.logic.client.ClientHandler;
-
 import java.io.*;
 
 public class BookScrabbleHandler implements ClientHandler {
     public BookScrabbleHandler() {
     }
-
     /**
      Handles communication with a client by reading input from the client and writing output to the client
      based on the client's request. The method expects the input stream to contain a line starting with either
@@ -24,6 +21,7 @@ public class BookScrabbleHandler implements ClientHandler {
             BufferedReader br = new BufferedReader(new InputStreamReader(inFromClient));
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(outToClient));
             String line = br.readLine();
+            if(line.equals("connectionCheck")) return;
             String filesAndWord = line.substring(2);
             String[] dictionariesAndWord = filesAndWord.split(",");
             for(int i = 0; i < dictionariesAndWord.length-1; i++){
