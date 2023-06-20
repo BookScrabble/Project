@@ -13,8 +13,10 @@ public class Client {
     private Socket server;
     private Scanner inFromServer;
     private PrintWriter outToServer;
-    private StringProperty action;
+    private StringProperty messageFromHost;
     public IntegerProperty playerId;
+
+    public StringProperty playTurn;
 
     public static volatile boolean serverIsRunning = true;
     /**
@@ -32,7 +34,11 @@ public class Client {
             outToServer.println(clientName);
             playerId = new SimpleIntegerProperty();
             playerId.setValue(Integer.parseInt(inFromServer.next()));
-            this.action = new SimpleStringProperty();
+            this.messageFromHost = new SimpleStringProperty();
+            this.playTurn = new SimpleStringProperty();
+            playTurn.addListener(((observable, oldAction, newAction) -> {
+                playTurn(newAction);
+            }));
             listenForServerUpdates();
         } catch (IOException e) {
             e.printStackTrace();
@@ -46,12 +52,11 @@ public class Client {
                 if(inFromServer.hasNextLine()){
                     msgFromServer = inFromServer.nextLine();
                     switch (msgFromServer) {
-                        case "playTurn" -> playTurn();
-                        case "wordNotFoundInDictionary" -> wordNotFoundInDictionary();
-                        case "boardPlacementIllegal" -> boardPlacementIllegal();
-                        case "updateGameModel" -> updateGameModel();
+                        case "DictionaryNotLegal" -> wordNotFoundInDictionary();
+                        case "BoardNotLegal" -> boardPlacementIllegal();
                         case "loadBoard" -> loadBoard();
                         case "bindButtons" -> bindButtons();
+                        case "TurnDone" -> turnDone();
                         default -> System.out.println(msgFromServer);
                     }
                 }
@@ -60,21 +65,22 @@ public class Client {
         }).start();
     }
 
-    public StringProperty getAction() {
-        return action;
+    public void playTurn(String action){
+        System.out.println("sending action to server");
+        outToServer.println(action);
     }
 
-    private void playTurn() {
-        System.out.println("Turn started");
-        outToServer.println("submit,BELIEVE,7,7,vertical");
+    public StringProperty getMessageFromHost() {
+        return messageFromHost;
     }
+
 
     public void loadBoard(){
-        action.setValue("loadBoard");
+        messageFromHost.setValue("loadBoard");
     }
 
     public void bindButtons(){
-        action.setValue("bindButtons");
+        messageFromHost.setValue("bindButtons");
     }
 
     private void wordNotFoundInDictionary() {
@@ -82,11 +88,11 @@ public class Client {
     }
 
     private void boardPlacementIllegal() {
-
+        System.out.println("Tiles are placed in illegal place");
     }
 
-    private void updateGameModel() {
-        System.out.println("Refreshing view...");
+    private void turnDone(){
+        System.out.println("Finished turn");
     }
 
     private void closeEverything() {

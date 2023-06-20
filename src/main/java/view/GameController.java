@@ -1,7 +1,6 @@
 package view;
 
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -17,6 +16,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.logic.host.MySocket;
+import model.logic.host.data.Board;
 import view.data.ViewSharedData;
 import viewModel.ViewModel;
 
@@ -83,11 +83,15 @@ public class GameController {
     @FXML
     Button submit;
 
+    StringProperty imagePath;
+
 
     @FXML
     Button startGame;
 
-    StringProperty clientAction;
+    StringProperty playerAction;
+
+    StringProperty messageFromHost;
 
     //Properties:
 
@@ -99,6 +103,7 @@ public class GameController {
         this.indexRow = new ArrayList<>();
         this.indexCol = new ArrayList<>();
         this.startGame = new Button();
+        playerAction = new SimpleStringProperty();
         initiatePlayerName();
         initiatePlayerScore();
         initiatePlayerTiles();
@@ -142,15 +147,32 @@ public class GameController {
         startGame.setVisible(true);
     }
 
-    public void initializePlayerAction(){
-        clientAction = new SimpleStringProperty();
-        clientAction.bind(viewSharedData.getPlayer().getAction());
-        viewSharedData.getPlayer().getAction().addListener(((observable, oldAction, newAction) -> {
-            handleClientAction(newAction);
+    public void initializeHostAction(){
+        messageFromHost = new SimpleStringProperty();
+        messageFromHost.bind(viewSharedData.getPlayer().getMessageFromHost());
+        viewSharedData.getPlayer().getMessageFromHost().addListener(((observable, oldAction, newAction) -> {
+            handleHostAction(newAction);
         }));
     }
 
-    public void handleClientAction(String action){
+    public void initializeBoardUpdateAction(){
+        imagePath = new SimpleStringProperty();
+        imagePath.bind(viewSharedData.getViewModel().imagePath);
+        viewSharedData.getViewModel().imagePath.addListener(((observable, oldAction, newAction) -> {
+            updateBoardCellImage(newAction);
+        }));
+    }
+
+    public void updateBoardCellImage(String newAction){
+        String[] trimmed = newAction.split(",");
+        int index = Integer.parseInt(trimmed[0]);
+        String imageURL = trimmed[1];
+        StackPane cell = (StackPane)boardGridPane.getChildren().get(index);
+        ImageView imageView = (ImageView)cell.getChildren().get(1);
+        imageView.setImage(new Image(imageURL));
+    }
+
+    public void handleHostAction(String action){
         Platform.runLater(() -> {
             switch(action){
                 case "loadBoard" -> {
@@ -187,12 +209,9 @@ public class GameController {
         sevenTile.imageProperty().bind(viewModel.sevenTile);
 
         viewModel.playerId.bind(viewSharedData.getPlayer().playerId);
+        viewSharedData.getPlayer().playTurn.bind(playerAction);
     }
 
-
-    /**
-     * TODO - FIX implementation(Null Exception)
-     */
     public void bindButtons(){
         resign.visibleProperty().bind(viewSharedData.getViewModel().resign.get().visibleProperty());
         challenge.visibleProperty().bind(viewSharedData.getViewModel().challenge.get().visibleProperty());
@@ -208,44 +227,27 @@ public class GameController {
 
     @FXML
     public void Submit() throws IOException {
-        while(this.flag == 0){
-            TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Choose Vertical or Horizontal");
-            dialog.setHeaderText("Enter Vertical yes/no");
-            dialog.setContentText("Vertical:");
-            Optional<String> result = dialog.showAndWait();
-            if(result.get().equals("yes")){
-                this.vertical=true;
-                this.flag=1;
-                break;
-            }else if (result.get().equals("no")){
-                this.vertical=false;
-                this.flag=0;
-                break;
-            }
-        }
         int startRow =-1, startCol=-1;
         int endRow =-1, endCol=-1;
-        if(this.vertical){
-            startRow = this.indexRow.get(0);
-            startCol = this.indexCol.get(0);
-            endRow = this.indexRow.get(this.indexRow.size()-1);
-            endCol = this.indexCol.get(this.indexCol.size()-1);
-        }
-        else{
-            startRow = this.indexRow.get(0);
-            startCol = this.indexCol.get(0);
-            endRow = this.indexRow.get(this.indexRow.size()-1);
-            endCol = this.indexCol.get(this.indexCol.size()-1);
-        }
+
+        if(this.indexRow.isEmpty() || this.indexCol.isEmpty()) return;
+
+        startRow = this.indexRow.get(0);
+        startCol = this.indexCol.get(0);
+        endRow = this.indexRow.get(this.indexRow.size()-1);
+        endCol = this.indexCol.get(this.indexCol.size()-1);
+
         System.out.println("Submit");
         System.out.println("Word: " + this.word + ", Vertical: " + this.vertical);
         System.out.println("Start at index: " + startRow + ", " + startCol);
         System.out.println("End at index: " + endRow + ", " + endCol);
+
+        playerAction.set("submit" + "," + word + "," + startRow + "," + startCol + "," + vertical);
+
         this.indexRow.clear();
         this.indexCol.clear();
         this.word = "";
-        this.flag = 0;
+        //this.flag = 0;
     }
     @FXML
     public void Challenge(ActionEvent event) throws IOException{
@@ -271,8 +273,7 @@ public class GameController {
     public void squareClickHandler() {
         // Run through all the children of boardGridPane
         for (Node node : boardGridPane.getChildren()) {
-            if (node instanceof StackPane) {
-                StackPane cell = (StackPane) node;
+            if (node instanceof StackPane cell) {
                 Label label = (Label) cell.getChildren().get(0);
                 ImageView imageView = new ImageView();
 
@@ -283,27 +284,34 @@ public class GameController {
                     dialog.setTitle("Enter a Letter");
                     dialog.setHeaderText("Enter a letter for the cell");
                     dialog.setContentText("Letter:");
-                    TextField orientationField = new TextField();
 
                     // Show the dialog and wait for the user's input
                     Optional<String> result = dialog.showAndWait();
                     result.ifPresent(word -> {
                         String letter = word.trim();
-                        String orientation = orientationField.getText().trim().toLowerCase();
-                        this.vertical = orientation.equals("yes");
-                        // TODO - implement the vertical logic.
-                        // Validate the entered letter
                         if (letter.length() != 1 || !Character.isLetter(letter.charAt(0))) {
                             new Alert(Alert.AlertType.ERROR, "Only one letter is allowed.").showAndWait();
                             return;
                         }
-
+                        int index = boardGridPane.getChildren().indexOf(cell);
+                        int validationResult = cellValidationCheck(index);
+                        if(word.length() > 1) vertical = (indexRow.get(0) - indexRow.get(1) < 0);
+                        switch(validationResult){
+                            case -2 -> {
+                                new Alert(Alert.AlertType.ERROR, "First word in board must start in middle cell(Starting Point).").showAndWait();
+                                return;
+                            }
+                            case 0 -> {
+                                new Alert(Alert.AlertType.ERROR, "Tile placement should be adjacent to already placed tiles.").showAndWait();
+                                return;
+                            }
+                        }
                         // Generate the image path based on the entered letter
                         String imagePath = "/Images/Tiles/" + letter.toUpperCase() + ".png";
 
                         // Set the background image and remove the background color
                         cell.setId("cell"); // Set an ID for the StackPane
-                        cell.setStyle("-fx-background-color: transparent;"); // Remove the background color
+                        //cell.setStyle("-fx-background-color: transparent;"); // Remove the background color
 
                         // Update the label text
                         label.setText(letter.toUpperCase());
@@ -311,23 +319,33 @@ public class GameController {
 
                         // Set the background image using JavaFX
                         String fullPath = Objects.requireNonNull(ViewController.class.getResource(imagePath)).toExternalForm();
+                        //imageView.setImage(new Image(fullPath));
                         imageView.setImage(new Image(fullPath));
                         imageView.setPreserveRatio(true);
                         imageView.setFitWidth(cell.getWidth());
-                        imageView.setFitHeight(cell.getHeight()+ 3);
+                        imageView.setFitHeight(cell.getHeight());
                         cell.getChildren().add(imageView);
 
-                        // Save the word, its orientation, and the index
-                        int index = boardGridPane.getChildren().indexOf(cell);
-                        saveWordWithOrientationAndIndex(letter, orientation, index);
+
+                        // Save word and index
+                        saveWordAndIndex(letter, index);
                     });
                 });
             }
         }
     }
 
+    private int cellValidationCheck(int index){
+        int numColumns = GridPane.getColumnIndex(boardGridPane.getChildren().get(index));
+        int numRows = GridPane.getRowIndex(boardGridPane.getChildren().get(index));
+        Board gameBoard = viewSharedData.getViewModel().getModel().getGameData().getBoard();
+        if(gameBoard.getTiles()[7][7] == null && (numRows != 7 || numColumns != 7) && indexRow.isEmpty() && indexCol.isEmpty()) return -2;
+        //TODO - Implement all validations for every tile placement.
+        return 1;
+    }
+
     // Method to save the entered word, its orientation, and retrieve the column and row index
-    private void saveWordWithOrientationAndIndex(String word, String orientation, int index) {
+    private void saveWordAndIndex(String word, int index) {
         // Retrieve the column and row index based on the StackPane index within the GridPane
         int numColumns = GridPane.getColumnIndex(boardGridPane.getChildren().get(index));
         int numRows = GridPane.getRowIndex(boardGridPane.getChildren().get(index));
@@ -341,7 +359,6 @@ public class GameController {
     public void start(ActionEvent event) throws IOException{
         loadBoard();
         sendStartToServer();
-        System.out.println(viewSharedData.getViewModel().getModel().getGameData().getPlayer(viewSharedData.getPlayer().playerId.get()).getAllTiles());
     }
 
     //Testing ONLY
@@ -382,7 +399,8 @@ public class GameController {
             gameController.setViewSharedData(this.viewSharedData);
             gameController.squareClickHandler();
             gameController.bindAll();
-            gameController.initializePlayerAction();
+            gameController.initializeHostAction();
+            gameController.initializeBoardUpdateAction();
         }
 
         Stage stage = BookScrabbleApplication.getPrimaryStage();

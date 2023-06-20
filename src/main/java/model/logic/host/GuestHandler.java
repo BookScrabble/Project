@@ -3,9 +3,6 @@ package model.logic.host;
 import model.logic.client.ClientHandler;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 public class GuestHandler implements ClientHandler,Serializable {
 
@@ -17,11 +14,11 @@ public class GuestHandler implements ClientHandler,Serializable {
         int currentTurn = gm.getCurrentPlayerID();
         BufferedReader inFromClient = new BufferedReader(new InputStreamReader(in));
         PrintWriter outToClient = new PrintWriter(new OutputStreamWriter(out), true);
-        outToClient.println("playTurn");
         while (currentTurn == gm.getCurrentPlayerID() && stillPlaying) {
             try {
                 if(inFromClient.ready()){
                     String line = inFromClient.readLine();
+                    System.out.println("Received message from client -> " + line);
                     String[] clientRequest = line.split(",");
                     switch (clientRequest[0]) {
                         case "submit" -> {
@@ -31,16 +28,16 @@ public class GuestHandler implements ClientHandler,Serializable {
                             switch (result) {
                                 case "-2" -> outToClient.println("You didn't place any tiles on board");
                                 case "-1" -> {
-                                    outToClient.println("Word cannot be placed in board");
+                                    outToClient.println("BoardNotLegal");
                                     stillPlaying = false;
                                 }
-                                case "0" -> outToClient.println("Word not found in dictionary, Challenge or try again");
+                                case "0" -> outToClient.println("DictionaryNotLegal");
                                 case "Player Is Not Found!" -> {
                                     stillPlaying = false;
                                     gm.removePlayer(gm.getCurrentPlayerID());
                                 }
                                 default -> {
-                                    outToClient.println("Word accepted, turn done");
+                                    outToClient.println("TurnDone");
                                     stillPlaying = false;
                                 }
                             }
@@ -78,14 +75,6 @@ public class GuestHandler implements ClientHandler,Serializable {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }
-        //gm.setCurrentPlayerID((gm.currentPlayerID%4)+1);
-        try {
-            inFromClient.close();
-            outToClient.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

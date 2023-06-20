@@ -140,7 +140,7 @@ public class ConnectionController {
         else if(gameController != null) {
             gameController.setViewSharedData(this.viewSharedData);
             gameController.bindAll();
-            gameController.initializePlayerAction();
+            gameController.initializeHostAction();
             if(viewSharedData.getHost()) gameController.toggleStartButton();
         }
 
