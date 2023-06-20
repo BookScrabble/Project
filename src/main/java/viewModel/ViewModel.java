@@ -5,19 +5,15 @@ import javafx.beans.property.*;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import model.logic.host.GameManager;
-import model.logic.host.data.Player;
 import model.logic.host.data.Tile;
 import view.ViewController;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class ViewModel{ // Later implement ViewModelFacade
     //Properties for view:...
-    public StringProperty wordFromPlayer;
-    public StringProperty playerAction;
 
     public IntegerProperty playerId;
 
@@ -51,19 +47,17 @@ public class ViewModel{ // Later implement ViewModelFacade
     public List<StringProperty> playersNames;
     public List<IntegerProperty> playersScores;
 
+    public ObjectProperty<String> imagePath;
+
     //Other parameters:...
     GameManager model; //Game status
-
-
 
     public ViewModel(){
         playersNames = new ArrayList<>();
         playersScores = new ArrayList<>();
         tiles = new ArrayList<>();
         playerId = new SimpleIntegerProperty();
-
-        wordFromPlayer = new SimpleStringProperty();
-        playerAction = new SimpleStringProperty();
+        imagePath = new SimpleObjectProperty<>();
 
         firstPlayerName = new SimpleStringProperty();
         secondPlayerName = new SimpleStringProperty();
@@ -129,6 +123,7 @@ public class ViewModel{ // Later implement ViewModelFacade
             updatePlayerScores();
             updatePlayerTiles();
             updateButtons();
+            updateBoard();
         });
     }
 
@@ -152,6 +147,20 @@ public class ViewModel{ // Later implement ViewModelFacade
                     .class.getResource("/Images/Tiles/" + tile.letter + ".png")).toExternalForm();
             tiles.get(i).setValue(new Image(fullPath));
             i++;
+        }
+    }
+
+    public void updateBoard(){
+        int counter = 0;
+        Tile[][] gameBoard = model.getGameData().getBoard().getTiles();
+        for(int i = 0; i < 15; i++){
+            for (int j = 0; j < 15; j++) {
+                if(gameBoard[i][j] != null){
+                    imagePath.set(counter + "," + Objects.requireNonNull(ViewController
+                            .class.getResource("/Images/Tiles/" + gameBoard[i][j].letter + ".png")).toExternalForm());
+                }
+                counter++;
+            }
         }
     }
 

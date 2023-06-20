@@ -152,14 +152,7 @@
             <RowConstraints minHeight="5.0" prefHeight="5.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="5.0" prefHeight="5.0" vgrow="SOMETIMES" />
          </rowConstraints>
-         <StackPane styleClass="center-cell" GridPane.columnIndex="7" GridPane.rowIndex="7">
-            <Label styleClass="center-cell-text" text="StartPoint" textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="11.0" />
-               </font>
-            </Label>
-         </StackPane>
-         <StackPane styleClass="TripleWord-cell" GridPane.columnIndex="7" GridPane.rowIndex="0">
+         <StackPane styleClass="TripleWord-cell" GridPane.columnIndex="0" GridPane.rowIndex="0">
             <children>
                <Label styleClass="Triple-cell-text" text="TP" textAlignment="CENTER">
                   <font>
@@ -168,7 +161,68 @@
                </Label>
             </children>
          </StackPane>
-         <StackPane styleClass="TripleWord-cell" GridPane.columnIndex="0" GridPane.rowIndex="0">
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="0" GridPane.rowIndex="1">
+            <children>
+               <Label styleClass="Normal-cell-text" textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="DoubleLetter-cell" GridPane.columnIndex="0" GridPane.rowIndex="3">
+            <children>
+               <Label styleClass="DoubleLetter-cell-text" text="DL" textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="TripleWord-cell" GridPane.columnIndex="0" GridPane.rowIndex="7">
+            <children>
+               <Label styleClass="Triple-cell-text" text="TP" textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="Normal-cell" GridPane.columnIndex="0" GridPane.rowIndex="9">
+            <children>
+               <Label styleClass="Normal-cell-text" textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="TripleWord-cell" GridPane.columnIndex="0" GridPane.rowIndex="14">
+            <children>
+               <Label styleClass="Triple-cell-text" text="TP" textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="DoubleWord-cell" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <children>
+               <Label styleClass="DoubleWord-cell-text" text="DW" textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="11.0" />
+                  </font>
+               </Label>
+            </children>
+         </StackPane>
+         <StackPane styleClass="center-cell" GridPane.columnIndex="7" GridPane.rowIndex="7">
+            <Label styleClass="center-cell-text" text="StartPoint" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="11.0" />
+               </font>
+            </Label>
+         </StackPane>
+         <StackPane styleClass="TripleWord-cell" GridPane.columnIndex="7" GridPane.rowIndex="0">
             <children>
                <Label styleClass="Triple-cell-text" text="TP" textAlignment="CENTER">
                   <font>
@@ -207,33 +261,6 @@
          <StackPane styleClass="TripleWord-cell" GridPane.columnIndex="7" GridPane.rowIndex="14">
             <children>
                <Label styleClass="Triple-cell-text" text="TP" textAlignment="CENTER">
-                  <font>
-                     <Font name="System Bold" size="11.0" />
-                  </font>
-               </Label>
-            </children>
-         </StackPane>
-         <StackPane styleClass="TripleWord-cell" GridPane.columnIndex="0" GridPane.rowIndex="7">
-            <children>
-               <Label styleClass="Triple-cell-text" text="TP" textAlignment="CENTER">
-                  <font>
-                     <Font name="System Bold" size="11.0" />
-                  </font>
-               </Label>
-            </children>
-         </StackPane>
-         <StackPane styleClass="TripleWord-cell" GridPane.columnIndex="0" GridPane.rowIndex="14">
-            <children>
-               <Label styleClass="Triple-cell-text" text="TP" textAlignment="CENTER">
-                  <font>
-                     <Font name="System Bold" size="11.0" />
-                  </font>
-               </Label>
-            </children>
-         </StackPane>
-         <StackPane styleClass="DoubleWord-cell" GridPane.columnIndex="1" GridPane.rowIndex="1">
-            <children>
-               <Label styleClass="DoubleWord-cell-text" text="DW" textAlignment="CENTER">
                   <font>
                      <Font name="System Bold" size="11.0" />
                   </font>
@@ -403,15 +430,6 @@
             </children>
          </StackPane>
          <StackPane styleClass="DoubleLetter-cell" GridPane.columnIndex="11" GridPane.rowIndex="14">
-            <children>
-               <Label styleClass="DoubleLetter-cell-text" text="DL" textAlignment="CENTER">
-                  <font>
-                     <Font name="System Bold" size="11.0" />
-                  </font>
-               </Label>
-            </children>
-         </StackPane>
-         <StackPane styleClass="DoubleLetter-cell" GridPane.columnIndex="0" GridPane.rowIndex="3">
             <children>
                <Label styleClass="DoubleLetter-cell-text" text="DL" textAlignment="CENTER">
                   <font>
@@ -682,15 +700,6 @@
             </children>
          </StackPane>
          <StackPane styleClass="Normal-cell" GridPane.columnIndex="13" GridPane.rowIndex="0">
-            <children>
-               <Label styleClass="Normal-cell-text" textAlignment="CENTER">
-                  <font>
-                     <Font name="System Bold" size="11.0" />
-                  </font>
-               </Label>
-            </children>
-         </StackPane>
-         <StackPane styleClass="Normal-cell" GridPane.columnIndex="0" GridPane.rowIndex="1">
             <children>
                <Label styleClass="Normal-cell-text" textAlignment="CENTER">
                   <font>
@@ -1528,15 +1537,6 @@
             </children>
          </StackPane>
          <StackPane styleClass="Normal-cell" GridPane.columnIndex="14" GridPane.rowIndex="8">
-            <children>
-               <Label styleClass="Normal-cell-text" textAlignment="CENTER">
-                  <font>
-                     <Font name="System Bold" size="11.0" />
-                  </font>
-               </Label>
-            </children>
-         </StackPane>
-         <StackPane styleClass="Normal-cell" GridPane.columnIndex="0" GridPane.rowIndex="9">
             <children>
                <Label styleClass="Normal-cell-text" textAlignment="CENTER">
                   <font>

@@ -117,6 +117,7 @@ public class GameManager implements GameHandler,Serializable {
      * @params word The word to be submitted.
      */
     public String submit(String wordData) {
+        System.out.println("submit in GameManager");
         if(wordData.length() != 0){
             String[] splitData = wordData.split(",");
 
