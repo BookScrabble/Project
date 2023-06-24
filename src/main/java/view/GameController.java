@@ -1,11 +1,13 @@
 package view;
 
 import javafx.application.Platform;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,22 +16,24 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.logic.host.MySocket;
 import model.logic.host.data.Board;
+import model.logic.host.data.Player;
 import view.data.ViewSharedData;
 import viewModel.ViewModel;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class GameController {
     String word;
     boolean vertical;
+    int startRow;
+    int startCol;
     int flag;
     ArrayList<Integer> indexRow;
     ArrayList<Integer> indexCol;
@@ -84,13 +88,9 @@ public class GameController {
     Button submit;
 
     StringProperty imagePath;
-
-
     @FXML
     Button startGame;
-
     StringProperty playerAction;
-
     StringProperty messageFromHost;
 
     //Properties:
@@ -148,17 +148,20 @@ public class GameController {
     }
 
     public void initializeHostAction(){
-        messageFromHost = new SimpleStringProperty();
-        messageFromHost.bind(viewSharedData.getPlayer().getMessageFromHost());
-        viewSharedData.getPlayer().getMessageFromHost().addListener(((observable, oldAction, newAction) -> {
+        SimpleStringProperty test = new SimpleStringProperty();
+        StringProperty newMessageFromHost = viewSharedData.getPlayer().getMessageFromHost();
+        test.bind(newMessageFromHost);
+        newMessageFromHost.addListener(((observable, oldAction, newAction) -> {
             handleHostAction(newAction);
         }));
+        messageFromHost = test;
     }
 
     public void initializeBoardUpdateAction(){
         imagePath = new SimpleStringProperty();
-        imagePath.bind(viewSharedData.getViewModel().imagePath);
-        viewSharedData.getViewModel().imagePath.addListener(((observable, oldAction, newAction) -> {
+        ObjectProperty<String> newImagePath = viewSharedData.getViewModel().getImagePath();
+        imagePath.bind(newImagePath);
+        newImagePath.addListener(((observable, oldAction, newAction) -> {
             updateBoardCellImage(newAction);
         }));
     }
@@ -169,14 +172,19 @@ public class GameController {
         String imageURL = trimmed[1];
         StackPane cell = (StackPane)boardGridPane.getChildren().get(index);
         Label label = (Label)cell.getChildren().get(0);
-        if(imageURL.equals("labelVisible")){
-            label.setVisible(true);
-            return;
-        }
+
+        boolean hasImageView = false;
         ImageView imageView = new ImageView();
         try{
             imageView = (ImageView)cell.getChildren().get(1);
+            hasImageView = true;
         }catch(IndexOutOfBoundsException ignored){}
+
+        if(imageURL.equals("labelVisible")){
+            label.setVisible(true);
+            if(hasImageView) cell.getChildren().remove(1);
+            return;
+        }
         imageView.setPreserveRatio(true);
         imageView.setFitWidth(cell.getWidth());
         imageView.setFitHeight(cell.getHeight());
@@ -195,9 +203,22 @@ public class GameController {
                     bindButtons();
                     viewSharedData.getViewModel().updateViewProperties();
                 }
-                case "updateView" -> {
-                    System.out.println("updating");
+                case "updateView" -> viewSharedData.getViewModel().updateViewProperties();
+                case "dictionaryNotLegal" -> Challenge();
+                case "boardNotLegal" -> {
                     viewSharedData.getViewModel().updateViewProperties();
+                    System.out.println("board placement wasn't legal");
+                }
+                case "turnEnded" -> {
+
+                }
+                case "challengeFailed" -> {
+                    viewSharedData.getViewModel().updateViewProperties();
+                    System.out.println("challenge failed");
+                }
+                case "challengeAccepted" -> {
+                    viewSharedData.getViewModel().updateViewProperties();
+                    System.out.println("challenge accepted");
                 }
             }
         });
@@ -244,20 +265,67 @@ public class GameController {
 
     @FXML
     public void Submit() throws IOException {
-        int startRow =-1, startCol=-1;
         int endRow =-1, endCol=-1;
 
         if(this.indexRow.isEmpty() || this.indexCol.isEmpty()) return;
 
-        startRow = this.indexRow.get(0);
-        startCol = this.indexCol.get(0);
-        endRow = this.indexRow.get(this.indexRow.size()-1);
-        endCol = this.indexCol.get(this.indexCol.size()-1);
+        startRow = indexRow.get(0);
+        startCol = indexCol.get(0);
+
+        for(int i = 0; i < indexRow.size(); i++){
+            if(indexRow.get(i) < startRow || indexCol.get(i) < startCol){
+                startRow = indexRow.get(i);
+                startCol = indexCol.get(i);
+            }
+        }
+
+        for(int i = 0; i < indexRow.size(); i++){
+            if(indexRow.get(i) > endRow || indexCol.get(i) > endCol){
+                endRow = indexRow.get(i);
+                endCol = indexCol.get(i);
+            }
+        }
+
+        int wordLength;
+        if(vertical) wordLength = (endRow - startRow) + 1;
+        else wordLength = (endCol - startCol) + 1;
+        System.out.println("Length -> " + wordLength);
+
+        //Building the correct word to send:
+        boolean foundNext;
+        StringBuilder finalWord = new StringBuilder();
+        int currentRow = startRow;
+        int currentCol = startCol;
+        Set<Integer> foundLetters = new HashSet<>();
+
+        for (int i = 0; i < wordLength; i++) {
+            foundNext = false;
+            for (int j = 0; j < indexRow.size(); j++) {
+                if((currentRow == indexRow.get(j) && currentCol == indexCol.get(j) + 1)
+                        || (currentRow == indexRow.get(j) + 1 && currentCol == indexCol.get(j))
+                        || (currentRow == indexRow.get(j) && currentCol == indexCol.get(j))){
+                    if(foundLetters.contains(j)) continue;
+                    finalWord.append(word.charAt(j));
+                    foundLetters.add(j);
+                    foundNext = true;
+                    break;
+                }
+            }
+            if(!foundNext){
+                finalWord.append('_');
+            }
+            if(vertical) currentRow += 1;
+            else currentCol += 1;
+        }
+
+        word = finalWord.toString();
 
         System.out.println("Submit");
-        System.out.println("Word: " + this.word + ", Vertical: " + this.vertical);
+        System.out.println("Word: " + word + ", Vertical: " + this.vertical);
         System.out.println("Start at index: " + startRow + ", " + startCol);
         System.out.println("End at index: " + endRow + ", " + endCol);
+
+
 
         playerAction.set("submit" + "," + word + "," + startRow + "," + startCol + "," + vertical);
 
@@ -267,8 +335,34 @@ public class GameController {
     }
     @FXML
     public void Challenge() {
-        playerAction.set("challenge");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Dictionary Challenge");
+        alert.setHeaderText(null);
+        alert.setContentText("Would you like to challenge the dictionary?");
+
+        Button yesButton = (Button) alert.getDialogPane().lookupButton(javafx.scene.control.ButtonType.OK);
+        yesButton.setText("Yes");
+
+        Button noButton = (Button) alert.getDialogPane().lookupButton(javafx.scene.control.ButtonType.CANCEL);
+        noButton.setText("No");
+
+        VBox vbox = new VBox();
+        vbox.setAlignment(Pos.CENTER);
+
+        alert.getDialogPane().setExpandableContent(vbox);
+        alert.getDialogPane().setExpanded(true);
+
+        alert.showAndWait().ifPresent(response -> {
+            if(response == ButtonType.OK){
+                playerAction.set("challenge" + "," + word + "," + startRow + "," + startCol + "," + vertical);
+            }
+            else{
+                viewSharedData.getViewModel().updateViewProperties();
+            }
+            alert.close();
+        });
     }
+
     @FXML
     public void SwapTiles() {
         playerAction.set("swapTiles");
@@ -334,7 +428,6 @@ public class GameController {
                         //cell.setStyle("-fx-background-color: transparent;"); // Remove the background color
 
                         // Update the label text
-                        label.setText(letter.toUpperCase());
                         label.setVisible(false);
 
                         // Set the background image using JavaFX
@@ -360,7 +453,25 @@ public class GameController {
         Board gameBoard = viewSharedData.getViewModel().getModel().getGameData().getBoard();
         if(gameBoard.getTiles()[7][7] == null && (numRows != 7 || numColumns != 7) && indexRow.isEmpty() && indexCol.isEmpty()) return -2;
         else if(gameBoard.getTiles()[numRows][numColumns] != null) return -1;
+        else if(gameBoard.getTiles()[7][7] != null && !adjacentToGameBoardTiles(numRows, numColumns)
+                && !adjacentInLocalGameBoard(numRows, numColumns)) return 0;
         return 1;
+    }
+
+    private boolean adjacentToGameBoardTiles(int i, int j){
+        Board gameBoard = viewSharedData.getViewModel().getModel().getGameData().getBoard();
+        return (i-1 > -1 && gameBoard.getTiles()[i-1][j] != null) || (j-1 > -1 && gameBoard.getTiles()[i][j-1] != null)
+                || (j+1 < 15 && gameBoard.getTiles()[i][j+1] != null) || (i+1 < 15 && gameBoard.getTiles()[i+1][j] != null);
+    }
+
+    private boolean adjacentInLocalGameBoard(int i, int j){
+        for(int k = 0; k < indexCol.size(); k++){
+            if((indexRow.get(k) == i && indexCol.get(k) == j-1) || (indexRow.get(k) == i && indexCol.get(k) == j+1)
+                    || (indexRow.get(k) == i-1 && indexCol.get(k) == j) || (indexRow.get(k) == i+1 && indexCol.get(k) == j)){
+                return true;
+            }
+        }
+        return false;
     }
 
     // Method to save the entered word, its orientation, and retrieve the column and row index

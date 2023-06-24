@@ -117,76 +117,89 @@ public class ViewModel{ // Later implement ViewModelFacade
         updateViewProperties();
     }
 
+    public ObjectProperty<String> getImagePath() {
+        imagePath = new SimpleObjectProperty<>();
+        return imagePath;
+    }
+
     public void updateViewProperties(){
-        Platform.runLater(() -> {
-            updatePlayerNames();
-            updatePlayerScores();
-            updatePlayerTiles();
-            updateButtons();
-            updateBoard();
-        });
+        updatePlayerNames();
+        updatePlayerScores();
+        updatePlayerTiles();
+        updateButtons();
+        updateBoard();
     }
 
     public void updatePlayerNames(){
-        for(int playerId : model.getGameData().getAllPlayers().keySet().stream().sorted().toList()){
-            playersNames.get(playerId-1).setValue(model.getGameData().getPlayer(playerId).getName());
-        }
+        Platform.runLater(() -> {
+            for(int playerId : model.getGameData().getAllPlayers().keySet().stream().sorted().toList()){
+                playersNames.get(playerId-1).setValue(model.getGameData().getPlayer(playerId).getName());
+            }
+        });
     }
 
     public void updatePlayerScores(){
-        for(int playerId : model.getGameData().getAllPlayers().keySet().stream().sorted().toList()){
-            playersScores.get(playerId-1).setValue(model.getGameData().getPlayer(playerId).getScore());
-        }
+        Platform.runLater(() -> {
+            for(int playerId : model.getGameData().getAllPlayers().keySet().stream().sorted().toList()){
+                playersScores.get(playerId-1).setValue(model.getGameData().getPlayer(playerId).getScore());
+            }
+        });
     }
 
     public void updatePlayerTiles(){
-        int i = 0;
-        if(model.getGameData().getPlayer(playerId.get()) == null) return;
-        for(Tile tile : model.getGameData().getPlayer(playerId.get()).getAllTiles()){
-            String fullPath = Objects.requireNonNull(ViewController
-                    .class.getResource("/Images/Tiles/" + tile.letter + ".png")).toExternalForm();
-            tiles.get(i).setValue(new Image(fullPath));
-            i++;
-        }
+        Platform.runLater(() -> {
+            int i = 0;
+            if(model.getGameData().getPlayer(playerId.get()) == null) return;
+            for(Tile tile : model.getGameData().getPlayer(playerId.get()).getAllTiles()){
+                String fullPath = Objects.requireNonNull(ViewController
+                        .class.getResource("/Images/Tiles/" + tile.letter + ".png")).toExternalForm();
+                tiles.get(i).setValue(new Image(fullPath));
+                i++;
+            }
+        });
     }
 
     public void updateBoard(){
-        int counter = 0;
-        Tile[][] gameBoard = model.getGameData().getBoard().getTiles();
-        for(int i = 0; i < 15; i++){
-            for (int j = 0; j < 15; j++) {
-                if(gameBoard[i][j] != null){
-                    System.out.println("ViewModel->UpdateBoard-> ! Found tile in new received board i:"+i+", j:" + j + "| counter = " + counter);
-                    System.out.println(counter + "," + Objects.requireNonNull(ViewController
-                            .class.getResource("/Images/Tiles/" + gameBoard[i][j].letter + ".png")).toExternalForm());
-                    imagePath.set(counter + "," + Objects.requireNonNull(ViewController
-                            .class.getResource("/Images/Tiles/" + gameBoard[i][j].letter + ".png")).toExternalForm());
+        Platform.runLater(() -> {
+            int counter = 0;
+            Tile[][] gameBoard = model.getGameData().getBoard().getTiles();
+            for(int i = 0; i < 15; i++){
+                for (int j = 0; j < 15; j++) {
+                    if(gameBoard[i][j] != null){
+                        System.out.println("Updating Image for letter " + gameBoard[i][j].letter);
+                        System.out.println(counter + "," + Objects.requireNonNull(ViewController
+                                .class.getResource("/Images/Tiles/" + gameBoard[i][j].letter + ".png")).toExternalForm());
+                        imagePath.set(counter + "," + Objects.requireNonNull(ViewController
+                                .class.getResource("/Images/Tiles/" + gameBoard[i][j].letter + ".png")).toExternalForm());
+                    }
+                    else{
+                        imagePath.set(counter + "," + "labelVisible");
+                    }
+                    counter++;
                 }
-                else{
-                    imagePath.set(counter + "," + "labelVisible");
-                }
-                counter++;
             }
-        }
+        });
     }
 
     public void updateButtons(){
-        if(!getModel().isGameRunning() || model.getTurnManager().getTurnManagerIndex() == -1) return;
-        if(model.getCurrentPlayerID() == playerId.get()){
-            resign.get().setVisible(true);
-            submit.get().setVisible(true);
-            swap.get().setVisible(true);
-            sort.get().setVisible(true);
-            skipTurn.get().setVisible(true);
-            challenge.get().setVisible(true);
-        }
-        else{
-            submit.get().setVisible(false);
-            swap.get().setVisible(false);
-            sort.get().setVisible(false);
-            skipTurn.get().setVisible(false);
-            challenge.get().setVisible(false);
-        }
+        Platform.runLater(() -> {
+            if(!getModel().isGameRunning() || model.getTurnManager().getTurnManagerIndex() == -1) return;
+            if(model.getCurrentPlayerID() == playerId.get()){
+                resign.get().setVisible(true);
+                submit.get().setVisible(true);
+                swap.get().setVisible(true);
+                sort.get().setVisible(true);
+                skipTurn.get().setVisible(true);
+                challenge.get().setVisible(true);
+            }
+            else{
+                submit.get().setVisible(false);
+                swap.get().setVisible(false);
+                sort.get().setVisible(false);
+                skipTurn.get().setVisible(false);
+                challenge.get().setVisible(false);
+            }
+        });
     }
 
 

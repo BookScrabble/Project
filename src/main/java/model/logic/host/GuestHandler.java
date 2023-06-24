@@ -22,38 +22,35 @@ public class GuestHandler implements ClientHandler,Serializable {
                     String[] clientRequest = line.split(",");
                     switch (clientRequest[0]) {
                         case "submit" -> {
-                            //"submit,word,row,col,vertical"
-                            //"submit,HELLO,3,5,true"
                             String result = gm.submit(clientRequest[1] + "," + clientRequest[2] + "," + clientRequest[3] + "," + clientRequest[4]);
                             switch (result) {
                                 case "-2" -> outToClient.println("You didn't place any tiles on board");
-                                case "-1" -> {
-                                    outToClient.println("BoardNotLegal");
-                                    stillPlaying = false;
-                                }
-                                case "0" -> outToClient.println("DictionaryNotLegal");
+                                case "-1" -> outToClient.println("boardNotLegal");
+                                case "0" -> outToClient.println("dictionaryNotLegal");
                                 case "Player Is Not Found!" -> {
                                     stillPlaying = false;
                                     gm.removePlayer(gm.getCurrentPlayerID());
                                 }
                                 default -> {
-                                    outToClient.println("TurnDone");
+                                    outToClient.println("turnEnded");
                                     stillPlaying = false;
                                 }
                             }
                         }
 
                         case "challenge" -> {
-                            //"challenge,word,row,col,vertical"
-                            //"challenge,HELLO,3,5,true"
                             String result = gm.challenge(clientRequest[1]);
                             switch (result) {
                                 case "true" -> {
-                                    outToClient.println("Challenge accepted.");
+                                    outToClient.println("challengeSucceeded");
                                     gm.submit(clientRequest[1] + "," + clientRequest[2] + "," + clientRequest[3] + "," + clientRequest[4]);
                                     stillPlaying = false;
                                 }
-                                case "false" -> outToClient.println("Challenge failed.");
+                                case "false" -> {
+                                    outToClient.println("challengeFailed");
+                                    gm.getGameData().getPlayer(currentTurn).setScore(gm.getGameData().getPlayer(currentTurn).getScore() - 8);
+                                    stillPlaying = false;
+                                }
                             }
                         }
 

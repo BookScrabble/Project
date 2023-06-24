@@ -66,7 +66,8 @@ public class ConnectionController {
             ipField = new TextField();
             ipField.setText("localhost"); //Default ip to make server run locally on host computer.
             gameManager.initializeHostServer(Integer.parseInt(portField.getText()));
-            gameManager.getGameData().setDictionaries("alice_in_wonderland.txt", "Frank Herbert - Dune.txt", "Harry Potter.txt");
+            //gameManager.getGameData().setDictionaries("alice_in_wonderland.txt", "Frank Herbert - Dune.txt", "Harry Potter.txt");
+            gameManager.getGameData().setDictionaries("alice_in_wonderland.txt");
             checkOrCreateCalculationServer();
             connectToServer();
             viewSharedData.setHost(true);

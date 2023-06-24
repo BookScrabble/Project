@@ -166,7 +166,8 @@ public class GameManager implements GameHandler,Serializable {
     private Word buildWord(Player player, String word, int row, int col,boolean vertical){
         Tile[] tiles = new Tile[word.length()];
         for(int i=0; i<word.length(); i++){
-            tiles[i] = player.getTile(word.charAt(i));
+            if(word.charAt(i) == '_') tiles[i] = null;
+            else tiles[i] = player.getTile(word.charAt(i));
         }
         return new Word(tiles, row, col, vertical);
     }
