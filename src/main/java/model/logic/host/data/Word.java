@@ -1,10 +1,11 @@
 package model.logic.host.data;
 
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Word {
+public class Word implements Serializable {
     private Tile[] tiles;
     private int row;
     private int col;

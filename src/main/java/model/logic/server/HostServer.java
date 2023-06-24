@@ -4,7 +4,6 @@ import model.logic.client.Client;
 import model.logic.client.ClientHandler;
 import model.logic.host.GameManager;
 import model.logic.host.MySocket;
-import view.data.GameModelReceiver;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -95,6 +94,11 @@ public class HostServer extends MyServer implements Serializable {
                     outToModelReceiver.writeObject(GameManager.get());
                 } catch (IOException ignored) {
                     System.out.println("GameModelReceiver not found -> IOException");
+                    try {
+                        throw(ignored);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }).start();

@@ -47,7 +47,7 @@ public class ConnectionController {
     }
 
     @FXML
-    public void StartAsHost(ActionEvent event) throws IOException {
+    public void StartAsHost() throws IOException {
         boolean allValid = true;
         if(!validName(nameField.getText())){
             nameLabelError.setVisible(true);
@@ -67,10 +67,10 @@ public class ConnectionController {
             ipField.setText("localhost"); //Default ip to make server run locally on host computer.
             gameManager.initializeHostServer(Integer.parseInt(portField.getText()));
             gameManager.getGameData().setDictionaries("alice_in_wonderland.txt", "Frank Herbert - Dune.txt", "Harry Potter.txt");
+            checkOrCreateCalculationServer();
             connectToServer();
             viewSharedData.setHost(true);
             loadWaitingHostRoom();
-            checkOrCreateCalculationServer();
         }
     }
 
@@ -84,12 +84,15 @@ public class ConnectionController {
             checkConnection.close();
         } catch (IOException ignored) {}
         if(!connectionEstablished){
-            viewSharedData.setCalculationServer(new MyServer(10000,new BookScrabbleHandler()));
+            System.out.println("here");
+            MyServer calculationServer = new MyServer(10000, new BookScrabbleHandler());
+            calculationServer.start();
+            viewSharedData.setCalculationServer(calculationServer);
         }
     }
 
     @FXML
-    public void StartAsGuest(ActionEvent event) throws IOException{
+    public void StartAsGuest() throws IOException{
         boolean allValid = true;
         if(!validName(nameField.getText())){
             nameLabelError.setVisible(true);
@@ -176,7 +179,7 @@ public class ConnectionController {
     }
 
     @FXML
-    public void Back(ActionEvent event) throws IOException{
+    public void Back() throws IOException{
         StartGame();
     }
 

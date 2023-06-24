@@ -117,11 +117,10 @@ public class GameManager implements GameHandler,Serializable {
      * @params word The word to be submitted.
      */
     public String submit(String wordData) {
-        System.out.println("submit in GameManager");
         if(wordData.length() != 0){
             String[] splitData = wordData.split(",");
 
-            String word = splitData[0];
+            String word = splitData[0].toUpperCase();
             int row = Integer.parseInt(splitData[1]);
             int col = Integer.parseInt(splitData[2]);
             boolean vertical = Boolean.parseBoolean(splitData[3]);
@@ -190,6 +189,7 @@ public class GameManager implements GameHandler,Serializable {
             wordString.append(tile.letter);
         }
         sb.append("Q,").append(gameData.getDictionaries()).append(",").append(wordString);
+        System.out.println(sb);
         return sendToCalculationServer(sb.toString());
     }
 
@@ -205,8 +205,6 @@ public class GameManager implements GameHandler,Serializable {
             PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
             printWriter.println(w);
             String result = scanner.nextLine(); //Blocking call waiting for answer.
-            printWriter.close();
-            scanner.close();
             socket.close();
             return result;
         } catch (IOException e) {
