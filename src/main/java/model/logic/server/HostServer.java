@@ -20,6 +20,7 @@ public class HostServer extends MyServer implements Serializable {
     MyServerSocket server;
     private boolean gameIsRunning;
     private MyTimer turnTimer;
+    private MyTimerTask timerTask;
 
     public HostServer(int port, ClientHandler clientHandler) {
         super(port, clientHandler);
@@ -36,14 +37,15 @@ public class HostServer extends MyServer implements Serializable {
         @Override
         public void run() {
             new Thread(() -> {
-                GameManager.get().getTurnManager().nextTurn();
+                //GameManager.get().getTurnManager().nextTurn();
+                System.out.println("Starting new turn (HOSTSERVER)");
                 sendUpdatedModel();
                 System.out.println("Current player turn -> " + GameManager.get().getCurrentPlayerID());
                 Socket currentPlayer = clients.get(GameManager.get().getCurrentPlayerID()).getPlayerSocket();
                 try {
                     clientHandler.handleClient(currentPlayer.getInputStream(), currentPlayer.getOutputStream());
-//                    this.cancel();
-//                    turnTimer.getTimer().scheduleAtFixedRate(new ManageTurnTask(), 5000, 15000);
+                    this.cancel();
+                    resetTimerTask();
                 } catch (IOException ignored) {}
             }).start();
         }
@@ -94,28 +96,33 @@ public class HostServer extends MyServer implements Serializable {
                     outToModelReceiver.writeObject(GameManager.get());
                 } catch (IOException ignored) {
                     System.out.println("GameModelReceiver not found -> IOException");
-                    try {
-                        throw(ignored);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
                 }
             }
         }).start();
-        sendUpdateViewRequest();
     }
 
-    public void sendUpdateViewRequest(){
-        //TODO - Update all client sockets that change was made and their view needs a refresh.
+    public void resetTimerTask(){
+        timerTask = null;
     }
 
     public void playGame(){
         if(!gameIsRunning){
             startGame();
         }
-        if(gameIsRunning){
-            turnTimer = new MyTimer(new Timer());
-            turnTimer.getTimer().scheduleAtFixedRate(new ManageTurnTask(), 5000, 15000);
+        while(gameIsRunning){
+            if(timerTask == null || turnTimer == null){
+                timerTask = new MyTimerTask(new ManageTurnTask());
+                turnTimer = new MyTimer(new Timer());
+                GameManager.get().getTurnManager().nextTurn();
+                turnTimer.getTimer().schedule(timerTask.getTimerTask(), 1000, 60000);
+            }
+            else{
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 
@@ -144,7 +151,16 @@ public class HostServer extends MyServer implements Serializable {
         for(MySocket aClient : clients.values()) {
             try {
                 aClient.getPlayerSocket().close();
-            } catch (IOException ignored) {}
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        for(MySocket aClient: clientsModelReceiver.values()){
+            try{
+                aClient.getPlayerSocket().close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         clients.clear();
         super.close();
@@ -163,6 +179,7 @@ public class HostServer extends MyServer implements Serializable {
         this.gameIsRunning = false;
         if(turnTimer != null) turnTimer.getTimer().cancel();
         GameManager.get().skipTurn();
+        resetTimerTask();
         this.close();
     }
 }

@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -18,8 +19,9 @@ import view.data.ViewSharedData;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class ConnectionController {
@@ -36,15 +38,46 @@ public class ConnectionController {
     private Label ipLabelError;
     @FXML
     private TextField ipField;
+    @FXML
+    private ChoiceBox<String> dictionaryChoice;
+    @FXML
+    Label dictionaryChoiceLabelError;
+
+    private Map<String, String> dictionaries;
+
     ViewSharedData viewSharedData;
 
-    public ConnectionController(){
+    String chosenDictionary;
 
+    public ConnectionController(){
+        chosenDictionary = "";
+        dictionaryChoice = new ChoiceBox<>();
+    }
+
+    private void setChoiceBoxOptions() {
+        dictionaryChoice.getItems().addAll(dictionaries.keySet());
+        dictionaryChoice.setOnAction(this::getChoice);
+    }
+
+    private void initializeDictionaryOptions() {
+        dictionaries = new HashMap<>();
+        dictionaries.put("Alice in wonderland", "alice_in_wonderland.txt");
+        dictionaries.put("Frank Herbert - Dune", "Frank Herbert - Dune.txt");
+        dictionaries.put("Harry Potter", "Harry Potter.txt");
+        dictionaries.put("Mobydick", "mobydick.txt");
+        dictionaries.put("PG10", "pg10.txt");
+        dictionaries.put("Shakespeare", "shakespeare.txt");
+        dictionaries.put("The Matrix", "The Matrix.txt");
+    }
+
+    private void getChoice(ActionEvent event){
+        chosenDictionary = dictionaryChoice.getValue();
     }
 
     public void setViewSharedData(ViewSharedData viewSharedData) {
         this.viewSharedData = viewSharedData;
     }
+
 
     @FXML
     public void StartAsHost() throws IOException {
@@ -61,12 +94,20 @@ public class ConnectionController {
         } else{
             portLabelError.setVisible(false);
         }
+        if(chosenDictionary.equals("")){
+            dictionaryChoiceLabelError.setVisible(true);
+            allValid = false;
+        }
+        else{
+            dictionaryChoiceLabelError.setVisible(false);
+        }
         if(allValid){
             GameManager gameManager = GameManager.get();
             ipField = new TextField();
             ipField.setText("localhost"); //Default ip to make server run locally on host computer.
             gameManager.initializeHostServer(Integer.parseInt(portField.getText()));
-            gameManager.getGameData().setDictionaries("alice_in_wonderland.txt", "Frank Herbert - Dune.txt", "Harry Potter.txt");
+            //gameManager.getGameData().setDictionaries("alice_in_wonderland.txt", "Frank Herbert - Dune.txt", "Harry Potter.txt");
+            gameManager.getGameData().setDictionaries(dictionaries.get(chosenDictionary));
             checkOrCreateCalculationServer();
             connectToServer();
             viewSharedData.setHost(true);
@@ -159,7 +200,11 @@ public class ConnectionController {
         }
 
         if(viewController != null) viewController.setViewSharedData(this.viewSharedData);
-        else if(connectionController != null) connectionController.setViewSharedData(this.viewSharedData);
+        else if(connectionController != null) {
+            connectionController.initializeDictionaryOptions();
+            connectionController.setChoiceBoxOptions();
+            connectionController.setViewSharedData(this.viewSharedData);
+        }
         else if(gameController != null) {
             gameController.setViewSharedData(this.viewSharedData);
             gameController.bindAll();

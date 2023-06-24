@@ -10,6 +10,7 @@ import model.logic.host.data.Player;
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GameManager implements GameHandler,Serializable {
     private static GameManager single_instance = null;
@@ -146,26 +147,14 @@ public class GameManager implements GameHandler,Serializable {
     }
 
     /**
-     * @Details Updates all connected guests if change was made in game state.
-     */
-    public void updateGuests(String change){
-        /*
-        changes so far:
-        -"tiles"
-        -"turnEnded"
-        -
-         */
-
-    }
-
-    /**
      * @Details Builds a word from the given data.
      * @return new word.
      */
     private Word buildWord(Player player, String word, int row, int col,boolean vertical){
         Tile[] tiles = new Tile[word.length()];
         for(int i=0; i<word.length(); i++){
-            tiles[i] = player.getTile(word.charAt(i));
+            if(word.charAt(i) == '_') tiles[i] = null;
+            else tiles[i] = player.getTile(word.charAt(i));
         }
         return new Word(tiles, row, col, vertical);
     }
@@ -215,25 +204,19 @@ public class GameManager implements GameHandler,Serializable {
      * @Details Swaps tiles for a player.
      */
     public void swapTiles() {
-        //TODO - Implementation required
-    }
-
-    /**
-     * @Details Resigns from the game.
-     */
-    public void resign() {
-        //TODO - Implementation required
+        Player player = gameData.getPlayer(turnManager.getCurrentPlayerTurn());
+        if(player != null){
+            player.setTiles(new ArrayList<>());
+            fillHand(player);
+        }
+        skipTurn();
     }
 
     /**
      * @Details Skips the turn of the current player.
      */
     public void skipTurn() {
-        turnManager.nextTurn();
-    }
-
-    public void sort() {
-        //TODO - Implementation required
+        GameManager.get().host.resetTimerTask();
     }
 
     public GameData getGameData() {

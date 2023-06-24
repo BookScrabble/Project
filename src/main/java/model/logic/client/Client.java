@@ -51,11 +51,14 @@ public class Client {
                 if(inFromServer.hasNextLine()){
                     msgFromServer = inFromServer.nextLine();
                     switch (msgFromServer) {
-                        case "DictionaryNotLegal" -> wordNotFoundInDictionary();
-                        case "BoardNotLegal" -> boardPlacementIllegal();
+                        case "dictionaryNotLegal" -> wordNotFoundInDictionary();
+                        case "boardNotLegal" -> boardPlacementIllegal();
                         case "loadBoard" -> loadBoard();
                         case "bindButtons" -> bindButtons();
-                        case "TurnDone" -> turnDone();
+                        case "turnEnded" -> turnEnded();
+                        case "updateView" -> updateView();
+                        case "challengeSucceeded" -> challengeAccepted();
+                        case "challengeFailed" -> challengeFailed();
                         default -> System.out.println(msgFromServer);
                     }
                 }
@@ -64,12 +67,24 @@ public class Client {
         }).start();
     }
 
+    private void challengeFailed() {
+        messageFromHost.setValue("challengeFailed");
+    }
+
+    private void challengeAccepted() {
+        messageFromHost.setValue("challengeAccepted");
+    }
+
+    private void updateView() {
+        messageFromHost.setValue("updateView");
+    }
+
     public void playTurn(String action){
-        System.out.println("sending action to server");
         outToServer.println(action);
     }
 
     public StringProperty getMessageFromHost() {
+        messageFromHost = new SimpleStringProperty();
         return messageFromHost;
     }
 
@@ -83,24 +98,22 @@ public class Client {
     }
 
     private void wordNotFoundInDictionary() {
-        System.out.println("Place a different word or challenge");
+        messageFromHost.setValue("dictionaryNotLegal");
     }
 
     private void boardPlacementIllegal() {
-        System.out.println("Tiles are placed in illegal place");
+        messageFromHost.setValue("boardNotLegal");
     }
 
-    private void turnDone(){
-        System.out.println("Finished turn");
+    private void turnEnded(){
+        messageFromHost.setValue("turnEnded");
     }
 
-    private void closeEverything() {
+    public void closeEverything() {
         try {
             System.out.println("Closing Client");
             this.server.close();
         }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        catch (IOException ignored) {}
     }
 }

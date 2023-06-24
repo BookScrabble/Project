@@ -66,10 +66,6 @@ public class ViewSharedData implements Observer {
         this.playerName = playerName;
     }
 
-    public String getPlayerName() {
-        return playerName;
-    }
-
     public void setHostPort(int hostPort) {
         this.hostPort = hostPort;
     }
@@ -81,10 +77,6 @@ public class ViewSharedData implements Observer {
     public void setGameModelReceiver(GameModelReceiver gameModelReceiver) {
         this.gameModelReceiver = gameModelReceiver;
         this.gameModelReceiver.addObserver(this);
-    }
-
-    public GameModelReceiver getGameModelReceiver() {
-        return gameModelReceiver;
     }
 
     @Override
