@@ -37,10 +37,7 @@ public class ViewModel{ // Later implement ViewModelFacade
 
     public ObjectProperty<Button> skipTurn;
     public ObjectProperty<Button> submit;
-    public ObjectProperty<Button> challenge;
     public ObjectProperty<Button> swap;
-    public ObjectProperty<Button> sort;
-    public ObjectProperty<Button> resign;
 
 
     public List<ObjectProperty<Image>> tiles;
@@ -77,18 +74,12 @@ public class ViewModel{ // Later implement ViewModelFacade
         sixTile = new SimpleObjectProperty<>();
         sevenTile = new SimpleObjectProperty<>();
 
-        resign = new SimpleObjectProperty<>();
         submit = new SimpleObjectProperty<>();
         swap = new SimpleObjectProperty<>();
-        sort = new SimpleObjectProperty<>();
-        challenge = new SimpleObjectProperty<>();
         skipTurn = new SimpleObjectProperty<>();
 
-        resign.set(new Button());
         submit.set(new Button());
-        challenge.set(new Button());
         swap.set(new Button());
-        sort.set(new Button());
         skipTurn.set(new Button());
 
 
@@ -185,19 +176,14 @@ public class ViewModel{ // Later implement ViewModelFacade
         Platform.runLater(() -> {
             if(!getModel().isGameRunning() || model.getTurnManager().getTurnManagerIndex() == -1) return;
             if(model.getCurrentPlayerID() == playerId.get()){
-                resign.get().setVisible(true);
                 submit.get().setVisible(true);
                 swap.get().setVisible(true);
-                sort.get().setVisible(true);
                 skipTurn.get().setVisible(true);
-                challenge.get().setVisible(true);
             }
             else{
                 submit.get().setVisible(false);
                 swap.get().setVisible(false);
-                sort.get().setVisible(false);
                 skipTurn.get().setVisible(false);
-                challenge.get().setVisible(false);
             }
         });
     }

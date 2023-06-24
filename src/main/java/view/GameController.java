@@ -75,13 +75,7 @@ public class GameController {
     ImageView sevenTile;
 
     @FXML
-    Button resign;
-    @FXML
     Button skipTurn;
-    @FXML
-    Button challenge;
-    @FXML
-    Button sort;
     @FXML
     Button swap;
     @FXML
@@ -135,10 +129,7 @@ public class GameController {
     }
 
     public void initiatePlayerButton(){
-        resign = new Button();
-        challenge = new Button();
         swap = new Button();
-        sort = new Button();
         submit = new Button();
         skipTurn = new Button();
     }
@@ -208,9 +199,10 @@ public class GameController {
                 case "boardNotLegal" -> {
                     viewSharedData.getViewModel().updateViewProperties();
                     System.out.println("board placement wasn't legal");
+                    resetWordParameters();
                 }
                 case "turnEnded" -> {
-
+                    resetWordParameters();
                 }
                 case "challengeFailed" -> {
                     viewSharedData.getViewModel().updateViewProperties();
@@ -251,10 +243,7 @@ public class GameController {
     }
 
     public void bindButtons(){
-        resign.visibleProperty().bind(viewSharedData.getViewModel().resign.get().visibleProperty());
-        challenge.visibleProperty().bind(viewSharedData.getViewModel().challenge.get().visibleProperty());
         submit.visibleProperty().bind(viewSharedData.getViewModel().submit.get().visibleProperty());
-        sort.visibleProperty().bind(viewSharedData.getViewModel().sort.get().visibleProperty());
         swap.visibleProperty().bind(viewSharedData.getViewModel().swap.get().visibleProperty());
         skipTurn.visibleProperty().bind(viewSharedData.getViewModel().skipTurn.get().visibleProperty());
     }
@@ -325,13 +314,7 @@ public class GameController {
         System.out.println("Start at index: " + startRow + ", " + startCol);
         System.out.println("End at index: " + endRow + ", " + endCol);
 
-
-
         playerAction.set("submit" + "," + word + "," + startRow + "," + startCol + "," + vertical);
-
-        this.indexRow.clear();
-        this.indexCol.clear();
-        this.word = "";
     }
     @FXML
     public void Challenge() {
@@ -355,6 +338,7 @@ public class GameController {
         alert.showAndWait().ifPresent(response -> {
             if(response == ButtonType.OK){
                 playerAction.set("challenge" + "," + word + "," + startRow + "," + startCol + "," + vertical);
+                resetWordParameters();
             }
             else{
                 viewSharedData.getViewModel().updateViewProperties();
@@ -363,22 +347,19 @@ public class GameController {
         });
     }
 
+    private void resetWordParameters(){
+        word = "";
+        indexRow.clear();
+        indexCol.clear();
+    }
+
     @FXML
     public void SwapTiles() {
         playerAction.set("swapTiles");
     }
     @FXML
-    public void SortTiles() {
-        playerAction.set("sort");
-    }
-    @FXML
     public void SkipTurn() {
         playerAction.set("skipTurn");
-    }
-    @FXML
-    public void Resign(){
-        System.out.println("Resign");
-        //TODO - Later change to exit and make sure all connections are closed.
     }
 
     public void squareClickHandler() {

@@ -67,7 +67,7 @@
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="resign" alignment="CENTER" contentDisplay="CENTER" layoutX="1020.0" layoutY="724.0" mnemonicParsing="false" onAction="#Resign" styleClass="Button" text="Resign">
+      <Button fx:id="skipTurn" alignment="CENTER" contentDisplay="CENTER" layoutX="783.0" layoutY="724.0" mnemonicParsing="false" onAction="#SkipTurn" styleClass="Button" text="Skip Turn" visible="false">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
@@ -75,7 +75,7 @@
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Button>
-      <Button fx:id="skipTurn" alignment="CENTER" contentDisplay="CENTER" layoutX="873.0" layoutY="724.0" mnemonicParsing="false" onAction="#SkipTurn" styleClass="Button" text="Skip Turn" visible="false">
+      <Button fx:id="submit" alignment="CENTER" contentDisplay="CENTER" layoutX="540.0" layoutY="724.0" mnemonicParsing="false" onAction="#Submit" styleClass="Button" text="Submit" visible="false">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
@@ -83,31 +83,7 @@
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Button>
-      <Button fx:id="sort" alignment="CENTER" contentDisplay="CENTER" layoutX="733.0" layoutY="724.0" mnemonicParsing="false" onAction="#SortTiles" styleClass="Button" text="Sort Tiles" visible="false">
-         <font>
-            <Font name="System Bold Italic" size="18.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="CLOSED_HAND" />
-         </cursor>
-      </Button>
-      <Button fx:id="submit" alignment="CENTER" contentDisplay="CENTER" layoutX="300.0" layoutY="724.0" mnemonicParsing="false" onAction="#Submit" styleClass="Button" text="Submit" visible="false">
-         <font>
-            <Font name="System Bold Italic" size="18.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="CLOSED_HAND" />
-         </cursor>
-      </Button>
-      <Button fx:id="challenge" alignment="CENTER" contentDisplay="CENTER" layoutX="424.0" layoutY="724.0" mnemonicParsing="false" onAction="#Challenge" styleClass="Button" text="Challenge" visible="false">
-         <font>
-            <Font name="System Bold Italic" size="18.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="CLOSED_HAND" />
-         </cursor>
-      </Button>
-      <Button fx:id="swap" alignment="CENTER" contentDisplay="CENTER" layoutX="578.0" layoutY="724.0" mnemonicParsing="false" onAction="#SwapTiles" styleClass="Button" text="Swap Tiles" visible="false">
+      <Button fx:id="swap" alignment="CENTER" contentDisplay="CENTER" layoutX="649.0" layoutY="724.0" mnemonicParsing="false" onAction="#SwapTiles" styleClass="Button" text="Swap Tiles" visible="false">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>

@@ -147,19 +147,6 @@ public class GameManager implements GameHandler,Serializable {
     }
 
     /**
-     * @Details Updates all connected guests if change was made in game state.
-     */
-    public void updateGuests(String change){
-        /*
-        changes so far:
-        -"tiles"
-        -"turnEnded"
-        -
-         */
-
-    }
-
-    /**
      * @Details Builds a word from the given data.
      * @return new word.
      */
@@ -226,24 +213,10 @@ public class GameManager implements GameHandler,Serializable {
     }
 
     /**
-     * @Details Resigns from the game.
-     */
-    public void resign() {
-        //TODO - Later change to exit and add implementation.
-    }
-
-    /**
      * @Details Skips the turn of the current player.
      */
     public void skipTurn() {
         GameManager.get().host.resetTimerTask();
-    }
-
-    public void sort() {
-        Player player = gameData.getPlayer(turnManager.getCurrentPlayerTurn());
-        if(player != null){
-            player.setTiles(player.getAllTiles().stream().sorted(Comparator.comparingInt(firstTile -> firstTile.letter)).collect(Collectors.toCollection(ArrayList::new)));
-        }
     }
 
     public GameData getGameData() {

@@ -59,16 +59,9 @@ public class GuestHandler implements ClientHandler,Serializable {
                             stillPlaying = false;
                         }
 
-                        case "resign" -> gm.resign();
-
                         case "skipTurn" -> {
                             gm.skipTurn();
                             stillPlaying = false;
-                        }
-
-                        case "sort" -> {
-                            gm.sort();
-                            outToClient.println("updateView");
                         }
                     }
                 }

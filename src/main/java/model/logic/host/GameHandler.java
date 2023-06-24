@@ -11,7 +11,5 @@ public interface GameHandler {
     String challenge (String word);
     String query(Word word);
     void swapTiles();
-    void resign();
     void skipTurn();
-    void sort();
 }
