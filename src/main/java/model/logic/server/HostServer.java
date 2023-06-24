@@ -20,6 +20,7 @@ public class HostServer extends MyServer implements Serializable {
     MyServerSocket server;
     private boolean gameIsRunning;
     private MyTimer turnTimer;
+    private MyTimerTask timerTask;
 
     public HostServer(int port, ClientHandler clientHandler) {
         super(port, clientHandler);
@@ -42,8 +43,8 @@ public class HostServer extends MyServer implements Serializable {
                 Socket currentPlayer = clients.get(GameManager.get().getCurrentPlayerID()).getPlayerSocket();
                 try {
                     clientHandler.handleClient(currentPlayer.getInputStream(), currentPlayer.getOutputStream());
-//                    this.cancel();
-//                    turnTimer.getTimer().scheduleAtFixedRate(new ManageTurnTask(), 5000, 15000);
+                    this.cancel();
+                    resetTimerTask();
                 } catch (IOException ignored) {}
             }).start();
         }
@@ -94,11 +95,6 @@ public class HostServer extends MyServer implements Serializable {
                     outToModelReceiver.writeObject(GameManager.get());
                 } catch (IOException ignored) {
                     System.out.println("GameModelReceiver not found -> IOException");
-                    try {
-                        throw(ignored);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
                 }
             }
         }).start();
@@ -109,13 +105,28 @@ public class HostServer extends MyServer implements Serializable {
         //TODO - Update all client sockets that change was made and their view needs a refresh.
     }
 
+    public void resetTimerTask(){
+        timerTask = null;
+    }
+
     public void playGame(){
         if(!gameIsRunning){
             startGame();
         }
-        if(gameIsRunning){
-            turnTimer = new MyTimer(new Timer());
-            turnTimer.getTimer().scheduleAtFixedRate(new ManageTurnTask(), 5000, 15000);
+        while(gameIsRunning){
+            if(timerTask == null || turnTimer == null){
+                System.out.println("One of them is null");
+                timerTask = new MyTimerTask(new ManageTurnTask());
+                turnTimer = new MyTimer(new Timer());
+                turnTimer.getTimer().schedule(timerTask.getTimerTask(), 1000, 60000);
+            }
+            else{
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 

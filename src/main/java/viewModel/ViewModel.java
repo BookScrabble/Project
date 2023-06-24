@@ -162,6 +162,9 @@ public class ViewModel{ // Later implement ViewModelFacade
                     imagePath.set(counter + "," + Objects.requireNonNull(ViewController
                             .class.getResource("/Images/Tiles/" + gameBoard[i][j].letter + ".png")).toExternalForm());
                 }
+                else{
+                    imagePath.set(counter + "," + "labelVisible");
+                }
                 counter++;
             }
         }

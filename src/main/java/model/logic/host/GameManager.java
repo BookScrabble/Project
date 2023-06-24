@@ -10,6 +10,7 @@ import model.logic.host.data.Player;
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GameManager implements GameHandler,Serializable {
     private static GameManager single_instance = null;
@@ -215,14 +216,18 @@ public class GameManager implements GameHandler,Serializable {
      * @Details Swaps tiles for a player.
      */
     public void swapTiles() {
-        //TODO - Implementation required
+        Player player = gameData.getPlayer(turnManager.getCurrentPlayerTurn());
+        if(player != null){
+            player.setTiles(new ArrayList<>());
+            fillHand(player);
+        }
     }
 
     /**
      * @Details Resigns from the game.
      */
     public void resign() {
-        //TODO - Implementation required
+        //TODO - Later change to exit and add implementation.
     }
 
     /**
@@ -233,7 +238,10 @@ public class GameManager implements GameHandler,Serializable {
     }
 
     public void sort() {
-        //TODO - Implementation required
+        Player player = gameData.getPlayer(turnManager.getCurrentPlayerTurn());
+        if(player != null){
+            player.setTiles(player.getAllTiles().stream().sorted(Comparator.comparingInt(firstTile -> firstTile.letter)).collect(Collectors.toCollection(ArrayList::new)));
+        }
     }
 
     public GameData getGameData() {

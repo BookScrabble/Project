@@ -61,15 +61,10 @@ public class GuestHandler implements ClientHandler,Serializable {
                         }
 
                         // THINGS TO IMPLEMENT IN THE FUTURE
-                        case "swap" ->
-                            //"swap,
-                                gm.swapTiles();
+                        case "swapTiles" -> gm.swapTiles();
                         case "resign" -> gm.resign();
-                        case "skip" -> gm.skipTurn();
-                        case "sort" -> {
-                            gm.sort();
-                            //View Update for specific client
-                        }
+                        case "skipTurn" -> gm.skipTurn();
+                        case "sort" -> gm.sort();
                     }
                 }
             } catch (IOException e) {

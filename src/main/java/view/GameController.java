@@ -167,8 +167,12 @@ public class GameController {
         String[] trimmed = newAction.split(",");
         int index = Integer.parseInt(trimmed[0]);
         String imageURL = trimmed[1];
-
         StackPane cell = (StackPane)boardGridPane.getChildren().get(index);
+        Label label = (Label)cell.getChildren().get(0);
+        if(imageURL.equals("labelVisible")){
+            label.setVisible(true);
+            return;
+        }
         ImageView imageView = new ImageView();
         try{
             imageView = (ImageView)cell.getChildren().get(1);
@@ -178,6 +182,7 @@ public class GameController {
         imageView.setFitHeight(cell.getHeight());
         imageView.setImage(new Image(imageURL));
         if(!cell.getChildren().contains(imageView)) cell.getChildren().add(imageView);
+        label.setVisible(false);
     }
 
     public void handleHostAction(String action){
@@ -258,23 +263,24 @@ public class GameController {
     }
     @FXML
     public void Challenge() {
-        System.out.println("Challenge");
+        playerAction.set("challenge");
     }
     @FXML
     public void SwapTiles() {
-        System.out.println("SwapTiles");
+        playerAction.set("swapTiles");
     }
     @FXML
     public void SortTiles() {
-        System.out.println("Sort");
+        playerAction.set("sort");
     }
     @FXML
     public void SkipTurn() {
-        System.out.println("SkipTurn");
+        playerAction.set("skipTurn");
     }
     @FXML
-    public void Resign() throws IOException{
+    public void Resign(){
         System.out.println("Resign");
+        //TODO - Later change to exit and make sure all connections are closed.
     }
 
     public void squareClickHandler() {
