@@ -148,6 +148,9 @@ public class GameController {
     }
 
     public void initializeHostAction(){
+
+        if(messageFromHost != null) return;
+
         messageFromHost = new SimpleStringProperty();
         messageFromHost.bind(viewSharedData.getPlayer().getMessageFromHost());
         viewSharedData.getPlayer().getMessageFromHost().addListener(((observable, oldAction, newAction) -> {
@@ -156,6 +159,9 @@ public class GameController {
     }
 
     public void initializeBoardUpdateAction(){
+
+        if(viewSharedData.getViewModel().imagePath != null) return;
+
         imagePath = new SimpleStringProperty();
         imagePath.bind(viewSharedData.getViewModel().imagePath);
         viewSharedData.getViewModel().imagePath.addListener(((observable, oldAction, newAction) -> {
@@ -168,6 +174,7 @@ public class GameController {
         int index = Integer.parseInt(trimmed[0]);
         String imageURL = trimmed[1];
         StackPane cell = (StackPane)boardGridPane.getChildren().get(index);
+        System.out.println("Working on cell number " + index + "Current cell children is -> " + cell.getChildren());
         ImageView imageView = (ImageView)cell.getChildren().get(1);
         imageView.setImage(new Image(imageURL));
     }

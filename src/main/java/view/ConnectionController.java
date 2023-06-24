@@ -84,7 +84,6 @@ public class ConnectionController {
             checkConnection.close();
         } catch (IOException ignored) {}
         if(!connectionEstablished){
-            System.out.println("here");
             MyServer calculationServer = new MyServer(10000, new BookScrabbleHandler());
             calculationServer.start();
             viewSharedData.setCalculationServer(calculationServer);
