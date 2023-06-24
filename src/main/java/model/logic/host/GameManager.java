@@ -139,7 +139,6 @@ public class GameManager implements GameHandler,Serializable {
             }else{
                 currentPlayer.setScore(currentPlayer.getScore() + score);
                 fillHand(currentPlayer);
-                updateGuests("turnEnded");
                 return "1";
             }
         }

@@ -156,7 +156,9 @@ public class ViewModel{ // Later implement ViewModelFacade
         for(int i = 0; i < 15; i++){
             for (int j = 0; j < 15; j++) {
                 if(gameBoard[i][j] != null){
-                    System.out.println("Found tile in host board i:"+i+", j:" + j + "| counter = " + counter);
+                    System.out.println("ViewModel->UpdateBoard-> ! Found tile in new received board i:"+i+", j:" + j + "| counter = " + counter);
+                    System.out.println(counter + "," + Objects.requireNonNull(ViewController
+                            .class.getResource("/Images/Tiles/" + gameBoard[i][j].letter + ".png")).toExternalForm());
                     imagePath.set(counter + "," + Objects.requireNonNull(ViewController
                             .class.getResource("/Images/Tiles/" + gameBoard[i][j].letter + ".png")).toExternalForm());
                 }

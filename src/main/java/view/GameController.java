@@ -148,9 +148,6 @@ public class GameController {
     }
 
     public void initializeHostAction(){
-
-        if(messageFromHost != null) return;
-
         messageFromHost = new SimpleStringProperty();
         messageFromHost.bind(viewSharedData.getPlayer().getMessageFromHost());
         viewSharedData.getPlayer().getMessageFromHost().addListener(((observable, oldAction, newAction) -> {
@@ -159,9 +156,6 @@ public class GameController {
     }
 
     public void initializeBoardUpdateAction(){
-
-        if(viewSharedData.getViewModel().imagePath != null) return;
-
         imagePath = new SimpleStringProperty();
         imagePath.bind(viewSharedData.getViewModel().imagePath);
         viewSharedData.getViewModel().imagePath.addListener(((observable, oldAction, newAction) -> {
@@ -174,9 +168,16 @@ public class GameController {
         int index = Integer.parseInt(trimmed[0]);
         String imageURL = trimmed[1];
         StackPane cell = (StackPane)boardGridPane.getChildren().get(index);
-        System.out.println("Working on cell number " + index + "Current cell children is -> " + cell.getChildren());
-        ImageView imageView = (ImageView)cell.getChildren().get(1);
+        ImageView imageView = new ImageView();
+
+        try{
+            imageView = (ImageView)cell.getChildren().get(1);
+        }catch(IndexOutOfBoundsException ignored){}
+        imageView.setPreserveRatio(true);
+        imageView.setFitWidth(cell.getWidth());
+        imageView.setFitHeight(cell.getHeight());
         imageView.setImage(new Image(imageURL));
+        if(!cell.getChildren().contains(imageView)) cell.getChildren().add(imageView);
     }
 
     public void handleHostAction(String action){
@@ -256,23 +257,23 @@ public class GameController {
         this.word = "";
     }
     @FXML
-    public void Challenge(ActionEvent event) throws IOException{
+    public void Challenge() {
         System.out.println("Challenge");
     }
     @FXML
-    public void SwapTiles(ActionEvent event) throws IOException{
+    public void SwapTiles() {
         System.out.println("SwapTiles");
     }
     @FXML
-    public void SortTiles(ActionEvent event) throws IOException{
+    public void SortTiles() {
         System.out.println("Sort");
     }
     @FXML
-    public void SkipTurn(ActionEvent event) throws IOException{
+    public void SkipTurn() {
         System.out.println("SkipTurn");
     }
     @FXML
-    public void Resign(ActionEvent event) throws IOException{
+    public void Resign() throws IOException{
         System.out.println("Resign");
     }
 
@@ -301,10 +302,13 @@ public class GameController {
                         }
                         int index = boardGridPane.getChildren().indexOf(cell);
                         int validationResult = cellValidationCheck(index);
-                        if(word.length() > 1) vertical = (indexRow.get(0) - indexRow.get(1) < 0);
                         switch(validationResult){
                             case -2 -> {
                                 new Alert(Alert.AlertType.ERROR, "First word in board must start in middle cell(Starting Point).").showAndWait();
+                                return;
+                            }
+                            case -1 -> {
+                                new Alert(Alert.AlertType.ERROR, "You are trying to place a new Tile on already existing one.").showAndWait();
                                 return;
                             }
                             case 0 -> {
@@ -333,8 +337,8 @@ public class GameController {
                         cell.getChildren().add(imageView);
 
 
-                        // Save word and index
-                        saveWordAndIndex(letter, index);
+                        // Save letter,Index and update if vertical or not.
+                        saveLetterAndIndex(letter, index);
                     });
                 });
             }
@@ -346,19 +350,20 @@ public class GameController {
         int numRows = GridPane.getRowIndex(boardGridPane.getChildren().get(index));
         Board gameBoard = viewSharedData.getViewModel().getModel().getGameData().getBoard();
         if(gameBoard.getTiles()[7][7] == null && (numRows != 7 || numColumns != 7) && indexRow.isEmpty() && indexCol.isEmpty()) return -2;
-        //TODO - Implement all validations for every tile placement.
+        else if(gameBoard.getTiles()[numRows][numColumns] != null) return -1;
         return 1;
     }
 
     // Method to save the entered word, its orientation, and retrieve the column and row index
-    private void saveWordAndIndex(String word, int index) {
+    private void saveLetterAndIndex(String letter, int index) {
         // Retrieve the column and row index based on the StackPane index within the GridPane
         int numColumns = GridPane.getColumnIndex(boardGridPane.getChildren().get(index));
         int numRows = GridPane.getRowIndex(boardGridPane.getChildren().get(index));
         // Implement your saving logic here
-        this.word += word;
+        this.word += letter;
         this.indexCol.add(numColumns);
         this.indexRow.add(numRows);
+        if(word.length() > 1) vertical = (indexRow.get(0) - indexRow.get(1) < 0); //Update vertical
     }
 
     @FXML
