@@ -91,7 +91,7 @@
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Button>
-      <Button layoutX="1170.0" layoutY="56.0" mnemonicParsing="false" onAction="#Exit" prefWidth="131.0" styleClass="ExitButton" text="Exit" />
+      <Button fx:id="exit" layoutX="1170.0" layoutY="56.0" mnemonicParsing="false" onAction="#Exit" prefWidth="131.0" styleClass="ExitButton" text="Exit" />
       <GridPane fx:id="boardGridPane" gridLinesVisible="true" layoutX="279.0" layoutY="81.0" onMouseClicked="#squareClickHandler" prefHeight="624.0" prefWidth="843.0" scaleShape="false">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="5.0" prefWidth="5.0" />

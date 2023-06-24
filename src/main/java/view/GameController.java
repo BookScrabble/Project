@@ -80,6 +80,8 @@ public class GameController {
     Button swap;
     @FXML
     Button submit;
+    @FXML
+    Button exit;
 
     StringProperty imagePath;
     @FXML
