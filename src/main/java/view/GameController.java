@@ -247,7 +247,6 @@ public class GameController {
         this.indexRow.clear();
         this.indexCol.clear();
         this.word = "";
-        //this.flag = 0;
     }
     @FXML
     public void Challenge(ActionEvent event) throws IOException{
@@ -356,7 +355,7 @@ public class GameController {
     }
 
     @FXML
-    public void start(ActionEvent event) throws IOException{
+    public void start() throws IOException{
         loadBoard();
         sendStartToServer();
     }

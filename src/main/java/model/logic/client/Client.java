@@ -15,7 +15,6 @@ public class Client {
     private PrintWriter outToServer;
     private StringProperty messageFromHost;
     public IntegerProperty playerId;
-
     public StringProperty playTurn;
 
     public static volatile boolean serverIsRunning = true;

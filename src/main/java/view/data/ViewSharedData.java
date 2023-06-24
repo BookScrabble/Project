@@ -1,11 +1,10 @@
 package view.data;
 
-import javafx.event.ActionEvent;
 import model.logic.client.Client;
 import model.logic.server.MyServer;
+import model.logic.server.dictionary.BookScrabbleHandler;
 import viewModel.ViewModel;
 
-import java.net.ServerSocket;
 import java.util.Observable;
 import java.util.Observer;
 
