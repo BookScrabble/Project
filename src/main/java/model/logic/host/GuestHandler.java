@@ -61,9 +61,15 @@ public class GuestHandler implements ClientHandler,Serializable {
                         }
 
                         // THINGS TO IMPLEMENT IN THE FUTURE
-                        case "swapTiles" -> gm.swapTiles();
+                        case "swapTiles" -> {
+                            gm.swapTiles();
+                            stillPlaying = false;
+                        }
                         case "resign" -> gm.resign();
-                        case "skipTurn" -> gm.skipTurn();
+                        case "skipTurn" -> {
+                            gm.skipTurn();
+                            stillPlaying = false;
+                        }
                         case "sort" -> gm.sort();
                     }
                 }

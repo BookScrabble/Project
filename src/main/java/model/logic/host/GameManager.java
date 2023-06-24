@@ -221,6 +221,7 @@ public class GameManager implements GameHandler,Serializable {
             player.setTiles(new ArrayList<>());
             fillHand(player);
         }
+        skipTurn();
     }
 
     /**
@@ -234,7 +235,8 @@ public class GameManager implements GameHandler,Serializable {
      * @Details Skips the turn of the current player.
      */
     public void skipTurn() {
-        turnManager.nextTurn();
+        GameManager.get().host.resetTimerTask();
+        //turnManager.nextTurn();
     }
 
     public void sort() {

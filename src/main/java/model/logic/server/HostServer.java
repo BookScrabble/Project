@@ -37,7 +37,7 @@ public class HostServer extends MyServer implements Serializable {
         @Override
         public void run() {
             new Thread(() -> {
-                GameManager.get().getTurnManager().nextTurn();
+                //GameManager.get().getTurnManager().nextTurn();
                 sendUpdatedModel();
                 System.out.println("Current player turn -> " + GameManager.get().getCurrentPlayerID());
                 Socket currentPlayer = clients.get(GameManager.get().getCurrentPlayerID()).getPlayerSocket();
@@ -115,9 +115,9 @@ public class HostServer extends MyServer implements Serializable {
         }
         while(gameIsRunning){
             if(timerTask == null || turnTimer == null){
-                System.out.println("One of them is null");
                 timerTask = new MyTimerTask(new ManageTurnTask());
                 turnTimer = new MyTimer(new Timer());
+                GameManager.get().getTurnManager().nextTurn();
                 turnTimer.getTimer().schedule(timerTask.getTimerTask(), 1000, 60000);
             }
             else{
