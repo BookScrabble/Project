@@ -145,19 +145,19 @@ public class MainTrain3 {
 		MyServer s=new MyServer(port, new BookScrabbleHandler());
 		s.start();
 
-		runClient(port, "Q,s1.txt,s2.txt,"+s1[1], true);
-		runClient(port, "Q,s1.txt,s2.txt,"+s2[4], true);
-		runClient(port, "Q,s1.txt,s2.txt,2"+s1[1], false);
-		runClient(port, "Q,s1.txt,s2.txt,3"+s2[4], false);
-		runClient(port, "C,s1.txt,s2.txt,"+s1[9], true);
-		runClient(port, "C,s1.txt,s2.txt,#"+s2[1], false);
+		runClient(port, "Q,alice_in_wonderland.txt,"+"rabbit", true);
+//		runClient(port, "Q,s1.txt,s2.txt,"+s2[4], true);
+//		runClient(port, "Q,s1.txt,s2.txt,2"+s1[1], false);
+//		runClient(port, "Q,s1.txt,s2.txt,3"+s2[4], false);
+//		runClient(port, "C,s1.txt,s2.txt,"+s1[9], true);
+//		runClient(port, "C,s1.txt,s2.txt,#"+s2[1], false);
 
-		Thread t1 = new Thread(()->runClient(port, "Q,s1.txt,s2.txt,"+s1[1], true));
-		Thread t2 = new Thread(()->runClient(port, "Q,s1.txt,s2.txt,"+s2[4], true));
-		Thread t3 = new Thread(()->runClient(port, "Q,s1.txt,s2.txt,2"+s1[1], false));
-		Thread t4 = new Thread(()->runClient(port, "Q,s1.txt,s2.txt,3"+s2[4], false));
-		Thread t5 = new Thread(()->runClient(port, "C,s1.txt,s2.txt,"+s1[9], true));
-		Thread t6 = new Thread(()->runClient(port, "C,s1.txt,s2.txt,#"+s2[1], false));
+//		Thread t1 = new Thread(()->runClient(port, "Q,s1.txt,s2.txt,"+s1[1], true));
+//		Thread t2 = new Thread(()->runClient(port, "Q,s1.txt,s2.txt,"+s2[4], true));
+//		Thread t3 = new Thread(()->runClient(port, "Q,s1.txt,s2.txt,2"+s1[1], false));
+//		Thread t4 = new Thread(()->runClient(port, "Q,s1.txt,s2.txt,3"+s2[4], false));
+//		Thread t5 = new Thread(()->runClient(port, "C,s1.txt,s2.txt,"+s1[9], true));
+//		Thread t6 = new Thread(()->runClient(port, "C,s1.txt,s2.txt,#"+s2[1], false));
 
 //		t1.start();
 //		t2.start();
@@ -170,10 +170,11 @@ public class MainTrain3 {
 	}
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		if(testServer()) {
-			testDM();
-			testBSCH();
-		}
+//		if(testServer()) {
+//			testDM();
+//			testBSCH();
+//		}
+		testBSCH();
 	}
 
 }

@@ -1,8 +1,6 @@
 package model.logic.server;
 
-
 import model.logic.client.ClientHandler;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.ServerSocket;
