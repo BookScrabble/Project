@@ -167,9 +167,9 @@ public class GameController {
         String[] trimmed = newAction.split(",");
         int index = Integer.parseInt(trimmed[0]);
         String imageURL = trimmed[1];
+
         StackPane cell = (StackPane)boardGridPane.getChildren().get(index);
         ImageView imageView = new ImageView();
-
         try{
             imageView = (ImageView)cell.getChildren().get(1);
         }catch(IndexOutOfBoundsException ignored){}
@@ -329,7 +329,6 @@ public class GameController {
 
                         // Set the background image using JavaFX
                         String fullPath = Objects.requireNonNull(ViewController.class.getResource(imagePath)).toExternalForm();
-                        //imageView.setImage(new Image(fullPath));
                         imageView.setImage(new Image(fullPath));
                         imageView.setPreserveRatio(true);
                         imageView.setFitWidth(cell.getWidth());
