@@ -55,22 +55,24 @@ public class GuestHandler implements ClientHandler,Serializable {
                                 }
                                 case "false" -> outToClient.println("Challenge failed.");
                             }
-                            //Update all if succeeded(View)
-                            //Update client for score gained(View)
-                            //Update all if failed
                         }
 
-                        // THINGS TO IMPLEMENT IN THE FUTURE
                         case "swapTiles" -> {
                             gm.swapTiles();
                             stillPlaying = false;
                         }
+
                         case "resign" -> gm.resign();
+
                         case "skipTurn" -> {
                             gm.skipTurn();
                             stillPlaying = false;
                         }
-                        case "sort" -> gm.sort();
+
+                        case "sort" -> {
+                            gm.sort();
+                            outToClient.println("updateView");
+                        }
                     }
                 }
             } catch (IOException e) {

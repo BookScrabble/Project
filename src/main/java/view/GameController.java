@@ -195,6 +195,10 @@ public class GameController {
                     bindButtons();
                     viewSharedData.getViewModel().updateViewProperties();
                 }
+                case "updateView" -> {
+                    System.out.println("updating");
+                    viewSharedData.getViewModel().updateViewProperties();
+                }
             }
         });
     }
@@ -364,10 +368,18 @@ public class GameController {
         // Retrieve the column and row index based on the StackPane index within the GridPane
         int numColumns = GridPane.getColumnIndex(boardGridPane.getChildren().get(index));
         int numRows = GridPane.getRowIndex(boardGridPane.getChildren().get(index));
-        // Implement your saving logic here
-        this.word += letter;
-        this.indexCol.add(numColumns);
-        this.indexRow.add(numRows);
+        boolean indexFound = false;
+        for(int i = 0; i < indexCol.size(); i++){
+            if(numRows == indexRow.get(i) && numColumns == indexCol.get(i)){
+                word = word.replace(word.charAt(i), letter.charAt(0));
+                indexFound = true;
+            }
+        }
+        if(!indexFound) {
+            this.word += letter;
+            this.indexCol.add(numColumns);
+            this.indexRow.add(numRows);
+        }
         if(word.length() > 1) vertical = (indexRow.get(0) - indexRow.get(1) < 0); //Update vertical
     }
 

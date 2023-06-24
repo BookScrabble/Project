@@ -56,12 +56,18 @@ public class Client {
                         case "loadBoard" -> loadBoard();
                         case "bindButtons" -> bindButtons();
                         case "TurnDone" -> turnDone();
+                        case "updateView" -> updateView();
                         default -> System.out.println(msgFromServer);
                     }
                 }
             }
             closeEverything();
         }).start();
+    }
+
+    private void updateView() {
+        System.out.println("updating 2");
+        messageFromHost.setValue("updateView");
     }
 
     public void playTurn(String action){

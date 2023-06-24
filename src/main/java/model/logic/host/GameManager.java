@@ -236,7 +236,6 @@ public class GameManager implements GameHandler,Serializable {
      */
     public void skipTurn() {
         GameManager.get().host.resetTimerTask();
-        //turnManager.nextTurn();
     }
 
     public void sort() {
