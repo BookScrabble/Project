@@ -20,7 +20,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.logic.host.MySocket;
 import model.logic.host.data.Board;
-import model.logic.host.data.Player;
 import view.data.ViewSharedData;
 import viewModel.ViewModel;
 
@@ -197,7 +196,7 @@ public class GameController {
                     viewSharedData.getViewModel().updateViewProperties();
                 }
                 case "updateView" -> viewSharedData.getViewModel().updateViewProperties();
-                case "dictionaryNotLegal" -> Challenge();
+                case "dictionaryNotLegal" -> challenge();
                 case "boardNotLegal" -> {
                     viewSharedData.getViewModel().updateViewProperties();
                     System.out.println("board placement wasn't legal");
@@ -319,7 +318,7 @@ public class GameController {
         playerAction.set("submit" + "," + word + "," + startRow + "," + startCol + "," + vertical);
     }
     @FXML
-    public void Challenge() {
+    public void challenge() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Dictionary Challenge");
         alert.setHeaderText(null);
@@ -344,6 +343,43 @@ public class GameController {
             }
             else{
                 viewSharedData.getViewModel().updateViewProperties();
+            }
+            alert.close();
+        });
+    }
+
+    @FXML
+    public void exit() {
+        boolean isHost = viewSharedData.getHost();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exit!");
+        alert.setHeaderText(null);
+        if(isHost) alert.setContentText("You are the host, Closing the game will disconnect all guests!" +
+                "\n Are you sure you want to stop the game?");
+        else alert.setContentText("Are you sure you want to exit the game?");
+
+        Button exit = (Button) alert.getDialogPane().lookupButton(javafx.scene.control.ButtonType.OK);
+        exit.setText("Exit");
+
+        Button stay = (Button) alert.getDialogPane().lookupButton(javafx.scene.control.ButtonType.CANCEL);
+        stay.setText("Stay");
+
+        VBox vbox = new VBox();
+        vbox.setAlignment(Pos.CENTER);
+
+        alert.getDialogPane().setExpandableContent(vbox);
+        alert.getDialogPane().setExpanded(true);
+
+        alert.showAndWait().ifPresent(response -> {
+            if(response == ButtonType.OK){
+                if(isHost){
+                    viewSharedData.getViewModel().getModel().stopGame();
+                    if(viewSharedData.getCalculationServer() != null){
+                        viewSharedData.getCalculationServer().close();
+                    }
+                }
+                viewSharedData.getPlayer().closeEverything();
+                Platform.exit();
             }
             alert.close();
         });

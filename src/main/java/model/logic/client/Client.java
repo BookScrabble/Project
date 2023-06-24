@@ -109,13 +109,11 @@ public class Client {
         messageFromHost.setValue("turnEnded");
     }
 
-    private void closeEverything() {
+    public void closeEverything() {
         try {
             System.out.println("Closing Client");
             this.server.close();
         }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        catch (IOException ignored) {}
     }
 }

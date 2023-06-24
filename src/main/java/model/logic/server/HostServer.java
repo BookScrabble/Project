@@ -151,7 +151,16 @@ public class HostServer extends MyServer implements Serializable {
         for(MySocket aClient : clients.values()) {
             try {
                 aClient.getPlayerSocket().close();
-            } catch (IOException ignored) {}
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        for(MySocket aClient: clientsModelReceiver.values()){
+            try{
+                aClient.getPlayerSocket().close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         clients.clear();
         super.close();
@@ -170,6 +179,7 @@ public class HostServer extends MyServer implements Serializable {
         this.gameIsRunning = false;
         if(turnTimer != null) turnTimer.getTimer().cancel();
         GameManager.get().skipTurn();
+        resetTimerTask();
         this.close();
     }
 }

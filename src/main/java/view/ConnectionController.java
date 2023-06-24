@@ -64,9 +64,9 @@ public class ConnectionController {
         dictionaries.put("Alice in wonderland", "alice_in_wonderland.txt");
         dictionaries.put("Frank Herbert - Dune", "Frank Herbert - Dune.txt");
         dictionaries.put("Harry Potter", "Harry Potter.txt");
-        dictionaries.put("mobydick", "mobydick.txt");
-        dictionaries.put("pg10", "pg10.txt");
-        dictionaries.put("shakespeare", "shakespeare.txt");
+        dictionaries.put("Mobydick", "mobydick.txt");
+        dictionaries.put("PG10", "pg10.txt");
+        dictionaries.put("Shakespeare", "shakespeare.txt");
         dictionaries.put("The Matrix", "The Matrix.txt");
     }
 
@@ -107,7 +107,7 @@ public class ConnectionController {
             ipField.setText("localhost"); //Default ip to make server run locally on host computer.
             gameManager.initializeHostServer(Integer.parseInt(portField.getText()));
             //gameManager.getGameData().setDictionaries("alice_in_wonderland.txt", "Frank Herbert - Dune.txt", "Harry Potter.txt");
-            gameManager.getGameData().setDictionaries(chosenDictionary);
+            gameManager.getGameData().setDictionaries(dictionaries.get(chosenDictionary));
             checkOrCreateCalculationServer();
             connectToServer();
             viewSharedData.setHost(true);

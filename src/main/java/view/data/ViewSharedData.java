@@ -58,6 +58,9 @@ public class ViewSharedData implements Observer {
         this.calculationServer = calculationServer;
     }
 
+    public MyServer getCalculationServer() {
+        return calculationServer;
+    }
 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
