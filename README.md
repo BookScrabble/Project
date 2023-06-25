@@ -22,7 +22,9 @@ In this implementation, players take turns to place tiles on the board and creat
 In host mode, the game can accommodate up to four players, with at least one local player acting as the host. The other players can be either local or remote. In guest mode, the game can only accommodate one player who can connect to a host.
 
 
-
+## Links
+[!Gameplay Video](https://drive.google.com/file/d/10lHcE4iKBXWeWfiXXxqK_iLEWfoqz-YA/view?usp=drive_link)
+[!Javadoc]()
 
 
 ## Architecture
