@@ -6,6 +6,8 @@ import java.io.*;
 
 public class GuestHandler implements ClientHandler,Serializable {
 
+    boolean stillPlaying;
+
     @Override
     public void handleClient(InputStream in, OutputStream out) {
         boolean stillPlaying = true;
@@ -75,7 +77,7 @@ public class GuestHandler implements ClientHandler,Serializable {
 
     @Override
     public void close() {
-
+        stillPlaying = false;
     }
 
 }

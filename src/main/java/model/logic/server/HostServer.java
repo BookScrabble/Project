@@ -29,10 +29,6 @@ public class HostServer extends MyServer implements Serializable {
         this.server = null;
     }
 
-    public Map<Integer, MySocket> getClientsModelReceiver() {
-        return clientsModelReceiver;
-    }
-
     public class ManageTurnTask extends TimerTask{
         @Override
         public void run() {
@@ -114,13 +110,6 @@ public class HostServer extends MyServer implements Serializable {
                 GameManager.get().getTurnManager().nextTurn();
                 turnTimer.getTimer().schedule(timerTask.getTimerTask(), 1000, 60000);
             }
-            else{
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
         }
     }
 
@@ -146,13 +135,9 @@ public class HostServer extends MyServer implements Serializable {
     @Override
     public void close() {
         Client.serverIsRunning = false;
-        for(MySocket aClient : clients.values()) {
-            try {
-                aClient.getPlayerSocket().close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+
+        broadcastUpdate("serverIsClosing");
+
         for(MySocket aClient: clientsModelReceiver.values()){
             try{
                 aClient.getPlayerSocket().close();
@@ -161,6 +146,7 @@ public class HostServer extends MyServer implements Serializable {
             }
         }
         clients.clear();
+        clientsModelReceiver.clear();
         super.close();
     }
 
@@ -176,7 +162,6 @@ public class HostServer extends MyServer implements Serializable {
     public void stopGame() {
         this.gameIsRunning = false;
         if(turnTimer != null) turnTimer.getTimer().cancel();
-        GameManager.get().skipTurn();
         resetTimerTask();
         this.close();
     }

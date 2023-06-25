@@ -126,6 +126,12 @@ public class ViewModel{ // Later implement ViewModelFacade
             for(int playerId : model.getGameData().getAllPlayers().keySet().stream().sorted().toList()){
                 playersNames.get(playerId-1).setValue(model.getGameData().getPlayer(playerId).getName());
             }
+            int playersConnected = model.getGameData().getAllPlayers().size();
+            for (StringProperty playersName : playersNames) {
+                if (playersConnected == 0) {
+                    playersName.setValue("");
+                } else playersConnected--;
+            }
         });
     }
 

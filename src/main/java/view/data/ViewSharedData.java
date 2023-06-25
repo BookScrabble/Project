@@ -5,6 +5,7 @@ import model.logic.server.MyServer;
 import model.logic.server.dictionary.BookScrabbleHandler;
 import viewModel.ViewModel;
 
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -77,6 +78,12 @@ public class ViewSharedData implements Observer {
     public void setGameModelReceiver(GameModelReceiver gameModelReceiver) {
         this.gameModelReceiver = gameModelReceiver;
         this.gameModelReceiver.addObserver(this);
+    }
+
+    public void closeModelReceiver(){
+        try {
+            this.gameModelReceiver.getServer().getPlayerSocket().close();
+        } catch (IOException ignored) {}
     }
 
     @Override

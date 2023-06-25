@@ -59,6 +59,7 @@ public class Client {
                         case "updateView" -> updateView();
                         case "challengeSucceeded" -> challengeAccepted();
                         case "challengeFailed" -> challengeFailed();
+                        case "serverIsClosing" -> closeEverything();
                         default -> System.out.println(msgFromServer);
                     }
                 }
@@ -111,7 +112,6 @@ public class Client {
 
     public void closeEverything() {
         try {
-            System.out.println("Closing Client");
             this.server.close();
         }
         catch (IOException ignored) {}
