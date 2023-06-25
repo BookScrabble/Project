@@ -33,7 +33,7 @@
          </textFill>
       </Label>
       <Button fx:id="startGame" layoutX="600.0" layoutY="359.0" mnemonicParsing="false" onAction="#start" styleClass="Button" text="Start Game" visible="false" />
-      <Button layoutX="600.0" layoutY="433.0" mnemonicParsing="false" onAction="#Exit" styleClass="Button" text="Close Game" />
+      <Button layoutX="600.0" layoutY="433.0" mnemonicParsing="false" onAction="#exit" styleClass="Button" text="Close Game" />
       <Label layoutX="523.0" layoutY="181.0" text="Players : " textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="24.0" />

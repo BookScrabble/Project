@@ -248,7 +248,7 @@ public class GameManager implements GameHandler,Serializable {
      * action and calls HostServer stopGame method.
      */
     public void stopGame(){
-        this.turnManager.nextTurn();
+        if(this.turnManager != null) this.turnManager.nextTurn();
         this.host.stopGame();
     }
 

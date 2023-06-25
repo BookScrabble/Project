@@ -374,11 +374,10 @@ public class GameController {
             if(response == ButtonType.OK){
                 if(isHost){
                     viewSharedData.getViewModel().getModel().stopGame();
-                    if(viewSharedData.getCalculationServer() != null){
-                        viewSharedData.getCalculationServer().close();
-                    }
+                    viewSharedData.getCalculationServer().close();
                 }
                 viewSharedData.getPlayer().closeEverything();
+                viewSharedData.closeModelReceiver();
                 Platform.exit();
             }
             alert.close();
@@ -574,10 +573,5 @@ public class GameController {
     @FXML
     public void loadBoard() throws IOException{
         loadScene("BoardPage");
-    }
-
-    @FXML
-    public void Exit(ActionEvent event) throws IOException{
-        Platform.exit();
     }
 }
