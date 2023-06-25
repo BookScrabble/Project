@@ -41,7 +41,6 @@ public class GameModelReceiver extends Observable implements Serializable {
             while (!server.getPlayerSocket().isClosed()) {
                 try {
                     GameManager newModel = (GameManager) new ObjectInputStream(inFromServer).readObject();
-                    System.out.println("Received model update");
                     setUpdatedModel(newModel);
                 } catch (IOException | ClassNotFoundException ignored) {}
             }

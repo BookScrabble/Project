@@ -37,8 +37,6 @@ public class HostServer extends MyServer implements Serializable {
         @Override
         public void run() {
             new Thread(() -> {
-                //GameManager.get().getTurnManager().nextTurn();
-                System.out.println("Starting new turn (HOSTSERVER)");
                 sendUpdatedModel();
                 System.out.println("Current player turn -> " + GameManager.get().getCurrentPlayerID());
                 Socket currentPlayer = clients.get(GameManager.get().getCurrentPlayerID()).getPlayerSocket();
