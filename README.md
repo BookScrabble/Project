@@ -23,7 +23,7 @@ In host mode, the game can accommodate up to four players, with at least one loc
 
 
 ## Links
-[Gameplay Video](https://drive.google.com/file/d/10lHcE4iKBXWeWfiXXxqK_iLEWfoqz-YA/view?usp=drive_link)
+[Gameplay Video](https://youtu.be/F-Z9GDi880w)
 
 [Javadoc]()
 
