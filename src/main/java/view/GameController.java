@@ -370,6 +370,7 @@ public class GameController {
         alert.getDialogPane().setExpandableContent(vbox);
         alert.getDialogPane().setExpanded(true);
 
+        //TODO - Fix close, make sure it closes everything.
         alert.showAndWait().ifPresent(response -> {
             if(response == ButtonType.OK){
                 if(isHost){
@@ -392,10 +393,12 @@ public class GameController {
 
     @FXML
     public void SwapTiles() {
+        playerAction.set("reset");
         playerAction.set("swapTiles");
     }
     @FXML
     public void SkipTurn() {
+        playerAction.set("reset");
         playerAction.set("skipTurn");
     }
 
