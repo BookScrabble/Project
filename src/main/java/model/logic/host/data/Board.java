@@ -599,7 +599,7 @@ public class Board implements Serializable {
         for (Word word : createdWords) {
             score += getScore(word);
         }
-
+        System.out.println("Score -> " + score);
         return score;
     }
 

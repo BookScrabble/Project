@@ -125,7 +125,6 @@ public class GameManager implements GameHandler,Serializable {
             int row = Integer.parseInt(splitData[1]);
             int col = Integer.parseInt(splitData[2]);
             boolean vertical = Boolean.parseBoolean(splitData[3]);
-            Tile[] tiles = new Tile[word.length()];
 
             Player currentPlayer = gameData.getPlayer(turnManager.getCurrentPlayerTurn());
             if(currentPlayer == null) return "Player Is Not Found!";

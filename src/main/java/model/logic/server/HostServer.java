@@ -110,6 +110,13 @@ public class HostServer extends MyServer implements Serializable {
                 GameManager.get().getTurnManager().nextTurn();
                 turnTimer.getTimer().schedule(timerTask.getTimerTask(), 1000, 60000);
             }
+            else{
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 
