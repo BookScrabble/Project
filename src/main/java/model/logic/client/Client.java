@@ -36,6 +36,7 @@ public class Client {
             this.messageFromHost = new SimpleStringProperty();
             this.playTurn = new SimpleStringProperty();
             playTurn.addListener(((observable, oldAction, newAction) -> {
+                if(newAction.equals("reset")) return;
                 playTurn(newAction);
             }));
             listenForServerUpdates();
