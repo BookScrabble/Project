@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.BitSet;
 
 
+/**
+ *
+ */
 public class BloomFilter {
     private final BitSet bitset;
     private final ArrayList<MessageDigest> messageDigesters = new ArrayList<>();
