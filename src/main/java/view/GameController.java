@@ -373,18 +373,17 @@ public class GameController {
         alert.getDialogPane().setExpandableContent(vbox);
         alert.getDialogPane().setExpanded(true);
 
-        //TODO - Fix close, make sure it closes everything.
         alert.showAndWait().ifPresent(response -> {
             if(response == ButtonType.OK){
                 if(isHost){
                     /*
                     TODO - Find how to close all servers and clients when exiting the game.
                     */
-                    try {
-                        loadScoreBoard();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+//                    try {
+//                        loadScoreBoard();
+//                    } catch (IOException ignored) {}
+                    closeGame();
+                    viewSharedData.getCalculationServer().close();
                     /*
                     TODO - Server broadcast to all players to loadScoreBoard.
                      */
@@ -392,6 +391,14 @@ public class GameController {
             }
             alert.close();
         });
+    }
+
+    private void closeGame() {
+        try {
+            MySocket socket = new MySocket(new Socket(viewSharedData.getHostIp(), viewSharedData.getHostPort()));
+            PrintWriter printWriter = new PrintWriter(socket.getPlayerSocket().getOutputStream(), true);
+            printWriter.println("serverIsClosing");
+        } catch (IOException ignored) {}
     }
 
     private void resetWordParameters(){
@@ -521,7 +528,7 @@ public class GameController {
             this.indexCol.add(numColumns);
             this.indexRow.add(numRows);
         }
-        if(word.length() > 1) vertical = (indexRow.get(0) - indexRow.get(1) < 0); //Update vertical
+        if(word.length() > 1) vertical = (indexRow.get(0) - indexRow.get(1) < 0);
     }
 
     @FXML
@@ -576,11 +583,6 @@ public class GameController {
         else if(endGameController != null){
             endGameController.setViewSharedData(this.viewSharedData);
         }
-//        else if(gameController != null){
-//            gameController.setViewSharedData(this.viewSharedData);
-//            gameController.initializeScoreBoardPage();
-//            gameController.updateScoreBoardPage();
-//        }
 
         Stage stage = BookScrabbleApplication.getPrimaryStage();
         Scene scene = null;
@@ -592,56 +594,13 @@ public class GameController {
         stage.show();
     }
 
-//    private void initializeScoreBoardPage() {
-//        scoreBoardP1Name = new Label();
-//        scoreBoardP2Name = new Label();
-//        scoreBoardP3Name = new Label();
-//        scoreBoardP4Name = new Label();
-//        scoreBoardNames.add(scoreBoardP1Name);
-//        scoreBoardNames.add(scoreBoardP2Name);
-//        scoreBoardNames.add(scoreBoardP3Name);
-//        scoreBoardNames.add(scoreBoardP4Name);
-//
-//        scoreBoardP1Score = new Label();
-//        scoreBoardP2Score = new Label();
-//        scoreBoardP3Score = new Label();
-//        scoreBoardP4Score = new Label();
-//        scoreBoardScores.add(scoreBoardP1Score);
-//        scoreBoardScores.add(scoreBoardP2Score);
-//        scoreBoardScores.add(scoreBoardP3Score);
-//        scoreBoardScores.add(scoreBoardP4Score);
-//
-//        scoreBoardWinnerName = new Label();
-//
-//    }
-//
-//    private void updateScoreBoardPage() {
-//        Map<Integer, Player> players = viewSharedData.getViewModel().getModel().getGameData().getAllPlayers();
-//        List<Integer> sortedKeys = players.keySet().stream()
-//                .sorted((firstKey, secondKey) -> players.get(secondKey).getScore() - players.get(firstKey).getScore())
-//                .collect(Collectors.toCollection(ArrayList::new));
-//        int currentIndex;
-//        for(int i = 0; i < 4; i++) {
-//            if (i < sortedKeys.size()) {
-//                System.out.println("updating score for playerId -> " + (i+1));
-//                currentIndex = sortedKeys.get(i);
-//                scoreBoardNames.get(i).setText(players.get(currentIndex).getName());
-//                scoreBoardScores.get(i).setText(String.valueOf(players.get(currentIndex).getScore()));
-//            }
-//            else{
-//                scoreBoardNames.get(i).setText("");
-//                scoreBoardScores.get(i).setText("");
-//            }
-//        }
-//        scoreBoardWinnerName.setText(scoreBoardNames.get(0).getText());
-//    }
-
     @FXML
     public void loadBoard() throws IOException{
         loadScene("BoardPage");
     }
 
     private void loadScoreBoard() throws IOException{
+        viewSharedData.getViewModel().getModel().stopGame();
         loadScene("ScoreBoardPage");
     }
 }

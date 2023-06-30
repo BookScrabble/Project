@@ -49,6 +49,7 @@ public class Client {
         new Thread(() -> {
             String msgFromServer;
             while (!server.isClosed() && serverIsRunning) {
+                System.out.println("here");
                 if(inFromServer.hasNextLine()){
                     msgFromServer = inFromServer.nextLine();
                     switch (msgFromServer) {

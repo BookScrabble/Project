@@ -34,7 +34,12 @@ public class HostServer extends MyServer implements Serializable {
             new Thread(() -> {
                 sendUpdatedModel();
                 System.out.println("Current player turn -> " + GameManager.get().getCurrentPlayerID());
-                Socket currentPlayer = clients.get(GameManager.get().getCurrentPlayerID()).getPlayerSocket();
+                Socket currentPlayer;
+                try{
+                   currentPlayer = clients.get(GameManager.get().getCurrentPlayerID()).getPlayerSocket();
+                } catch(NullPointerException e){
+                    return;
+                }
                 try {
                     clientHandler.handleClient(currentPlayer.getInputStream(), currentPlayer.getOutputStream());
                     this.cancel();
@@ -103,23 +108,35 @@ public class HostServer extends MyServer implements Serializable {
             startGame();
         }
         while(gameIsRunning){
+            try{
+                MySocket hostAttempt = new MySocket(server.getServerSocket().accept());
+                Scanner scanner = new Scanner(hostAttempt.getPlayerSocket().getInputStream());
+                String hostMessage;
+                if(scanner.hasNext()){
+                    hostMessage = scanner.next();
+                    if(hostMessage.equals("serverIsClosing")){
+                        broadcastUpdate("serverIsClosing");
+                        resetTimerTask();
+                        GameManager.get().stopGame();
+                    }
+                }
+            } catch (IOException ignored) {}
             if(timerTask == null || turnTimer == null){
                 timerTask = new MyTimerTask(new ManageTurnTask());
                 turnTimer = new MyTimer(new Timer());
                 GameManager.get().getTurnManager().nextTurn();
                 turnTimer.getTimer().schedule(timerTask.getTimerTask(), 1000, 60000);
             }
-            else{
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+//            else{
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
         }
     }
 
-    //TODO - Implement method/Change to observer updates(GameModelReceiver MITM)
     public void broadcastUpdate(String messageForPlayers) {
         for(MySocket aClient : clients.values()) {
             try {

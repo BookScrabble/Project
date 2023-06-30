@@ -5,16 +5,12 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.BitSet;
-
-
 /**
  *
  */
 public class BloomFilter {
     private final BitSet bitset;
     private final ArrayList<MessageDigest> messageDigesters = new ArrayList<>();
-
-
     /**
      * A Bloom filter is a probabilistic data structure used for efficient set membership testing.
      * This constructor initializes a new Bloom filter with the specified size and hashing algorithms.
