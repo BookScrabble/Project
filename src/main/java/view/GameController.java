@@ -228,6 +228,9 @@ public class GameController {
         alert.setHeaderText(null);
         alert.setContentText("A player has been disconnected, Updated game data was received.");
 
+        Button closeButton = (Button) alert.getDialogPane().lookupButton(javafx.scene.control.ButtonType.CANCEL);
+        closeButton.setText("Close");
+
         VBox vbox = new VBox();
         vbox.setAlignment(Pos.CENTER);
 
@@ -300,7 +303,6 @@ public class GameController {
         int wordLength;
         if(vertical) wordLength = (endRow - startRow) + 1;
         else wordLength = (endCol - startCol) + 1;
-        System.out.println("Length -> " + wordLength);
 
         //Building the correct word to send:
         boolean foundNext;
