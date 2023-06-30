@@ -7,6 +7,10 @@ public class MyTimerTask implements Serializable {
 
     private transient TimerTask timerTask;
 
+    /**
+     * Constructs a new MyTimerTask object with the specified TimerTask.
+     * @param timerTask The TimerTask object to wrap.
+     */
     public MyTimerTask(TimerTask timerTask) {
         this.timerTask = timerTask;
     }
@@ -26,6 +30,11 @@ public class MyTimerTask implements Serializable {
             }
         };
     }
+
+    /**
+     * Retrieves the TimerTask object wrapped by this MyTimerTask.
+     * @return The TimerTask object.
+     */
     public TimerTask getTimerTask() {
         return this.timerTask;
     }

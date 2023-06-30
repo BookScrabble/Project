@@ -1,4 +1,4 @@
-package test;
+package test.testBackend;
 
 import model.logic.server.MyServer;
 import model.logic.client.ClientHandler;

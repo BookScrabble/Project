@@ -3,10 +3,17 @@ package model.logic.server;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.SocketException;
-
+/**
+ * The MyServerSocket class is a serializable wrapper for a ServerSocket object.
+ * It allows the ServerSocket object to be serialized and deserialized.
+ */
 public class MyServerSocket implements Serializable {
     private transient ServerSocket serverSocket;
 
+    /**
+     * Constructs a new MyServerSocket object with the specified ServerSocket.
+     * @param serverSocket The ServerSocket object to wrap.
+     */
     public MyServerSocket(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
         try {
@@ -26,6 +33,11 @@ public class MyServerSocket implements Serializable {
         in.defaultReadObject();
         this.serverSocket = new ServerSocket();
     }
+
+    /**
+     * Retrieves the ServerSocket object wrapped by this MyServerSocket.
+     * @return The ServerSocket object.
+     */
     public ServerSocket getServerSocket() {
         return serverSocket;
     }

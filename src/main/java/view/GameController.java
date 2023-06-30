@@ -90,7 +90,10 @@ public class GameController {
 
     //Properties:
 
-
+    /**
+     * Initializes the GameController object with default values for word, vertical, startRow, startCol, flag,
+     * indexRow, and indexCol. Also initializes the player's name, score, tiles, and buttons.
+     */
     public GameController(){
         this.word = "";
         this.vertical = false;
@@ -105,6 +108,9 @@ public class GameController {
         initiatePlayerButton();
     }
 
+    /**
+     * Initializes the player's tiles with ImageViews.
+     */
     private void initiatePlayerTiles() {
         firstTile = new ImageView();
         secondTile = new ImageView();
@@ -115,6 +121,9 @@ public class GameController {
         sevenTile = new ImageView();
     }
 
+    /**
+     * Initializes the player's name labels.
+     */
     public void initiatePlayerName(){
         firstPlayerName = new Label();
         secondPlayerName = new Label();
@@ -122,6 +131,9 @@ public class GameController {
         fourthPlayerName = new Label();
     }
 
+    /**
+     * Initializes the player's score labels.
+     */
     public void initiatePlayerScore(){
         firstPlayerScore = new Label();
         secondPlayerScore = new Label();
@@ -129,16 +141,25 @@ public class GameController {
         fourthPlayerScore = new Label();
     }
 
+    /**
+     * Initializes the player's buttons.
+     */
     public void initiatePlayerButton(){
         swap = new Button();
         submit = new Button();
         skipTurn = new Button();
     }
 
+    /**
+     * Makes the startGame button visible.
+     */
     public void toggleStartButton(){
         startGame.setVisible(true);
     }
 
+    /**
+     * Initializes the action from the host and updates the view accordingly.
+     */
     public void initializeHostAction(){
         SimpleStringProperty test = new SimpleStringProperty();
         StringProperty newMessageFromHost = viewSharedData.getPlayer().getMessageFromHost();
@@ -149,6 +170,9 @@ public class GameController {
         messageFromHost = test;
     }
 
+    /**
+     * Initializes the board update action and updates the view accordingly.
+     */
     public void initializeBoardUpdateAction(){
         imagePath = new SimpleStringProperty();
         ObjectProperty<String> newImagePath = viewSharedData.getViewModel().getImagePath();
@@ -158,6 +182,11 @@ public class GameController {
         }));
     }
 
+    /**
+     * Updates the image of a board cell based on the provided action.
+     *
+     * @param newAction the new action to update the view with
+     */
     public void updateBoardCellImage(String newAction){
         String[] trimmed = newAction.split(",");
         int index = Integer.parseInt(trimmed[0]);
@@ -185,6 +214,11 @@ public class GameController {
         label.setVisible(false);
     }
 
+    /**
+     * Handles the action received from the host and updates the view accordingly.
+     *
+     * @param action the action received from the host
+     */
     public void handleHostAction(String action){
         Platform.runLater(() -> {
             switch(action){
@@ -217,7 +251,9 @@ public class GameController {
         });
     }
 
-
+    /**
+     * Binds the properties between the view and the view model.
+     */
     public void bindAll(){
         ViewModel viewModel = this.viewSharedData.getViewModel();
 
@@ -243,16 +279,29 @@ public class GameController {
         viewSharedData.getPlayer().playTurn.bind(playerAction);
     }
 
+    /**
+     * Binds the visibility properties of the buttons between the view and the view model.
+     */
     public void bindButtons(){
         submit.visibleProperty().bind(viewSharedData.getViewModel().submit.get().visibleProperty());
         swap.visibleProperty().bind(viewSharedData.getViewModel().swap.get().visibleProperty());
         skipTurn.visibleProperty().bind(viewSharedData.getViewModel().skipTurn.get().visibleProperty());
     }
 
+    /**
+     * Sets the ViewSharedData object for the GameController.
+     *
+     * @param viewSharedData the ViewSharedData object
+     */
     public void setViewSharedData(ViewSharedData viewSharedData) {
         this.viewSharedData = viewSharedData;
     }
 
+    /**
+     * Handles the Submit button action, extracts the word and its parameters, and notifies the player action.
+     *
+     * @throws IOException if an I/O error occurs while loading the board
+     */
     @FXML
     public void Submit() throws IOException {
         int endRow =-1, endCol=-1;
@@ -317,6 +366,10 @@ public class GameController {
 
         playerAction.set("submit" + "," + word + "," + startRow + "," + startCol + "," + vertical);
     }
+
+    /**
+     * Handles the Challenge button action and prompts the player to challenge the dictionary.
+     */
     @FXML
     public void challenge() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -348,6 +401,10 @@ public class GameController {
         });
     }
 
+
+    /**
+     * Handles the Exit button action and prompts the player to confirm the exit.
+     */
     @FXML
     public void exit() {
         boolean isHost = viewSharedData.getHost();
@@ -385,23 +442,36 @@ public class GameController {
         });
     }
 
+    /**
+     * Resets the parameters related to the word.
+     */
     private void resetWordParameters(){
         word = "";
         indexRow.clear();
         indexCol.clear();
     }
 
+    /**
+     * Handles the Swap Tiles button action and notifies the player action to swap tiles.
+     */
     @FXML
     public void SwapTiles() {
         playerAction.set("reset");
         playerAction.set("swapTiles");
     }
+
+    /**
+     * Handles the Skip Turn button action and notifies the player action to skip the turn.
+     */
     @FXML
     public void SkipTurn() {
         playerAction.set("reset");
         playerAction.set("skipTurn");
     }
 
+    /**
+     * Handles the click event on a board cell and allows the player to enter a letter for the cell.
+     */
     public void squareClickHandler() {
         // Run through all the children of boardGridPane
         for (Node node : boardGridPane.getChildren()) {
@@ -468,6 +538,15 @@ public class GameController {
         }
     }
 
+    /**
+     * Performs cell validation check based on the index.
+     *
+     * @param index The index of the cell
+     * @return -2 if the cell is not at the center and the game board is empty,
+     *         -1 if the cell is already occupied,
+     *          0 if the cell is not adjacent to any game board tiles and local game board tiles,
+     *          1 otherwise
+     */
     private int cellValidationCheck(int index){
         int numColumns = GridPane.getColumnIndex(boardGridPane.getChildren().get(index));
         int numRows = GridPane.getRowIndex(boardGridPane.getChildren().get(index));
@@ -479,12 +558,26 @@ public class GameController {
         return 1;
     }
 
+    /**
+     * Checks if the given cell is adjacent to any game board tiles.
+     *
+     * @param i The row index of the cell
+     * @param j The column index of the cell
+     * @return True if the cell is adjacent to any game board tiles, false otherwise
+     */
     private boolean adjacentToGameBoardTiles(int i, int j){
         Board gameBoard = viewSharedData.getViewModel().getModel().getGameData().getBoard();
         return (i-1 > -1 && gameBoard.getTiles()[i-1][j] != null) || (j-1 > -1 && gameBoard.getTiles()[i][j-1] != null)
                 || (j+1 < 15 && gameBoard.getTiles()[i][j+1] != null) || (i+1 < 15 && gameBoard.getTiles()[i+1][j] != null);
     }
 
+    /**
+     * Checks if the given cell is adjacent to any local game board tiles.
+     *
+     * @param i The row index of the cell
+     * @param j The column index of the cell
+     * @return True if the cell is adjacent to any local game board tiles, false otherwise
+     */
     private boolean adjacentInLocalGameBoard(int i, int j){
         for(int k = 0; k < indexCol.size(); k++){
             if((indexRow.get(k) == i && indexCol.get(k) == j-1) || (indexRow.get(k) == i && indexCol.get(k) == j+1)
@@ -495,6 +588,12 @@ public class GameController {
         return false;
     }
 
+    /**
+     * Saves the entered letter and its index.
+     *
+     * @param letter The letter to be saved
+     * @param index The index of the letter in the StackPane
+     */
     // Method to save the entered word, its orientation, and retrieve the column and row index
     private void saveLetterAndIndex(String letter, int index) {
         // Retrieve the column and row index based on the StackPane index within the GridPane
@@ -515,13 +614,21 @@ public class GameController {
         if(word.length() > 1) vertical = (indexRow.get(0) - indexRow.get(1) < 0); //Update vertical
     }
 
+    /**
+     * Starts the game by loading the board and sending the start signal to the server.
+     *
+     * @throws IOException if an I/O error occurs while loading the board
+     */
     @FXML
     public void start() throws IOException{
         loadBoard();
         sendStartToServer();
     }
 
-    //Testing ONLY
+    /**
+     * Sends the start signal to the server.
+     * This method is for testing purposes only.
+     */
     public void sendStartToServer(){
         MySocket initiateServer = null;
         try {
@@ -539,6 +646,12 @@ public class GameController {
         }
     }
 
+    /**
+     * Loads the specified scene.
+     *
+     * @param sceneName The name of the scene to load
+     * @throws IOException if an I/O error occurs while loading the scene
+     */
     @FXML
     public void loadScene(String sceneName) throws IOException {
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(sceneName + ".fxml")));
@@ -573,6 +686,11 @@ public class GameController {
         stage.show();
     }
 
+    /**
+     * Loads the board scene.
+     *
+     * @throws IOException if an I/O error occurs while loading the scene
+     */
     @FXML
     public void loadBoard() throws IOException{
         loadScene("BoardPage");

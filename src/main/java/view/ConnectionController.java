@@ -54,11 +54,17 @@ public class ConnectionController {
         dictionaryChoice = new ChoiceBox<>();
     }
 
+    /**
+     * Sets the options for the choice box based on the available dictionaries.
+     */
     private void setChoiceBoxOptions() {
         dictionaryChoice.getItems().addAll(dictionaries.keySet());
         dictionaryChoice.setOnAction(this::getChoice);
     }
 
+    /**
+     * Initializes the available dictionaries with their corresponding filenames.
+     */
     private void initializeDictionaryOptions() {
         dictionaries = new HashMap<>();
         dictionaries.put("Alice in wonderland", "alice_in_wonderland.txt");
@@ -70,15 +76,27 @@ public class ConnectionController {
         dictionaries.put("The Matrix", "The Matrix.txt");
     }
 
+    /**
+     * Handles the action when a dictionary choice is selected.
+     * @param event The action event triggered by the choice box.
+     */
     private void getChoice(ActionEvent event){
         chosenDictionary = dictionaryChoice.getValue();
     }
 
+    /**
+     * Sets the shared data object for the view.
+     * @param viewSharedData The shared data object to be set.
+     */
     public void setViewSharedData(ViewSharedData viewSharedData) {
         this.viewSharedData = viewSharedData;
     }
 
 
+    /**
+     * Starts the application as a host.
+     * @throws IOException if an I/O error occurs while loading the host room.
+     */
     @FXML
     public void StartAsHost() throws IOException {
         boolean allValid = true;
@@ -115,6 +133,9 @@ public class ConnectionController {
         }
     }
 
+    /**
+     * Checks if the calculation server is already running, and if not, starts a new server.
+     */
     public void checkOrCreateCalculationServer(){
         boolean connectionEstablished = false;
         try {
@@ -131,6 +152,10 @@ public class ConnectionController {
         }
     }
 
+    /**
+     * Starts the application as a guest.
+     * @throws IOException if an I/O error occurs while loading the host room.
+     */
     @FXML
     public void StartAsGuest() throws IOException{
         boolean allValid = true;
@@ -159,6 +184,9 @@ public class ConnectionController {
         }
     }
 
+    /**
+     * Connects to the server with the provided IP, port, and name.
+     */
     public void connectToServer(){
         String ip = ipField.getText();
         int port = Integer.parseInt(portField.getText());
@@ -173,18 +201,38 @@ public class ConnectionController {
         this.viewSharedData.setPlayerName(name);
     }
 
+    /**
+     * Checks if a port number is valid.
+     * @param port The port number to validate.
+     * @return true if the port number is valid, false otherwise.
+     */
     public boolean validPort(String port){
         return port.matches("(1000[1-9]|100[1-9]\\d|10[1-9]\\d{2}|1[1-9]\\d{3}|19999)");
     }
 
+    /**
+     * Checks if an IP address is valid.
+     * @param ip The IP address to validate.
+     * @return true if the IP address is valid, false otherwise.
+     */
     public boolean validIp(String ip){
         return ip.matches("(\\b25[0-5]|\\b2[0-4][0-9]|\\b[01]?[0-9][0-9]?)(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}") || ip.equals("localhost");
     }
 
+    /**
+     * Checks if a name is valid.
+     * @param name The name to validate.
+     * @return true if the name is valid, false otherwise.
+     */
     public boolean validName(String name){
         return name.matches("^[A-Za-z]+$");
     }
 
+    /**
+     * Loads the specified scene into the application.
+     * @param sceneName The name of the scene to load.
+     * @throws IOException if an I/O error occurs while loading the scene.
+     */
     @FXML
     public void loadScene(String sceneName) throws IOException {
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(sceneName + ".fxml")));
@@ -222,31 +270,55 @@ public class ConnectionController {
         stage.show();
     }
 
+    /**
+     * Handles the action when the back button is pressed.
+     * @throws IOException if an I/O error occurs while loading the previous scene.
+     */
     @FXML
     public void Back() throws IOException{
         StartGame();
     }
 
+    /**
+     * Handles the action when the start game button is pressed.
+     * @throws IOException if an I/O error occurs while loading the start game scene.
+     */
     @FXML
     public void StartGame() throws IOException{
         loadScene("StartGame");
     }
 
+    /**
+     * Loads the host form scene.
+     * @throws IOException if an I/O error occurs while loading the host form scene.
+     */
     @FXML
     public void loadHostForm() throws IOException{
         loadScene("HostPage");
     }
 
+    /**
+     * Loads the home page scene.
+     * @throws IOException if an I/O error occurs while loading the home page scene.
+     */
     @FXML
     public void loadHomePage() throws IOException{
         loadScene("HomePage");
     }
 
+    /**
+     * Loads the guest form scene.
+     * @throws IOException if an I/O error occurs while loading the guest form scene.
+     */
     @FXML
     public void loadGuestForm() throws IOException{
         loadScene("GuestPage");
     }
 
+    /**
+     * Loads the waiting host room scene.
+     * @throws IOException if an I/O error occurs while loading the waiting host room scene.
+     */
     @FXML
     public void loadWaitingHostRoom() throws IOException{
         loadScene("WaitingHostRoom");

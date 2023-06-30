@@ -103,16 +103,29 @@ public class ViewModel{ // Later implement ViewModelFacade
         model = null;
     }
 
+    /**
+     * Sets the game manager for the ViewModel.
+     *
+     * @param model The game manager.
+     */
     public void setModel(GameManager model) {
         this.model = model;
         updateViewProperties();
     }
 
+    /**
+     * Retrieves the image path property.
+     *
+     * @return The image path property.
+     */
     public ObjectProperty<String> getImagePath() {
         imagePath = new SimpleObjectProperty<>();
         return imagePath;
     }
 
+    /**
+     * Updates the properties of the view.
+     */
     public void updateViewProperties(){
         updatePlayerNames();
         updatePlayerScores();
@@ -121,6 +134,9 @@ public class ViewModel{ // Later implement ViewModelFacade
         updateBoard();
     }
 
+    /**
+     * Updates the names of the players.
+     */
     public void updatePlayerNames(){
         Platform.runLater(() -> {
             for(int playerId : model.getGameData().getAllPlayers().keySet().stream().sorted().toList()){
@@ -135,6 +151,9 @@ public class ViewModel{ // Later implement ViewModelFacade
         });
     }
 
+    /**
+     * Updates the scores of the players.
+     */
     public void updatePlayerScores(){
         Platform.runLater(() -> {
             for(int playerId : model.getGameData().getAllPlayers().keySet().stream().sorted().toList()){
@@ -143,6 +162,9 @@ public class ViewModel{ // Later implement ViewModelFacade
         });
     }
 
+    /**
+     * Updates the tiles of the current player.
+     */
     public void updatePlayerTiles(){
         Platform.runLater(() -> {
             int i = 0;
@@ -156,6 +178,9 @@ public class ViewModel{ // Later implement ViewModelFacade
         });
     }
 
+    /**
+     * Updates the game board.
+     */
     public void updateBoard(){
         Platform.runLater(() -> {
             int counter = 0;
@@ -178,6 +203,9 @@ public class ViewModel{ // Later implement ViewModelFacade
         });
     }
 
+    /**
+     * Updates the visibility of buttons based on the game state.
+     */
     public void updateButtons(){
         Platform.runLater(() -> {
             if(!getModel().isGameRunning() || model.getTurnManager().getTurnManagerIndex() == -1) return;
@@ -195,7 +223,11 @@ public class ViewModel{ // Later implement ViewModelFacade
     }
 
 
-
+    /**
+     * Retrieves the game manager.
+     *
+     * @return The game manager.
+     */
     public GameManager getModel() {
         return model;
     }

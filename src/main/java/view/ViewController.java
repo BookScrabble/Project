@@ -25,6 +25,11 @@ public class ViewController {
         playerAction = new SimpleStringProperty();
     }
 
+    /**
+     * Sets the shared data for the view.
+     *
+     * @param viewSharedData The shared data object.
+     */
     public void setViewSharedData(ViewSharedData viewSharedData) {
         this.viewSharedData = viewSharedData;
     }
