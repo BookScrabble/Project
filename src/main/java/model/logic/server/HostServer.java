@@ -18,7 +18,7 @@ public class HostServer extends MyServer implements Serializable {
     private final Map<Integer, MySocket> clients;
     private final Map<Integer, MySocket> clientsModelReceiver;
     MyServerSocket server;
-    private boolean gameIsRunning;
+    private volatile boolean gameIsRunning;
     private MyTimer turnTimer;
     private MyTimerTask timerTask;
 
@@ -112,6 +112,7 @@ public class HostServer extends MyServer implements Serializable {
             }
             else{
                 try {
+                    System.out.println("Game is running? -> " + gameIsRunning);
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -142,9 +143,7 @@ public class HostServer extends MyServer implements Serializable {
     @Override
     public void close() {
         Client.serverIsRunning = false;
-
         broadcastUpdate("serverIsClosing");
-
         for(MySocket aClient: clientsModelReceiver.values()){
             try{
                 aClient.getPlayerSocket().close();

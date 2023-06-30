@@ -374,6 +374,11 @@ public class GameController {
         alert.showAndWait().ifPresent(response -> {
             if(response == ButtonType.OK){
                 if(isHost){
+                    /*
+                    TODO - Possible solution for closing problem.
+                    Server will listen for host updates and when host sends he will close everything through the gameManager.(Model)
+                    Making sure to send a message to calculationServer telling him to close.
+                     */
                     viewSharedData.getViewModel().getModel().stopGame();
                     viewSharedData.getCalculationServer().close();
                 }
