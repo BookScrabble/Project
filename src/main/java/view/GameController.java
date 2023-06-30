@@ -217,7 +217,25 @@ public class GameController {
                 case "serverIsClosing" -> {
                     try {loadScoreBoard();} catch (IOException ignored) {}
                 }
+                case "playerDisconnected" -> playerDisconnected();
             }
+        });
+    }
+
+    private void playerDisconnected() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Player disconnected update");
+        alert.setHeaderText(null);
+        alert.setContentText("A player has been disconnected, Updated game data was received.");
+
+        VBox vbox = new VBox();
+        vbox.setAlignment(Pos.CENTER);
+
+        alert.getDialogPane().setExpandableContent(vbox);
+        alert.getDialogPane().setExpanded(true);
+
+        alert.showAndWait().ifPresent(response -> {
+            alert.close();
         });
     }
 
@@ -376,21 +394,24 @@ public class GameController {
         alert.showAndWait().ifPresent(response -> {
             if(response == ButtonType.OK){
                 if(isHost){
-                    /*
-                    TODO - Find how to close all servers and clients when exiting the game.
-                    */
-//                    try {
-//                        loadScoreBoard();
-//                    } catch (IOException ignored) {}
                     closeGame();
                     viewSharedData.getCalculationServer().close();
-                    /*
-                    TODO - Server broadcast to all players to loadScoreBoard.
-                     */
+                }
+                else{
+                    leaveGame();
                 }
             }
             alert.close();
         });
+    }
+
+    private void leaveGame() {
+        try {
+            MySocket socket = new MySocket(new Socket(viewSharedData.getHostIp(), viewSharedData.getHostPort()));
+            PrintWriter printWriter = new PrintWriter(socket.getPlayerSocket().getOutputStream(), true);
+            printWriter.println("playerDisconnected,"+viewSharedData.getPlayer().playerId.get());
+        } catch (IOException ignored) {}
+        Platform.exit();
     }
 
     private void closeGame() {

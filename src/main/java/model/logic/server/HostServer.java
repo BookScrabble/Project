@@ -38,6 +38,8 @@ public class HostServer extends MyServer implements Serializable {
                 try{
                    currentPlayer = clients.get(GameManager.get().getCurrentPlayerID()).getPlayerSocket();
                 } catch(NullPointerException e){
+                    this.cancel();
+                    resetTimerTask();
                     return;
                 }
                 try {
@@ -119,7 +121,16 @@ public class HostServer extends MyServer implements Serializable {
                         resetTimerTask();
                         GameManager.get().stopGame();
                     }
+                    else{
+                        String[] splitted = hostMessage.split(",");
+                        if(splitted[0].equals("playerDisconnected")) {
+                            GameManager.get().removePlayer(Integer.parseInt(splitted[1]));
+                            sendUpdatedModel();
+                            broadcastUpdate("playerDisconnected");
+                        }
+                    }
                 }
+                hostAttempt.getPlayerSocket().close();
             } catch (IOException ignored) {}
             if(timerTask == null || turnTimer == null){
                 timerTask = new MyTimerTask(new ManageTurnTask());

@@ -68,7 +68,6 @@ public class GameManager implements GameHandler,Serializable {
     public void initializeGame(){
         if(turnManager != null) return;
         initializeTurnManager();
-        System.out.println("Clients that are currently playing -> size:  " + this.getGameData().getAllPlayers().size());
     }
 
     /**
@@ -203,6 +202,9 @@ public class GameManager implements GameHandler,Serializable {
     public void swapTiles() {
         Player player = gameData.getPlayer(turnManager.getCurrentPlayerTurn());
         if(player != null){
+            for(Tile t : player.getAllTiles()){
+                Tile.Bag.getBag().put(t);
+            }
             player.setTiles(new ArrayList<>());
             fillHand(player);
         }
