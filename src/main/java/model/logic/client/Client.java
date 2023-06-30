@@ -113,6 +113,7 @@ public class Client {
 
     public void closeEverything() {
         try {
+            messageFromHost.setValue("serverIsClosing");
             this.server.close();
         }
         catch (IOException ignored) {}

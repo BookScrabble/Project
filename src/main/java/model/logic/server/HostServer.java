@@ -1,6 +1,5 @@
 package model.logic.server;
 
-import model.logic.client.Client;
 import model.logic.client.ClientHandler;
 import model.logic.host.GameManager;
 import model.logic.host.MySocket;
@@ -112,7 +111,6 @@ public class HostServer extends MyServer implements Serializable {
             }
             else{
                 try {
-                    System.out.println("Game is running? -> " + gameIsRunning);
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -142,9 +140,15 @@ public class HostServer extends MyServer implements Serializable {
 
     @Override
     public void close() {
-        Client.serverIsRunning = false;
         broadcastUpdate("serverIsClosing");
         for(MySocket aClient: clientsModelReceiver.values()){
+            try{
+                aClient.getPlayerSocket().close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        for(MySocket aClient: clients.values()){
             try{
                 aClient.getPlayerSocket().close();
             } catch (IOException e) {

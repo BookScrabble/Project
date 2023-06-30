@@ -82,7 +82,6 @@ public class GameManager implements GameHandler,Serializable {
         for(Player player : this.gameData.getAllPlayers().values()){
             fillHand(player);
         }
-        //updateGuests("tiles");
         this.host.startGame();
     }
 

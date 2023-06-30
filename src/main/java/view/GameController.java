@@ -20,13 +20,16 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.logic.host.MySocket;
 import model.logic.host.data.Board;
+import model.logic.host.data.Player;
 import view.data.ViewSharedData;
 import viewModel.ViewModel;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GameController {
     String word;
@@ -88,8 +91,6 @@ public class GameController {
     StringProperty playerAction;
     StringProperty messageFromHost;
 
-    //Properties:
-
 
     public GameController(){
         this.word = "";
@@ -98,7 +99,7 @@ public class GameController {
         this.indexRow = new ArrayList<>();
         this.indexCol = new ArrayList<>();
         this.startGame = new Button();
-        playerAction = new SimpleStringProperty();
+        this.playerAction = new SimpleStringProperty();
         initiatePlayerName();
         initiatePlayerScore();
         initiatePlayerTiles();
@@ -213,10 +214,12 @@ public class GameController {
                     viewSharedData.getViewModel().updateViewProperties();
                     System.out.println("challenge accepted");
                 }
+                case "serverIsClosing" -> {
+                    try {loadScoreBoard();} catch (IOException ignored) {}
+                }
             }
         });
     }
-
 
     public void bindAll(){
         ViewModel viewModel = this.viewSharedData.getViewModel();
@@ -375,16 +378,17 @@ public class GameController {
             if(response == ButtonType.OK){
                 if(isHost){
                     /*
-                    TODO - Possible solution for closing problem.
-                    Server will listen for host updates and when host sends he will close everything through the gameManager.(Model)
-                    Making sure to send a message to calculationServer telling him to close.
+                    TODO - Find how to close all servers and clients when exiting the game.
+                    */
+                    try {
+                        loadScoreBoard();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    /*
+                    TODO - Server broadcast to all players to loadScoreBoard.
                      */
-                    viewSharedData.getViewModel().getModel().stopGame();
-                    viewSharedData.getCalculationServer().close();
                 }
-                viewSharedData.getPlayer().closeEverything();
-                viewSharedData.closeModelReceiver();
-                Platform.exit();
             }
             alert.close();
         });
@@ -552,10 +556,12 @@ public class GameController {
         ViewController viewController = null;
         ConnectionController connectionController = null;
         GameController gameController = null;
+        EndGameController endGameController = null;
         switch(sceneName){
             case "HomePage" -> viewController = loader.getController();
             case "HostPage", "GuestPage", "StartGame" -> connectionController = loader.getController();
             case "BoardPage" -> gameController = loader.getController();
+            case "ScoreBoardPage" -> endGameController = loader.getController();
         }
 
         if(viewController != null) viewController.setViewSharedData(this.viewSharedData);
@@ -567,6 +573,14 @@ public class GameController {
             gameController.initializeHostAction();
             gameController.initializeBoardUpdateAction();
         }
+        else if(endGameController != null){
+            endGameController.setViewSharedData(this.viewSharedData);
+        }
+//        else if(gameController != null){
+//            gameController.setViewSharedData(this.viewSharedData);
+//            gameController.initializeScoreBoardPage();
+//            gameController.updateScoreBoardPage();
+//        }
 
         Stage stage = BookScrabbleApplication.getPrimaryStage();
         Scene scene = null;
@@ -578,8 +592,56 @@ public class GameController {
         stage.show();
     }
 
+//    private void initializeScoreBoardPage() {
+//        scoreBoardP1Name = new Label();
+//        scoreBoardP2Name = new Label();
+//        scoreBoardP3Name = new Label();
+//        scoreBoardP4Name = new Label();
+//        scoreBoardNames.add(scoreBoardP1Name);
+//        scoreBoardNames.add(scoreBoardP2Name);
+//        scoreBoardNames.add(scoreBoardP3Name);
+//        scoreBoardNames.add(scoreBoardP4Name);
+//
+//        scoreBoardP1Score = new Label();
+//        scoreBoardP2Score = new Label();
+//        scoreBoardP3Score = new Label();
+//        scoreBoardP4Score = new Label();
+//        scoreBoardScores.add(scoreBoardP1Score);
+//        scoreBoardScores.add(scoreBoardP2Score);
+//        scoreBoardScores.add(scoreBoardP3Score);
+//        scoreBoardScores.add(scoreBoardP4Score);
+//
+//        scoreBoardWinnerName = new Label();
+//
+//    }
+//
+//    private void updateScoreBoardPage() {
+//        Map<Integer, Player> players = viewSharedData.getViewModel().getModel().getGameData().getAllPlayers();
+//        List<Integer> sortedKeys = players.keySet().stream()
+//                .sorted((firstKey, secondKey) -> players.get(secondKey).getScore() - players.get(firstKey).getScore())
+//                .collect(Collectors.toCollection(ArrayList::new));
+//        int currentIndex;
+//        for(int i = 0; i < 4; i++) {
+//            if (i < sortedKeys.size()) {
+//                System.out.println("updating score for playerId -> " + (i+1));
+//                currentIndex = sortedKeys.get(i);
+//                scoreBoardNames.get(i).setText(players.get(currentIndex).getName());
+//                scoreBoardScores.get(i).setText(String.valueOf(players.get(currentIndex).getScore()));
+//            }
+//            else{
+//                scoreBoardNames.get(i).setText("");
+//                scoreBoardScores.get(i).setText("");
+//            }
+//        }
+//        scoreBoardWinnerName.setText(scoreBoardNames.get(0).getText());
+//    }
+
     @FXML
     public void loadBoard() throws IOException{
         loadScene("BoardPage");
+    }
+
+    private void loadScoreBoard() throws IOException{
+        loadScene("ScoreBoardPage");
     }
 }
