@@ -4,7 +4,6 @@ import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -20,16 +19,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.logic.host.MySocket;
 import model.logic.host.data.Board;
-import model.logic.host.data.Player;
 import view.data.ViewSharedData;
 import viewModel.ViewModel;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class GameController {
     String word;
@@ -92,6 +88,12 @@ public class GameController {
     StringProperty messageFromHost;
 
 
+    /**
+     * The GameController function is the main function that controls all the game's logic.
+     * It takes in a String word, an ArrayList&lt;Integer&gt; indexRow, and an ArrayList&lt;Integer&gt; indexCol as parameters.
+     * The GameController function then checks if the word is valid by calling on checkWord() from WordChecker class.
+     * If it is valid, it will call on updateBoard() from Board class to update board with new tiles and score for player who played that turn.
+     */
     public GameController(){
         this.word = "";
         this.vertical = false;
@@ -106,6 +108,10 @@ public class GameController {
         initiatePlayerButton();
     }
 
+    /**
+     * The initiatePlayerTiles function is used to initialize the player's tiles.
+     * It sets the image of each tile to a blank tile, and then adds them all to an array list.
+     */
     private void initiatePlayerTiles() {
         firstTile = new ImageView();
         secondTile = new ImageView();
@@ -116,6 +122,9 @@ public class GameController {
         sevenTile = new ImageView();
     }
 
+    /**
+     * The initiatePlayerName function is used to create the labels for each player's name.
+     */
     public void initiatePlayerName(){
         firstPlayerName = new Label();
         secondPlayerName = new Label();
@@ -123,6 +132,9 @@ public class GameController {
         fourthPlayerName = new Label();
     }
 
+    /**
+     * The initiatePlayerScore function creates the labels for each player's score.
+     */
     public void initiatePlayerScore(){
         firstPlayerScore = new Label();
         secondPlayerScore = new Label();
@@ -130,16 +142,29 @@ public class GameController {
         fourthPlayerScore = new Label();
     }
 
+    /**
+     * The initiatePlayerButton function creates the buttons that will be used in the game.
+     */
     public void initiatePlayerButton(){
         swap = new Button();
         submit = new Button();
         skipTurn = new Button();
     }
 
+    /**
+     * The toggleStartButton function is used to toggle the visibility of the startGame button.
+     * This function is called when a game has ended, and it allows for another game to be started.
+     */
     public void toggleStartButton(){
         startGame.setVisible(true);
     }
 
+    /**
+     * The initializeHostAction function is called in the initialize function of the GameController class.
+     * It sets up a listener for changes to the messageFromHost property of a player object, which is used by
+     * players to communicate with each other and with their host. The listener calls handleHostAction when it detects
+     * that there has been an update to this property, passing along whatever new value was assigned to it as an argument.
+     */
     public void initializeHostAction(){
         SimpleStringProperty test = new SimpleStringProperty();
         StringProperty newMessageFromHost = viewSharedData.getPlayer().getMessageFromHost();
@@ -150,6 +175,11 @@ public class GameController {
         messageFromHost = test;
     }
 
+    /**
+     * The initializeBoardUpdateAction function is responsible for updating the board whenever a new image is selected.
+     * It does this by binding the imagePath property to the viewSharedData's ViewModel's ImagePath property, and then adding a listener to that bound property.
+     * Whenever there is an update in that bound property, it calls updateBoardCellImage with whatever new value was passed into it as an argument.
+     */
     public void initializeBoardUpdateAction(){
         imagePath = new SimpleStringProperty();
         ObjectProperty<String> newImagePath = viewSharedData.getViewModel().getImagePath();
@@ -159,6 +189,10 @@ public class GameController {
         }));
     }
 
+    /**
+     * The updateBoardCellImage function is used to update the image of a cell on the board.
+     * @param newAction newAction Update the board cell image
+     */
     public void updateBoardCellImage(String newAction){
         String[] trimmed = newAction.split(",");
         int index = Integer.parseInt(trimmed[0]);
@@ -186,6 +220,12 @@ public class GameController {
         label.setVisible(false);
     }
 
+    /**
+     * The handleHostAction function is a function that handles the actions sent from the host.
+     * The function receives an action string and performs a switch case on it, performing different
+     * actions depending on what action was received.
+     * @param action action Determine which action to take
+     */
     public void handleHostAction(String action){
         Platform.runLater(() -> {
             switch(action){

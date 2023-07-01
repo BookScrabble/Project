@@ -41,10 +41,17 @@ public class EndGameController{
 
     ViewSharedData viewSharedData;
 
+    /**
+     * The EndGameController function is a constructor that initializes the EndGameController class.
+     */
     public EndGameController(){
 
     }
 
+    /**
+     * The initializeLabels function initializes the scoreBoardNames and scoreBoardScores ArrayLists.
+     * The initializeLabels function also adds the labels for each player's name and score to their respective ArrayList.
+     */
     public void initializeLabels() {
         scoreBoardNames = new ArrayList<>();
         scoreBoardScores = new ArrayList<>();
@@ -60,6 +67,11 @@ public class EndGameController{
         scoreBoardScores.add(scoreBoardP4Score);
     }
 
+    /**
+     * The updateScoreBoardPage function is called when the game ends. It updates the score board page with
+     * all the players' names and scores, sorted by highest to lowest score. If there are less than 4 players,
+     * then it will leave some of the fields blank. The winner's name is also displayed on this page as well.
+     */
     public void updateScoreBoardPage() {
         Map<Integer, Player> players = viewSharedData.getViewModel().getModel().getGameData().getAllPlayers();
         List<Integer> sortedKeys = players.keySet().stream()
@@ -80,16 +92,23 @@ public class EndGameController{
         scoreBoardWinnerName.setText(scoreBoardNames.get(0).getText());
     }
 
+    /**
+     * The setViewSharedData function is used to set the viewSharedData variable in this class.
+     * This function is called by the controller when it creates a new instance of this class.
+     * The purpose of setting the viewSharedData variable in this class is so that we can access
+     * all of its functions and variables from within our ScoreBoardPageController class, which
+     * allows us to update our scoreboard page with information about each player's score and name.
+     * @param viewSharedData viewSharedData Set the viewSharedData variable to the parameter
+     */
     public void setViewSharedData(ViewSharedData viewSharedData) {
         this.viewSharedData = viewSharedData;
         initializeLabels();
         updateScoreBoardPage();
     }
 
-    public ViewSharedData getViewSharedData() {
-        return viewSharedData;
-    }
-
+    /**
+     * The exitScoreBoardPage function is a function that exits the scoreboard page.
+     */
     @FXML
     private void exitScoreBoardPage(){
         Platform.exit();

@@ -39,6 +39,11 @@ public class HostServer extends MyServer implements Serializable {
      * Manage each guest turn, update models and if player is found initiate clientHandler.
      */
     public class ManageTurnTask extends TimerTask{
+        /**
+         * The run function is called when the timer task is executed.
+         * It creates a new thread that sends the updated model to all clients,
+         * then it gets the current player's socket and calls handleClient on it.
+         */
         @Override
         public void run() {
             new Thread(() -> {

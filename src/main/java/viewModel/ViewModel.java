@@ -49,6 +49,10 @@ public class ViewModel{ // Later implement ViewModelFacade
     //Other parameters:...
     GameManager model; //Game status
 
+    /**
+     * The ViewModel function is the constructor of the ViewModel class.
+     * It initializes all the properties that are used in this class, and it also adds them to their respective lists.
+     */
     public ViewModel(){
         playersNames = new ArrayList<>();
         playersScores = new ArrayList<>();
@@ -103,16 +107,28 @@ public class ViewModel{ // Later implement ViewModelFacade
         model = null;
     }
 
+    /**
+     * The setModel function is used to set the model of the view.
+     * @param model model Set the model for this view
+     */
     public void setModel(GameManager model) {
         this.model = model;
         updateViewProperties();
     }
 
+    /**
+     * The getImagePath function returns the imagePath property.
+     * @return A stringProperty
+     */
     public ObjectProperty<String> getImagePath() {
         imagePath = new SimpleObjectProperty<>();
         return imagePath;
     }
 
+    /**
+     * The updateViewProperties function updates the view properties of the game.
+     * It calls all the update functions for each property that needs to be updated.
+     */
     public void updateViewProperties(){
         updatePlayerNames();
         updatePlayerScores();
@@ -121,6 +137,10 @@ public class ViewModel{ // Later implement ViewModelFacade
         updateBoard();
     }
 
+    /**
+     * The updatePlayerNames function updates the player names in the GUI.
+     * It is called whenever a new player joins or leaves, and when a game starts.
+     */
     public void updatePlayerNames(){
         Platform.runLater(() -> {
             for(int playerId : model.getGameData().getAllPlayers().keySet().stream().sorted().toList()){
@@ -135,6 +155,10 @@ public class ViewModel{ // Later implement ViewModelFacade
         });
     }
 
+    /**
+     * The updatePlayerScores function updates the player scores in the GUI.
+     * It is called whenever a player's score changes, and it updates all the players' scores.
+     */
     public void updatePlayerScores(){
         Platform.runLater(() -> {
             for(int playerId : model.getGameData().getAllPlayers().keySet().stream().sorted().toList()){
@@ -143,6 +167,13 @@ public class ViewModel{ // Later implement ViewModelFacade
         });
     }
 
+    /**
+     * The updatePlayerTiles function is used to update the tiles that are displayed on the screen.
+     * It does this by iterating through all the tiles in a player's hand and setting their image
+     * to be an image of that tile. This function is called whenever a player makes a move, or when they
+     * draw new tiles from the bag. The reason it uses Platform.runLater() is because it needs to run on
+     * JavaFx's thread, not its own thread (which would cause errors). This function also checks if there are any null values in order to prevent errors from occurring when players leave mid-game and their data
+     */
     public void updatePlayerTiles(){
         Platform.runLater(() -> {
             int i = 0;
@@ -156,6 +187,11 @@ public class ViewModel{ // Later implement ViewModelFacade
         });
     }
 
+    /**
+     * The updateBoard function is called whenever the board needs to be updated.
+     * This function will update the imagePath property of each tile in the gameBoard,
+     * which will then cause a change listener to fire and update all the images on screen.
+     */
     public void updateBoard(){
         Platform.runLater(() -> {
             int counter = 0;
@@ -178,6 +214,10 @@ public class ViewModel{ // Later implement ViewModelFacade
         });
     }
 
+    /**
+     * The updateButtons function is called whenever the game state changes.
+     * It updates the visibility of buttons on the screen depending on whether it is a player's turn, and if so, which player's turn it is.
+     */
     public void updateButtons(){
         Platform.runLater(() -> {
             if(!getModel().isGameRunning() || model.getTurnManager().getTurnManagerIndex() == -1) return;
@@ -194,8 +234,10 @@ public class ViewModel{ // Later implement ViewModelFacade
         });
     }
 
-
-
+    /**
+     * The getModel function returns the GameManager object that is being used by the controller.
+     * @return The model
+     */
     public GameManager getModel() {
         return model;
     }
