@@ -1,0 +1,11 @@
+module:view.bookscrabble
+model.logic.client
+model.logic.host
+model.logic.host.data
+model.logic.server
+model.logic.server.dictionary
+test
+test.testBackend
+view
+view.data
+viewModel
