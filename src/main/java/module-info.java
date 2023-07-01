@@ -6,4 +6,10 @@ module view.bookscrabble {
 
     opens view to javafx.fxml;
     exports view;
+    exports model.logic.client;
+    exports model.logic.host;
+    exports model.logic.server;
+    exports viewModel;
+
+
 }
