@@ -17,10 +17,19 @@ public class Board implements Serializable {
     private final ArrayList<Word> foundWords = new ArrayList<>();
 
 
+    /**
+     * The Board function initializes the boardScores array to contain all zeros.
+     */
     private Board() {
         initBoardScores();
     }
 
+    /**
+     * The getBoard function is a static function that returns the single instance of the Board class.
+     * This is used to ensure that there are no multiple instances of the board, and thus no confusion
+     * about which board we are referring to when we call functions on it.
+     * @return A singleton instance of the board class
+     */
     public static Board getBoard() {
         if (single_instance == null)
             single_instance = new Board();
@@ -28,12 +37,8 @@ public class Board implements Serializable {
     }
 
     /**
-     * the board has special scores for different indexes, this function initializes special scores locations according to:
-     * location on the board: "xxyy" with xx being the row and yy being the column.
-     * 2W = double word score
-     * 3W = triple word score
-     * 2L = double letter score
-     * 3L = triple letter score
+     * The initBoardScores function initializes the boardScores HashMap with all the
+     * possible positions on a Scrabble board and their corresponding scores.
      */
     private void initBoardScores() {
         //STAR BLOCK
@@ -108,11 +113,14 @@ public class Board implements Serializable {
         boardScores.put("1114", "2L");
     }
 
+
     /**
-     * @details This function returns the score of a word according to the tiles it's composed of.
-     * The function checks each tile to see if it's on a special board index, and updates the score accordingly.
-     * @param word word
-     * @return score total for all the tiles.
+     * The getScore function takes a Word object as an argument and returns the score of that word.
+     * The function iterates through each tile in the word, checking if it is on a double or triple letter square.
+     * If so, it multiplies the score of that tile by 2 or 3 respectively. It also checks if any tiles are on double
+     * or triple word squares and multiplies the total score by 2 or 3 respectively for each one found. Finally, it adds up all of these scores to get a final value which is returned at the end of this function.
+     * @param word word Get the row and column of the word
+     * @return The score of the word played
      */
     private int getScore(Word word) {
         int row = word.getRow();
@@ -154,11 +162,12 @@ public class Board implements Serializable {
         return score;
     }
 
+
     /**
-     * @details This function is used to create the string representation of a board location.
-     * @param r row
-     * @param c column
-     * @return returns a string in the shape of "xxyy" with xx being row and yy being column.
+     * The getBoardRefString function takes in a row and column number, and returns the corresponding board reference string.
+     * @param r r Represent the row of a cell on the board
+     * @param c c Determine the column of the board
+     * @return A string with the row and column numbers
      */
     private String getBoardRefString(int r, int c) {
         String row, col;
@@ -174,8 +183,10 @@ public class Board implements Serializable {
         return row + col;
     }
 
+
     /**
-     * @return returns a 2d array copy of the board with the tiles that are currently placed.
+     * The getTiles function returns a copy of the board.
+     * @return A copy of the board
      */
     public Tile[][] getTiles() {
         Tile[][] boardCopy = new Tile[BOARD_HEIGHT][BOARD_WIDTH];
@@ -185,25 +196,24 @@ public class Board implements Serializable {
         return boardCopy;
     }
 
+
     /**
-     * This function checks if a word is legal - basically checks if a word can be placed on the board.
-     *
-     * @param word word
-     * @return true / false
+     * The boardLegal function checks if a word is legal to be placed on the board.
+     * If the board is empty, then it must go on the star square and stay in bounds.
+     * If not, then it must be in bounds and have an adjacent or overlapping tile.
+     * @param word word Check if the word is in bounds
+     * @return True if the board is empty and the word is on the star square
      */
     public boolean boardLegal(Word word) {
-        // If board is empty, the word must go on the star square but has to also stay in bounds.
         if (isBoardEmpty() && isWordOnStarSquare(word) && wordIsInBounds(word))
             return true;
-
-        // If the board isn't empty, the word must be in bounds and have an adjacent or overlapping tile.
-        // We must also check that there is no need to change any tiles.
         return wordIsInBounds(word) && wordHasAdjacentOrOverlappingTile(word) && noChangeOfTilesNeeded(word);
     }
 
+
     /**
-     * @details Checks if the board is empty or has any tiles on it
-     * @return true once a tile was found, false otherwise
+     * The isBoardEmpty function checks to see if the board is empty.
+     * @return True if the board is empty and false otherwise
      */
     private boolean isBoardEmpty() {
         for (int i = 0; i < BOARD_WIDTH; i++) {
@@ -215,10 +225,11 @@ public class Board implements Serializable {
         return true;
     }
 
+
     /**
-     * @details This function checks if a word will be on the star square.
-     * @param word word
-     * @return true / false accordingly.
+     * The isWordOnStarSquare function checks to see if the word is on a star square.
+     * @param word word Get the row and column of the word, as well as its length
+     * @return True if the word is on the star square
      */
     private boolean isWordOnStarSquare(Word word) {
         int wordLength = word.getTiles().length;
@@ -232,10 +243,11 @@ public class Board implements Serializable {
         return false;
     }
 
+
     /**
-     * @details Checks if the word within the boundaries of the board.
-     * @param word word
-     * @return true / false accordingly.
+     * The wordIsInBounds function checks to see if the word is within the bounds of the board.
+     * @param word word Access the row and column of the word, as well as its length
+     * @return True if the word is within the bounds of the board
      */
     private boolean wordIsInBounds(Word word) {
         if (word.allTilesAreNulls())
@@ -253,10 +265,11 @@ public class Board implements Serializable {
             return word.getCol() + wordLength <= BOARD_WIDTH;
     }
 
+
     /**
-     * @details Checks if the word has an adjacent or overlapping tile
-     * @param word word
-     * @return true / false
+     * The wordHasAdjacentOrOverlappingTile function checks if the word has an adjacent or overlapping tile.
+     * @param word word Determine if the word is vertical or horizontal
+     * @return True if the word has
      */
     private boolean wordHasAdjacentOrOverlappingTile(Word word) {
         if (word.isVertical())
@@ -265,10 +278,11 @@ public class Board implements Serializable {
             return checkAdjacencyForHorizontal(word);
     }
 
+
     /**
-     * @details Checks if the word has an adjacent tile anywhere
-     * @param word word
-     * @return true / false
+     * The checkAdjacencyForVertical function checks if the word has any adjacent tiles in a vertical direction.
+     * @param word word Get the row and column of the word
+     * @return True if the word has an adjacent tile from above or below
      */
     private boolean checkAdjacencyForVertical(Word word) {
         int row = word.getRow();
@@ -304,10 +318,11 @@ public class Board implements Serializable {
         return false;
     }
 
+
     /**
-     * @details Checks if the word has an adjacent tile anywhere
-     * @param word word
-     * @return true / false
+     * The checkAdjacencyForHorizontal function checks if the word has any adjacent tiles from the left, right, above or below.
+     * @param word word Get the row and column of the word
+     * @return True if the word has an adjacent tile from the left, right or above/below
      */
     private boolean checkAdjacencyForHorizontal(Word word) {
         int row = word.getRow();
@@ -343,10 +358,14 @@ public class Board implements Serializable {
         return false;
     }
 
+
     /**
-     * @details Checks if the word doesn't need to change a tile to be added.
-     * @param word word
-     * @return true / false accordingly.
+     * The noChangeOfTilesNeeded function checks if the word that is being added to the board
+     * will change any of the tiles on the board. If it does, then we know that this word can be
+     * added to our list of words. If not, then we know that this word cannot be added because it
+     * would not change anything on our current board and therefore would not give us a new state.
+     * @param word word Pass the word to be added to the board
+     * @return True if the word is placed on the board without changing any tiles
      */
     private boolean noChangeOfTilesNeeded(Word word) {
         Tile[][] boardCopy = getTiles();
@@ -378,10 +397,11 @@ public class Board implements Serializable {
         return wordLength != countOfSameLetters;
     }
 
+
     /**
-     * @details Checks if the word is legal in the dictionary
-     * @param word word
-     * @return true / false
+     * The dictionaryLegal function checks if the word is in the dictionary.
+     * @param word word Pass in the word that is being checked
+     * @return True if the word is in the dictionary and false otherwise
      */
     public boolean dictionaryLegal(Word word) {
         GameManager gameManager = GameManager.get();
@@ -389,10 +409,16 @@ public class Board implements Serializable {
         return result.equals("true");
     }
 
+
     /**
-     * @details Creates an arraylist of the newly created words from the placed word.
-     * @param word word
-     * @return returns the arraylist of the new words.
+     * The getWords function takes in a word and returns an ArrayList of all the words that can be formed
+     * by adding to the given word. It does this by checking if there are any tiles on the board, and if so,
+     * it checks whether they form a complete word with what has already been written. If so, it adds
+     * that complete word to an ArrayList of words. Then it finds all other new words created by adding more letters
+     * to existing ones (or creating new ones) and adds them as well. Finally, it returns this list of newly found
+     * words for use elsewhere in
+     * @param word word Find the word that is currently being written
+     * @return An arraylist of words
      */
     private ArrayList<Word> getWords(Word word) {
         ArrayList<Word> newWords = new ArrayList<>();
@@ -422,10 +448,11 @@ public class Board implements Serializable {
         return newWords;
     }
 
+
     /**
-     * @details Checks if the word is complete or has a null tile anywhere
-     * @param word word
-     * @return true / false
+     * The isWordComplete function checks to see if the word is complete.
+     * @param word word Access the tiles array in word
+     * @return True if the word is complete, and false otherwise
      */
     private boolean isWordComplete(Word word) {
         int wordLength = word.getTiles().length;
@@ -436,11 +463,12 @@ public class Board implements Serializable {
         return true;
     }
 
+
     /**
-     * @details This function will be used with getWords function.
-     * It will add all the newly formed words around the added word.
-     * @param word  word
-     * @param words arraylist for the new words.
+     * The findNewWords function takes in a Word object and an ArrayList of Words.
+     * It then checks if the word is vertical or horizontal, and calls the appropriate function to find new words.
+     * @param word word Determine if the word is vertical or horizontal
+     * @param words&lt;Word&gt; words Store the new words found
      */
     private void findNewWords(Word word, ArrayList<Word> words) {
         if (word.isVertical())
@@ -450,11 +478,13 @@ public class Board implements Serializable {
             findVerticalNewWords(word, words);
     }
 
+
     /**
-     * @details This function finds all the new words that were created around the placement of a new word.
-     * Used for a vertical word to find horizontal new words.
-     * @param word  word
-     * @param words arraylist of new words
+     * The findHorizontalNewWords function takes in a Word object and an ArrayList of Words.
+     * It then creates a copy of the board, adds the given word to it, and checks for new words that are formed horizontally.
+     * If any new words are found, they are added to the ArrayList of Words.
+     * @param word word Add the word to the board-copy
+     * @param words&lt;Word&gt; words Store the new words found
      */
     private void findHorizontalNewWords(Word word, ArrayList<Word> words) {
         Tile[][] boardCopy = getTiles();
@@ -480,9 +510,7 @@ public class Board implements Serializable {
             }
             if (length > 1) {
                 Tile[] tiles = new Tile[length];
-                for (int k = 0; k < length; k++) {
-                    tiles[k] = boardCopy[row + i][wordStart + k];
-                }
+                System.arraycopy(boardCopy[row + i], wordStart, tiles, 0, length);
                 Word newWord = new Word(tiles, row + i, wordStart, false);
                 if (!wordWasAlreadyFound(newWord)) {
                     words.add(newWord);
@@ -492,10 +520,11 @@ public class Board implements Serializable {
     }
 
     /**
-     * @details This function finds all the new words that were created around the placement of a new word.
-     * Used for a horizontal word to find vertical new words.
-     * @param word  word
-     * @param words new words
+     * The findVerticalNewWords function takes in a Word object and an ArrayList of Words.
+     * It then creates a copy of the board, adds the given word to it, and checks for new words that are formed vertically.
+     * If any new words are found, they are added to the ArrayList of Words.
+     * @param word word Add the word to the board
+     * @param words&lt;Word&gt; words Store the new words found
      */
     private void findVerticalNewWords(Word word, ArrayList<Word> words) {
         Tile[][] boardCopy = getTiles();
@@ -532,10 +561,15 @@ public class Board implements Serializable {
         }
     }
 
+
     /**
-     * @details Checks if a word is in the foundWords arraylist to see if it had been previously found.
-     * @param word word
-     * @return true / false
+     * The wordWasAlreadyFound function checks to see if the word that was just found has already been found.
+     * It does this by checking the row, column, and length of each word in the list of words that have already been found.
+     * If a match is made between any of these three values for two different words, then it returns true because we know
+     * that one or more letters from those two words are overlapping. This function is called after every new word is added to
+     * our list of foundWords, so we can make sure no duplicates are being added to our list.
+     * @param word word Get the row, col and length of the word
+     * @return True if the word has already been found
      */
     private boolean wordWasAlreadyFound(Word word) {
         int row = word.getRow();
@@ -550,11 +584,15 @@ public class Board implements Serializable {
         return false;
     }
 
+
     /**
-     * @details Completes a word that has a null tile somewhere by checking the board to see
-     * if there is a tile in the corresponding place.
-     * @param word word
-     * @return the word with the board values for where the word had a tile that was null.
+     * The findCompleteWord function takes in a Word object and returns the same Word object with its Tile array
+     * filled out. If the word is vertical, it will fill out each tile from top to bottom. If horizontal, it will
+     * fill out each tile from left to right. This function is used when we want to find all possible words that can be made
+     * on the board given a certain set of tiles (i.e., rack). It allows us to check if any of those words are valid by
+     * checking if they are contained in our dictionary or not (see findValidWords function).
+     * @param word word Get the row and column of the word
+     * @return A word object that has the same row and column as the inputted word, but with a new tiles array
      */
     private Word findCompleteWord(Word word) {
         int row = word.getRow();
@@ -580,10 +618,14 @@ public class Board implements Serializable {
         return word;
     }
 
+
     /**
-     * @details Tries to place the word in the board and returns the score the move.
-     * @param newWord new word to place
-     * @return total score of the word + score of the additional words that were created.
+     * The tryPlaceWord function takes a Word object as an argument and returns an integer.
+     * The function checks if the word can be placed on the board, and if it can, adds it to the board.
+     * If not, then - 1 is returned. If there are words created by placing this new word on the board that are not in our dictionary, 0 is returned.
+     * Otherwise, we return a score for how many points were earned by placing this new word on our game-board (the sum of all scores of all words created).
+     * @param newWord newWord Pass the word that is being placed on the board
+     * @return - 1 if the word cannot be placed on the board
      */
     public int tryPlaceWord(Word newWord) {
         if (!boardLegal(newWord))
@@ -603,8 +645,9 @@ public class Board implements Serializable {
         return score;
     }
 
+
     /**
-     * @details Helper method for model testing/debug, Prints board to console as a matrix grid.
+     * The printBoard function prints the board to the console.
      */
     public void printBoard() {
         for (int i = 0; i < BOARD_WIDTH; i++) {
@@ -619,10 +662,12 @@ public class Board implements Serializable {
         System.out.println();
     }
 
+
     /**
-     * @details This function adds a word to the board.
-     * @param word  word
-     * @param board board
+     * The addWordToBoard function takes a Word object and a Tile[][] board as parameters.
+     * It then adds the tiles of the word to the board, depending on whether it is vertical or horizontal.
+     * @param word word Get the row, column and tiles of the word
+     * @param board board Represent the board
      */
     private void addWordToBoard(Word word, Tile[][] board) {
         int row = word.getRow();

@@ -65,11 +65,9 @@ public class EndGameController{
         List<Integer> sortedKeys = players.keySet().stream()
                 .sorted((firstKey, secondKey) -> players.get(secondKey).getScore() - players.get(firstKey).getScore())
                 .collect(Collectors.toCollection(ArrayList::new));
-        System.out.println("sorted keys -> " + sortedKeys);
         int currentIndex;
         for(int i = 0; i < 4; i++) {
             if (i < sortedKeys.size()) {
-                System.out.println("updating score for playerId -> " + (i+1));
                 currentIndex = sortedKeys.get(i);
                 scoreBoardNames.get(i).setText(players.get(currentIndex).getName());
                 scoreBoardScores.get(i).setText(String.valueOf(players.get(currentIndex).getScore()));
@@ -84,8 +82,6 @@ public class EndGameController{
 
     public void setViewSharedData(ViewSharedData viewSharedData) {
         this.viewSharedData = viewSharedData;
-        System.out.println("Players -> " + viewSharedData.getViewModel().getModel().getGameData().getAllPlayers().values());
-        scoreBoardWinnerName.setText(viewSharedData.getViewModel().getModel().getGameData().getPlayer(1).getName());
         initializeLabels();
         updateScoreBoardPage();
     }

@@ -8,16 +8,22 @@ public class DictionaryManager {
     private static DictionaryManager single_instance = null;
     private final Map<String, Dictionary> map = new HashMap<>();
 
+
     /**
-     * The DictionaryManager class provides a Singleton object that manages multiple dictionaries.
+     * The DictionaryManager function is a singleton class that manages the dictionary.
+     * It has two functions: loadDictionary and getInstance.
+     * The loadDictionary function loads the dictionary from a file into an ArrayList of Strings,
+     * which is then used to create a HashSet of Strings for faster lookup times.
+     * The getInstance function returns an instance of DictionaryManager if one does not already exist, or it returns the existing instance if one does exist.
      */
     private DictionaryManager() {
     }
 
+
     /**
-     Provides access to the single instance of the DictionaryManager class.
-     If the instance does not exist yet, it is created.
-     @return the single instance of the DictionaryManager
+     * The get function is a static function that returns the singleton instance of the DictionaryManager class.
+     * If no instance exists, it creates one and then returns it.
+     * @return The singleton instance of the dictionary manager
      */
     public static DictionaryManager get() {
         if (single_instance == null)
@@ -25,11 +31,16 @@ public class DictionaryManager {
         return single_instance;
     }
 
+
     /**
-     Queries multiple dictionaries for the presence of a given word.
-     @param args a variable number of String arguments representing the names of dictionaries to query and the word
-     to search for.
-     @return true if the word is found in at least one dictionary, false otherwise
+     * The query function takes in a String array of arguments and returns a boolean.
+     * The last argument is the word to be searched for, while the rest are dictionaries
+     * that will be searched through. If any of the dictionaries contain the word, then
+     * true is returned; otherwise false is returned. This function also adds new entries
+     * to map if they do not already exist there (i.e., if an entry does not exist in map,
+     * it will create one).
+     * @param args args Pass in a variable number of arguments
+     * @return True if the word is found in any of the dictionaries,
      */
     public boolean query(String... args) {
         String word = args[args.length-1];
@@ -46,11 +57,13 @@ public class DictionaryManager {
         return found;
     }
 
+
     /**
-     * Searches multiple dictionaries for the given word within their associated files.
-     @param args a variable number of String arguments representing the names of dictionaries to search and the word
-     to search for.
-     @return true if the word is found in any of the files associated with at least one dictionary, false otherwise
+     * The challenge function takes in a String array of words and returns true if any of the words
+     * are anagrams of the last word. It does this by iterating through each word in the array,
+     * excluding the last one, and checking to see if it is an anagram using its challenge function.
+     * @param args args Pass in a variable number of arguments
+     * @return True if any of the words in args are a valid
      */
     public boolean challenge(String... args) {
         String word = args[args.length-1];
@@ -62,6 +75,10 @@ public class DictionaryManager {
         return false;
     }
 
+    /**
+     * The getSize function returns the size of the map.
+     * @return The size of the map
+     */
     public int getSize() {
         return map.size();
     }

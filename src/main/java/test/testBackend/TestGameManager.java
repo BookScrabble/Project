@@ -2,14 +2,12 @@ package test.testBackend;
 
 import model.logic.client.Client;
 import model.logic.host.GameManager;
-import model.logic.host.data.GameData;
 import model.logic.host.data.Tile;
 import model.logic.host.data.Word;
 import model.logic.server.MyServer;
 import model.logic.server.dictionary.BookScrabbleHandler;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class TestGameManager {
