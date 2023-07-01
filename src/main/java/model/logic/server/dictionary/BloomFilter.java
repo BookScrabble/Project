@@ -5,18 +5,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.BitSet;
-/**
- *
- */
+
 public class BloomFilter {
     private final BitSet bitset;
     private final ArrayList<MessageDigest> messageDigesters = new ArrayList<>();
+
+
     /**
-     * A Bloom filter is a probabilistic data structure used for efficient set membership testing.
-     * This constructor initializes a new Bloom filter with the specified size and hashing algorithms.
-     * @param size the size of the bitset used by the Bloom filter.
-     * @param hashingAlgorithms the hashing algorithms to be used by the Bloom filter.
-     * @throws RuntimeException if an unknown hash function is provided.
+     * The BloomFilter function is used to add elements to the filter.
+     * @param size size Set the size of the bitset
+     * @param hashingAlgorithms hashingAlgorithms Pass in a variable number of arguments
      */
     public BloomFilter(int size, String... hashingAlgorithms) {
         this.bitset = new BitSet(size);
@@ -30,9 +28,11 @@ public class BloomFilter {
         }
     }
 
+
     /**
-     * Adds a new word to the Bloom filter by hashing it using the hashing algorithms provided during initialization.
-     * @param word the word to be added to the Bloom filter.
+     * The add function takes a string and hashes it using the message digesters.
+     * It then sets the bits in the bitset to 1 at each of those hash values.
+     * @param word word Create a byte array that is then used to create a biginteger
      */
     public void add(String word) {
         byte[] bytes;
@@ -43,11 +43,15 @@ public class BloomFilter {
         }
     }
 
+
     /**
-     Tests if the Bloom filter contains the specified word by checking if the bits at the positions determined
-     by the hashes of the word using the hashing algorithms provided during initialization are all set.
-     @param word the word to be checked for membership in the Bloom filter.
-     @return true if the word is possibly contained in the Bloom filter, false if the word is definitely not contained.
+     * The contains function takes a string and checks if it is in the Bloom Filter.
+     * It does this by hashing the word with each of the hash functions, then taking
+     * that hash value modulo bitset size to get an index. If any of those indices are not set,
+     * then we know that word is not in our filter. Otherwise, we return true because there's a chance
+     * that it could be in our filter (but also might have been inserted into another Bloom Filter).
+     * @param word word Create a byte array, which is then used to generate the biginteger
+     * @return True if the word is in the bloom filter, false otherwise
      */
     public boolean contains(String word) {
         byte[] bytes;
@@ -61,8 +65,10 @@ public class BloomFilter {
         return true;
     }
 
+
     /**
-     @return a string representation of the bitset, where each bit is represented by either 1 or 0.
+     * The toString function returns a string representation of the bitset.
+     * @return A string representation of the bitset
      */
     @Override
     public String toString() {

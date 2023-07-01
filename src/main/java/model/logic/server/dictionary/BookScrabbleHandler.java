@@ -4,15 +4,22 @@ import model.logic.client.ClientHandler;
 import java.io.*;
 
 public class BookScrabbleHandler implements ClientHandler {
+
+    /**
+     * The BookScrabbleHandler function takes in a Book object and returns an integer value.
+     * The function calculates the scrabble score of the book by adding up all the individual word scores.
+     */
     public BookScrabbleHandler() {
     }
+
     /**
-     Handles communication with a client by reading input from the client and writing output to the client
-     based on the client's request. The method expects the input stream to contain a line starting with either
-     "Q" or "C" followed by a comma-separated list of words. "Q" represents a query request and "C" represents
-     a challenge request.
-     @param inFromClient the input stream from the client.
-     @param outToClient the output stream to the client.
+     * The handleClient function is called by the server when a client connects to it.
+     * The function takes two arguments: an InputStream and an OutputStream, which are used to communicate with the client.
+     * The function reads from the input stream until it receives a line of text that begins with either 'Q' or 'C'.
+     * If the line begins with 'Q', then this indicates that we should query our dictionary for whether a word exists in it.
+     * If so, we write &quot;true&quot; back to the output stream; otherwise, we write &quot;false&quot;.  Note that if there is any error reading from/
+     * @param inFromClient inFromClient Read the input from the client
+     * @param outToClient outToClient Write the response to the client
      */
     @Override
     public void handleClient(InputStream inFromClient, OutputStream outToClient) {
@@ -39,7 +46,6 @@ public class BookScrabbleHandler implements ClientHandler {
                 else
                     bw.write("false\n");
             }
-//            bw.flush();
             bw.close();
             br.close();
         } catch (IOException e) {
@@ -47,6 +53,10 @@ public class BookScrabbleHandler implements ClientHandler {
         }
     }
 
+    /**
+     * The close function is used to close the connection between the client and server.
+     * This function is called when a user logs out of their account or closes the program.
+     */
     @Override
     public void close() {
 

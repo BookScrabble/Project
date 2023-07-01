@@ -8,6 +8,11 @@ public class Tile implements Serializable {
     public final int score;
     public final char letter;
 
+    /**
+     * The equals function is used to compare two objects.
+     * @param o o Compare the current object to another object
+     * @return True if the two tiles have the same letter and score
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -16,24 +21,28 @@ public class Tile implements Serializable {
         return score == tile.score && letter == tile.letter;
     }
 
+    /**
+     * The hashCode function is used to generate a unique hash code for each object.
+     * This is useful when storing objects in data structures such as HashMaps, where
+     * the hashCode of an object can be used to determine its location in the map.
+     * @return The hashcode of the score and letter
+     */
     @Override
     public int hashCode() {
         return Objects.hash(score, letter);
     }
 
+
     /**
-     * Constructor for tile
-     * @param score tile score
-     * @param letter letter that will be represented by the tile
+     * The Tile function is a constructor that creates a Tile object with the given score and letter.
+     * @param score score Assign the score of each tile
+     * @param letter letter Assign the letter to the tile
      */
     private Tile(int score, char letter) {
         this.score = score;
         this.letter = letter;
     }
 
-    /**
-     * Bag is a public static inner class and will be the only class with the ability to create tiles.
-     */
     public static class Bag implements Serializable {
 
         private static Bag single_instance = null;
@@ -52,14 +61,18 @@ public class Tile implements Serializable {
                 new Tile(1, 'U'), new Tile(4, 'V'), new Tile(4, 'W'), new Tile(8, 'X'),
                 new Tile(4, 'Y'), new Tile(10, 'Z')};
         private static final char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+        static Map<Character, Integer> letterIndexMap = new HashMap<>();
 
-        //This map holds letter-index pairs.
-        // A = 0, B = 1, ... , Z = 25.
-        static Map<Character, Integer> letterIndexMap = new HashMap<Character, Integer>();
+        /**
+         * The Bag function is a constructor that creates an empty bag.
+         */
+        private Bag() {}
 
-        private Bag() {
-        }
-
+        /**
+         * The getBag function is a static function that returns the single instance of the Bag class.
+         * If there is no instance, it creates one and initializes its letterIndexDictionary variable.
+         * @return A bag object
+         */
         public static Bag getBag() {
             if (single_instance == null) {
                 initializeLetterIndexDictionary();
@@ -68,8 +81,10 @@ public class Tile implements Serializable {
             return single_instance;
         }
 
+
         /**
-         * initialize the letter index dictionary by referencing 'a' to 0, 'b' to 1, ... 'z' to 25.
+         * The initializeLetterIndexDictionary function initializes the letterIndexMap dictionary.
+         * The key is a character in the alphabet array, and the value is an integer representing its index in that array.
          */
         private static void initializeLetterIndexDictionary() {
             for (int i = 0; i < alphabet.length; i++) {
@@ -77,11 +92,10 @@ public class Tile implements Serializable {
             }
         }
 
+
         /**
-         * This function returns a random tile.
-         * It works by checking if there are any tiles left using the remainingLetters array, then chooses a random tile and checks
-         * if the letter is available. if yes, returns it, else chooses a random tile again.
-         * @return random tile.
+         * The getRand function returns a random tile from the bag.
+         * @return A random tile from the bag
          */
         public Tile getRand() {
             if (size() == 0)
@@ -100,9 +114,12 @@ public class Tile implements Serializable {
             return chosenTile;
         }
 
+
         /**
-         * @param letter Character that represents a letter.
-         * @return Tile corresponding to a given letter.
+         * The getTile function takes a character as an argument and returns the Tile object
+         * associated with that letter. If there are no more tiles of that type, it returns null.
+         * @param letter letter Determine which tile to return
+         * @return A tile with the given letter
          */
         public Tile getTile(char letter) {
             if (!Character.isUpperCase(letter))
@@ -114,9 +131,10 @@ public class Tile implements Serializable {
             return tiles[letterIndex];
         }
 
+
         /**
-         * This function puts a tile back inside the bag, functionally only adds 1 to the counter of specific letter.
-         * @param tile Tile.
+         * The put function adds a tile to the bag.
+         * @param tile tile Add a tile to the bag
          */
         public void put(Tile tile) {
             if (tile == null)
@@ -127,28 +145,23 @@ public class Tile implements Serializable {
             }
         }
 
+
         /**
-         * @return returns the amount of tiles left in the bag.
+         * The size function returns the number of letters remaining in the bag.
+         * @return The sum of the remaining letters array
          */
         public int size() {
             return Arrays.stream(remainingLetters).sum();
         }
 
         /**
-         * @return returns a copy of the remaining letters array.
+         * The getQuantities function returns a copy of the remainingLetters array.
+         * @return A copy of the remaining letters array
          */
         public int [] getQuantities() {
             int[] remainingLettersCopy = new int[26];
             System.arraycopy(remainingLetters, 0, remainingLettersCopy, 0, remainingLetters.length);
             return remainingLettersCopy;
-        }
-
-        /**
-         * @param letter letter
-         * @return returns the amount of tiles left of a specific letter.
-         */
-        public int getRemainingOfLetter(char letter) {
-            return remainingLetters[letterIndexMap.get(letter)];
         }
     }
 }

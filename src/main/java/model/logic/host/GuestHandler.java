@@ -8,6 +8,13 @@ public class GuestHandler implements ClientHandler,Serializable {
 
     boolean stillPlaying;
 
+    /**
+     * The handleClient function is responsible for handling the client's requests.
+     * It receives a request from the client, and then it sends back an appropriate response to the client.
+     * The function also handles all the game logic that occurs during a player's turn, such as checking if their move is legal or not.
+     * @param in in Read the client's request
+     * @param out out Send messages to the client
+     */
     @Override
     public void handleClient(InputStream in, OutputStream out) {
         boolean stillPlaying = true;
@@ -75,6 +82,12 @@ public class GuestHandler implements ClientHandler,Serializable {
 
 
 
+    /**
+     * The close function is used to stop the thread from running.
+     * It sets stillPlaying to false, which causes the while loop in run()
+     * to terminate. This allows for a clean exit of the program without
+     * any errors or exceptions being thrown.
+     */
     @Override
     public void close() {
         stillPlaying = false;

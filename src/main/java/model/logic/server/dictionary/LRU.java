@@ -5,16 +5,19 @@ import java.util.LinkedHashSet;
 public class LRU implements CacheReplacementPolicy {
     LinkedHashSet<String> words;
 
-    /**
-     * Constructs a new LRU cache object with an empty word set.
-     */
-    public LRU(){
-        words = new LinkedHashSet<String>();
-    }
 
     /**
-     * Adds a new word to the cache
-     * @param word the word to add to the cache
+     * The LRU function takes in a string and adds it to the LinkedHashSet.
+     * If the size of the set is greater than 10, then it removes the first element.
+     */
+    public LRU(){
+        words = new LinkedHashSet<>();
+    }
+
+
+    /**
+     * The add function adds a word to the list of words.
+     * @param word word Add the word to the list of words
      */
     @Override
     public void add(String word) {
@@ -22,10 +25,10 @@ public class LRU implements CacheReplacementPolicy {
         words.add(word);
     }
 
+
     /**
-     Removes and returns the least recently used word from the cache. This is
-     always the first element in the set.
-     @return the least recently used word in the cache
+     * The remove function removes the first word in the list of words.
+     * @return The word that was removed from the words set
      */
     @Override
     public String remove() {

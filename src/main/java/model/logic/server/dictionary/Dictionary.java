@@ -9,12 +9,13 @@ import java.util.Scanner;
 public class Dictionary {
     private final CacheManager LRU = new CacheManager(400, new LRU());
     private final CacheManager LFU = new CacheManager(100, new LFU());
-    private final BloomFilter bloomFilter = new BloomFilter(8192,"MD5","SHA1","MD2","SHA256","SHA512");
+    private final BloomFilter bloomFilter = new BloomFilter(32768,"MD5","SHA1","MD2","SHA256","SHA512");
     private final ArrayList<String> fileNames = new ArrayList<>();
 
+
     /**
-     Creates a new instance of the Dictionary class and adds the words from the specified files to the Bloom filter.
-     @param fileNames the names of the files to be added to the
+     * The Dictionary function takes in a list of file names and adds the words from each file to the bloom filter.
+     * @param fileNames fileNames Allow the user to pass in an arbitrary number of file names
      */
     public Dictionary(String... fileNames) {
         for (String fileName : fileNames) {
@@ -23,9 +24,10 @@ public class Dictionary {
         }
     }
 
+
     /**
-     Reads a file and adds all the words to the Bloom filter.
-     @param fileName the name of the file to be added to the Bloom filter.
+     * The addWordsToBloomFilter function takes in a file name and adds all the words from that file to the bloom filter.
+     * @param fileName fileName Specify the text file that is being read
      */
     private void addWordsToBloomFilter(String fileName) {
         try {
@@ -41,10 +43,11 @@ public class Dictionary {
         }
     }
 
+
     /**
-     Queries the dictionary to check whether it contains the specified word.
-     @param word the word to be queried.
-     @return true if the word is in the dictionary, false otherwise.
+     * The query function takes in a string and returns true if the word is in the dictionary, false otherwise.
+     * @param word word Query the bloom filter
+     * @return True if the word is in the data structure
      */
     public boolean query(String word) {
         if (LRU.query(word))
@@ -61,10 +64,12 @@ public class Dictionary {
         }
     }
 
+
     /**
-     * Checks whether the specified word is present in any of the files in the dictionary.
-     * @param word the word to be searched in the files.
-     * @return true if the word is found, false otherwise.
+     * The challenge function takes in a word and checks if it is in the dictionary.
+     * If it is, then the word will be added to LRU cache. Otherwise, it will be added to LFU cache.
+     * @param word word Search for the word in the files
+     * @return True if the word is found in any of the files, and false otherwise
      */
     public boolean challenge(String word) {
         for (String fileName : fileNames) {

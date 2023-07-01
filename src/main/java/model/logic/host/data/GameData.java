@@ -13,9 +13,10 @@ public class GameData implements Serializable {
     Map<Integer, Player> playerData;
     ArrayList<String> dictionaries;
 
+
     /**
-     * @details  Constructor for GameData class. Initializes the game data with specified board, bag, player data and dictionaries.
-     * @params board, bag, dictionaries
+     * The GameData function is a constructor for the GameData class.
+     * It initializes the board, bag, player data and dictionaries.
      */
     public GameData() {
         this.board = Board.getBoard();
@@ -24,36 +25,48 @@ public class GameData implements Serializable {
         this.dictionaries = new ArrayList<>();
     }
 
+
     /**
-     * @return Returns the board of the game.
+     * The getBoard function returns the board object.
+     * @return The board object
      */
     public Board getBoard() {
         return board;
     }
 
+
     /**
-     * @return Returns the bag of the game.
+     * The getBag function returns the bag of tiles that is associated with a player.
+     * @return The bag of the tile
      */
     public Tile.Bag getBag() {
         return bag;
     }
 
+
     /**
-     * @return Returns the all players data of the game.
+     * The getAllPlayers function returns a map of all the players in the game.
+     * @return A map of all the players in the game
      */
     public Map<Integer, Player> getAllPlayers() {
         return playerData;
     }
 
+
     /**
-     * @return Returns the player data of the game.
+     * The getPlayer function returns the player object associated with a given playerId.
+     * @param playerId playerId Get the player from the hashmap
+     * @return A player object
      */
     public Player getPlayer(int playerId) {
         return playerData.get(playerId);
     }
 
+
     /**
-     * @details set the player data of the game.
+     * The addPlayer function adds a player to the game.
+     * @param playerId playerId Identify the player
+     * @param playerData playerData Add a player to the game
      */
     public void addPlayer(int playerId, Player playerData) {
         if(!this.playerData.containsKey(playerId)){
@@ -61,8 +74,10 @@ public class GameData implements Serializable {
         }
     }
 
+
     /**
-     * @return Returns the dictionary of the game in string format.(dictionary1,dictionary2,...)
+     * The getDictionaries function returns a string of all the dictionaries that are currently being used by the program.
+     * @return A string of all the dictionaries in the list
      */
     public String getDictionaries() {
         StringBuilder query = new StringBuilder();
@@ -73,8 +88,11 @@ public class GameData implements Serializable {
         return query.toString();
     }
 
+
     /**
-     * @details set the dictionaries of the game.
+     * The setDictionaries function takes a variable number of arguments and
+     * stores them in an ArrayList.
+     * @param args args Pass in an array of strings
      */
     public void setDictionaries(String... args) {
         this.dictionaries = Arrays.stream(args).
@@ -82,14 +100,9 @@ public class GameData implements Serializable {
     }
 
     /**
-     * @details add a single dictionary to the dictionaries of the game.
+     * The removePlayer function removes a player from the game.
+     * @param playerId playerId Identify the player that is being removed from the game
      */
-    public void addDictionary(String dictionary){
-        if(!this.dictionaries.contains(dictionary)){
-            this.dictionaries.add(dictionary);
-        }
-    }
-
     public void removePlayer(int playerId){
         this.playerData.remove(playerId);
     }

@@ -7,12 +7,13 @@ import java.util.Scanner;
 
 public class IOSearcher {
 
+
     /**
-     * Searches for a specific word in one or more files.
-     * @param word the word to search for
-     * @param fileNames an array of file names to search in
-     * @return true if the word is found in at least one of the files, false otherwise
-     * @throws RuntimeException if any of the files cannot be found
+     * The search function takes a word and an array of file names as parameters.
+     * It then searches each file for the given word, returning true if it is found in any of them.
+     * @param word word Specify the word that is being searched for
+     * @param fileNames fileNames Pass in an array of strings
+     * @return A boolean, so it can be used in an if statement
      */
     public static boolean search(String word, String... fileNames) {
         for (String fileName : fileNames) {

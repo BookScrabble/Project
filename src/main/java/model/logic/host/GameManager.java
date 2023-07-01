@@ -10,7 +10,6 @@ import model.logic.host.data.Player;
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class GameManager implements GameHandler,Serializable {
     private static GameManager single_instance = null;
@@ -20,6 +19,13 @@ public class GameManager implements GameHandler,Serializable {
     int calculationServerPort;
     private TurnManager turnManager;
 
+    /**
+     * The GameManager function is a singleton class that manages the game.
+     * It has a GameData object, which stores all the data for the game.
+     * It also has a TurnManager object, which handles all the turns in
+     * each round and keeps track of whose turn it is. The GameManager also
+     * contains information about where to find its calculation server (the IP address) and what port to use when connecting to it (the port number).
+     */
     private GameManager() {
         calculationServerPort = 10000;
         calculationServerIp = "localhost";
@@ -27,10 +33,11 @@ public class GameManager implements GameHandler,Serializable {
         turnManager = null;
     }
 
+
     /**
-     * @Details Returns the single instance of the GameManager class.
-     *
-     * @return The GameManager instance.
+     * The get function is a static function that returns the singleton instance of GameManager.
+     * If no instance exists, it creates one and then returns it.
+     * @return A singleton instance of the game manager class
      */
     public static GameManager get() {
         if (single_instance == null)
@@ -38,8 +45,10 @@ public class GameManager implements GameHandler,Serializable {
         return single_instance;
     }
 
+
     /**
-     * @details Randomize 1 tile for each connected players and initialize turnManager Class to manage turns.
+     * The initializeTurnManager function is used to initialize the turnManager object.
+     * It does this by adding all players to the turnManager, and then setting up a list of turns for each player.
      */
     public void initializeTurnManager(){
         for(Player player : gameData.getAllPlayers().values()) addTile(player);
@@ -47,32 +56,37 @@ public class GameManager implements GameHandler,Serializable {
         System.out.println("Turns decided by turn manager -> " + turnManager.getPlayersTurn());
     }
 
-
+    /**
+     * The initializeHostServer function initializes the host server.
+     * @param port port Set the port number that the host server will listen on
+     */
     public void initializeHostServer(int port){
         host = new HostServer(port, new GuestHandler());
         host.start();
     }
 
     /**
-     * @return the game status.
-     * TODO - Remove if no use, otherwise delete TODO.
+     * The isGameRunning function returns a boolean value that indicates whether the game is running.
+     * @return A boolean value
      */
     public boolean isGameRunning() {
         return host.isGameRunning();
     }
 
+
     /**
-     * @details Used to initialize turn manager, Show players which tile they got. and later prompt players for
-     * the turn order decided by turn manager.
+     * The initializeGame function initializes the turnManager object, which is used to keep track of whose turn it is.
+     * It also sets up the game board and adds all the pieces to their respective teams.
      */
     public void initializeGame(){
         if(turnManager != null) return;
         initializeTurnManager();
     }
 
+
     /**
-     * @details Used to initiate the game. Initialize turn manager if needed, fill all
-     * players hands and uses HostServer startGame method.
+     * The startGame function is called when the game is ready to begin.
+     * It initializes the turnManager, fills each player's hand with cards, and then calls startGame on the host.
      */
     public void startGame() {
         if(turnManager == null){
@@ -84,8 +98,10 @@ public class GameManager implements GameHandler,Serializable {
         this.host.startGame();
     }
 
+
     /**
-     * @details fill hand of player(maximum 7 tiles).
+     * The fillHand function is used to fill the player's hand with 7 tiles.
+     * @param player player Pass in the player object that will be used to fill their hand
      */
     public void fillHand(Player player) {
         while(player.getAllTiles().size() < 7){
@@ -101,8 +117,10 @@ public class GameManager implements GameHandler,Serializable {
         if(player.getAllTiles().size() < 7) player.addTile(gameData.getBag().getRand());
     }
 
+
     /**
-     * @Details Adds a player to the game.
+     * The addPlayer function adds a player to the gameData object.
+     * @param clientName clientName Add a new player to the game data
      */
     public void addPlayer(String clientName) {
         if(gameData.getAllPlayers().size()<4){
@@ -110,9 +128,13 @@ public class GameManager implements GameHandler,Serializable {
         }
     }
 
+
     /**
-     * @Details Submits a word to the game.
-     * @params word The word to be submitted.
+     * The submit function is called when a player submits a word to the board.
+     * It takes in the data of the word, and checks if it can be placed on the board.
+     * If it can, then it places that word on the board and updates all necessary information.
+     * @param wordData wordData Get the data from the client
+     * @return A string, which is then parsed by the front end
      */
     public String submit(String wordData) {
         if(wordData.length() != 0){
@@ -142,9 +164,19 @@ public class GameManager implements GameHandler,Serializable {
         return "-2";
     }
 
+
     /**
-     * @Details Builds a word from the given data.
-     * @return new word.
+     * The buildWord function takes in a player, a string representing the word to be built,
+     * and the row and column of where it will start. It returns an array of tiles that can be used
+     * to build the word on the board. If there is no tile at that position (i.e., if it's an empty space),
+     * then null is returned instead of a tile object. This function assumes that all words are valid; i.e.,
+     * they have been checked by checkWord before being passed into this function!
+     * @param player player Get the tiles from a player's rack
+     * @param word word Store the word that is being played
+     * @param row row Determine the row of the first letter in a word
+     * @param col col Determine the column of the word
+     * @param vertical vertical Determine whether the word is vertical or horizontal
+     * @return A word object
      */
     private Word buildWord(Player player, String word, int row, int col,boolean vertical){
         Tile[] tiles = new Tile[word.length()];
@@ -155,16 +187,22 @@ public class GameManager implements GameHandler,Serializable {
         return new Word(tiles, row, col, vertical);
     }
 
+
     /**
-     * @param word that the user believe is found within dictionary and would like to challenge for IO Search.
-     * @Details Uses helper method to communicate with Calculation server which runs the Challenge query on given word.
+     * The challenge function sends a challenge request to the calculation server.
+     * The format of the request is &quot;C,&lt;dictionary&gt;,&lt;word&gt;&quot;.
+     * @param word word Send the word to the calculation server
+     * @return A string in the form of &quot;c,&lt;result&gt;,&lt;error&gt;&quot;
      */
     public String challenge(String word) {
         return sendToCalculationServer("C," + gameData.getDictionaries() + "," + word);
     }
 
+
     /**
-     * @Details Query last player submitted word.
+     * The query function takes in a word and returns the score of that word.
+     * @param word word Get the tiles in the word string.
+     * @return A string that is a comma separated list of words
      */
     public String query(Word word) {
         StringBuilder sb = new StringBuilder();
@@ -177,10 +215,12 @@ public class GameManager implements GameHandler,Serializable {
         return sendToCalculationServer(sb.toString());
     }
 
+
     /**
-     * @params String | The message to be sent.
-     * @Details Connect and Sends a message to the calculation server.
-     * @return The result of the calculation server.
+     * The sendToCalculationServer function takes a String as input and sends it to the calculation server.
+     * The function then waits for an answer from the calculation server, which is returned by this function.
+     * @param w w Send the word to the calculation server
+     * @return A string
      */
     private String sendToCalculationServer(String w){
         try {
@@ -188,7 +228,7 @@ public class GameManager implements GameHandler,Serializable {
             Scanner scanner = new Scanner(socket.getInputStream());
             PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
             printWriter.println(w);
-            String result = scanner.nextLine(); //Blocking call waiting for answer.
+            String result = scanner.nextLine();
             socket.close();
             return result;
         } catch (IOException e) {
@@ -196,8 +236,10 @@ public class GameManager implements GameHandler,Serializable {
         }
     }
 
+
     /**
-     * @Details Swaps tiles for a player.
+     * The swapTiles function is called when the player clicks on the &quot;Swap Tiles&quot; button.
+     * It removes all the tiles from a player's hand and replaces them with new ones.
      */
     public void swapTiles() {
         Player player = gameData.getPlayer(turnManager.getCurrentPlayerTurn());
@@ -211,26 +253,36 @@ public class GameManager implements GameHandler,Serializable {
         skipTurn();
     }
 
+
     /**
-     * @Details Skips the turn of the current player.
+     * The skipTurn function is called when the player clicks on the &quot;Skip Turn&quot; button.
+     * It resets the timer task, which will cause it to be run again after a certain amount of time has passed.
      */
     public void skipTurn() {
         GameManager.get().host.resetTimerTask();
     }
 
+    /**
+     * The getGameData function returns the gameData object.
+     * @return The game data object
+     */
     public GameData getGameData() {
         return this.gameData;
     }
 
+
     /**
-     * @details Returns the ID of current players turn.
+     * The getCurrentPlayerID function returns the ID of the current player.
+     * @return The current player id
      */
     public int getCurrentPlayerID() {
         return turnManager.getCurrentPlayerTurn();
     }
 
+
     /**
-     * @details Returns the turnManager class.
+     * The getTurnManager function returns the turnManager object.
+     * @return The turn manager object
      */
     public TurnManager getTurnManager(){
         return this.turnManager;
@@ -242,19 +294,29 @@ public class GameManager implements GameHandler,Serializable {
         turnManager.removePlayer(playerId);
     }
 
+
     /**
-     * @details Stops current game, Skips current player turn to stop current
-     * action and calls HostServer stopGame method.
+     * The stopGame function is called when the game has ended.
+     * It calls the nextTurn function in turnManager, which will end the game.
+     * Then it calls stopGame in host, which will close all of its sockets and streams.
      */
     public void stopGame(){
         if(this.turnManager != null) this.turnManager.nextTurn();
         this.host.stopGame();
     }
 
+    /**
+     * The setCalculationServerIp function sets the calculationServerIp variable to the value of its parameter.
+     * @param calculationServerIp calculationServerIp Set the value of the calculationServerIp variable
+     */
     public void setCalculationServerIp(String calculationServerIp) {
         this.calculationServerIp = calculationServerIp;
     }
 
+    /**
+     * The getCalculationServerIp function returns the IP address of the calculation server.
+     * @return The ip address of the calculation server
+     */
     public String getCalculationServerIp() {
         return calculationServerIp;
     }

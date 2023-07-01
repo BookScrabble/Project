@@ -412,6 +412,7 @@ public class GameController {
             MySocket socket = new MySocket(new Socket(viewSharedData.getHostIp(), viewSharedData.getHostPort()));
             PrintWriter printWriter = new PrintWriter(socket.getPlayerSocket().getOutputStream(), true);
             printWriter.println("playerDisconnected,"+viewSharedData.getPlayer().playerId.get());
+            socket.getPlayerSocket().close();
         } catch (IOException ignored) {}
         Platform.exit();
     }
@@ -421,6 +422,7 @@ public class GameController {
             MySocket socket = new MySocket(new Socket(viewSharedData.getHostIp(), viewSharedData.getHostPort()));
             PrintWriter printWriter = new PrintWriter(socket.getPlayerSocket().getOutputStream(), true);
             printWriter.println("serverIsClosing");
+            socket.getPlayerSocket().close();
         } catch (IOException ignored) {}
     }
 
