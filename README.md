@@ -25,7 +25,7 @@ In host mode, the game can accommodate up to four players, with at least one loc
 ## Links
 [Gameplay Video](https://youtu.be/F-Z9GDi880w)
 
-[Javadoc](https://bookscrabble.github.io/BookScrabble/Project/JavaDocumnets/JavaDocuments/view.bookscrabble/module-summary.html)
+[Javadoc](https://bookscrabble.github.io/BookScrabble/Project/JavaDocuments/view.bookscrabble/module-summary.html)
 
 
 ## Architecture
