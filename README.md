@@ -1,4 +1,4 @@
-# Book Scrabble Game
+s# Book Scrabble Game
 
 This is a desktop application that implements the classic book Scrabble game using Java.
 
